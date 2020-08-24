@@ -1,0 +1,82 @@
+﻿{
+  "objectCount": 100,
+  "attributesCount": 3, 
+  "outPropertiesName": "properties",
+  "outAttributesName": "attrs",
+  "templates": [
+    {
+      "type": "string",
+      "name": "string1",
+      "pattern": "abcdefghijklmnopqrstuvwxyz0123456789"
+    },
+    {
+      "type": "double",
+      "name": "double1",
+      "separator": "0.00"
+    },
+    {
+      "type": "set",
+      "name": "set1",
+      "pattern": "1000,1001,1002,1003,1010,1025,1050,1200"
+    },
+    {
+      "type": "datetime",
+      "name": "datetime1",
+      "pattern": "dd/MM/yy"
+    }
+  ],
+  "properties": [
+    {
+      "name": "name",
+      "template": "string1",
+      "minLength": 5,
+      "maxLength": 20,
+      "minSpaceCount": 1,
+      "maxSpaceCount": 2,
+      "failure": {
+        "nullable": 5,
+        "invalid": 7
+      }
+    },
+    {
+      "name": "code",
+      "template": "set1",
+      "failure": {
+        "nullable": 6,
+        "invalid": 7
+      }
+    },
+    {
+      "name": "updated",
+      "template": "datetime1",
+      "minValue": "20/10/19",
+      "maxValue": "01/01/20",
+      "failure": {
+        "nullable": 6,
+        "invalid": 7
+      }
+    }
+  ],
+  "attributes": [
+    {
+      "name": "description",
+      "template": "string1",
+      "minLength": 5,
+      "maxLength": 20,
+      "failure": {
+        "nullable": 7,
+        "invalid": 11
+      }
+    },
+    {
+      "name": "price",
+      "template": "double1",
+      "minValue": 0.00,
+      "maxValue": 125.00,
+      "failure": {
+        "nullable": 5,
+        "invalid": 3
+      }
+    }
+  ]
+}
