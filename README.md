@@ -59,9 +59,9 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `maxValue` maximum value (for `double` and `datetime` only).
 
-`failure nullable` the value N represents every N number that will be *null*. For properties N equal to the serial object number, for attributes the count of attributes is taken into account.
+`failure nullable` the value N represents every N Object that will be *null*. For properties N equal to the serial object number, for attributes the count of attributes is taken into account.
 
-`failure invalid` the value N represents every N number that will be *!@~*. For properties N equal to the serial object number, for attributes the count of attributes is taken into account.
+`failure invalid` the value N represents every N Object that will be *!@~*. For properties N equal to the serial object number, for attributes the count of attributes is taken into account.
 
 ## Example
 
