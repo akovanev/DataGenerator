@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.DataBuilders
 {
     internal static class StringBuilderExtensions
     {
