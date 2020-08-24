@@ -1,4 +1,4 @@
-# Markdown syntax guide
+# DataGenerator
 
 ## Execution
 
