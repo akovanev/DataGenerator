@@ -7,7 +7,7 @@ namespace Akov.DataGenerator.Processor
     {
         private const double MinDefault = 0;
         private const double MaxDefault = 1;
-        private const string Separator = "0.00";
+        private const string Pattern = "0.00";
 
         protected internal override object CreateImpl(Property property, Template template, int index)
         {
@@ -16,7 +16,7 @@ namespace Akov.DataGenerator.Processor
 
             double value = GetRandomDouble(min, max);
 
-           return value.ToString(template.Separator ?? Separator, CultureInfo.InvariantCulture);
+           return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
     }
 }

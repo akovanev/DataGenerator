@@ -32,13 +32,13 @@ In case of success the result will be stored to <filename.json>.out.json
   * `pattern` specifies accessible characters. The space will be added separately.
 
 * `double` for the double value.
-  * `separator` specifies the data format.
+  * `pattern` specifies the double format. E.g. "0.00".
  
-* `set` only a values from the set allowed.
-  * `pattern` the set of values.
+* `set` only a value from the set allowed.
+  * `pattern` defines the set of values.
 
 * `datetime` for the datetime.
-  * `pattern` specifies the data format.
+  * `pattern` specifies the datatime format.
 
 
 ### Properties & Attributes

@@ -5,7 +5,6 @@
         public TemplateType Type { get; set; }
         public string? Name { get; set; }
         public string? Pattern { get; set; }
-        public string? Separator { get; set; }
     }
 
     internal enum TemplateType

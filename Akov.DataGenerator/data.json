@@ -12,7 +12,7 @@
     {
       "type": "double",
       "name": "double1",
-      "separator": "0.00"
+      "pattern": "0.00"
     },
     {
       "type": "set",
