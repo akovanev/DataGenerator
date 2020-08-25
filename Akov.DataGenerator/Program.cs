@@ -23,13 +23,14 @@ namespace Akov.DataGenerator
         internal static string Run(string filename)
         {
             var ioHelper = new IOHelper();
-            var dataBuilder = new JsonDataBuilder();
+            var generatorFactory = new GeneratorFactory();
 
             try
             {
                 DataScheme scheme = ioHelper.GetScheme(filename);
+                var dataBuilder = new JsonDataBuilder(generatorFactory, scheme);
                 
-                string data = dataBuilder.Build(scheme);
+                string data = dataBuilder.Build();
                 
                 ioHelper.SaveData($"{filename}.out.json", data);
                 

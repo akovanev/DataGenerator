@@ -5,16 +5,16 @@ namespace Akov.DataGenerator.DataBuilders
 {
     internal static class StringBuilderExtensions
     {
-        internal static void InsertArray(this StringBuilder builder, string name, Action action, bool isLastItem = true)
+        internal static void InsertArray(this StringBuilder builder, string? name, Action action, bool isLastItem = true)
         {
-            builder.InsertArrayBegin(name);
+            builder.InsertArrayBegin(name ?? "array");
             action();
             builder.InsertArrayEnd(isLastItem);
         }
 
-        internal static void InsertObject(this StringBuilder builder, Action action, bool isLastItem = true)
+        internal static void InsertObject(this StringBuilder builder, string? name, Action action, bool isLastItem)
         {
-            builder.InsertObjectBegin();
+            builder.InsertObjectBegin(name);
             action();
             builder.InsertObjectEnd(isLastItem);
         }
@@ -29,9 +29,11 @@ namespace Akov.DataGenerator.DataBuilders
             builder.Append(InsertEnd("]", isLastItem));
         }
 
-        internal static void InsertObjectBegin(this StringBuilder builder)
+        internal static void InsertObjectBegin(this StringBuilder builder, string? name)
         {
-            builder.Append("{");
+            builder.Append(String.IsNullOrEmpty(name)
+                ? "{"
+                : $"\"{name}\":{{");    
         }
 
         internal static void InsertObjectEnd(this StringBuilder builder, bool isLastItem)
@@ -39,8 +41,9 @@ namespace Akov.DataGenerator.DataBuilders
             builder.Append(InsertEnd("}", isLastItem));
         }
 
-        internal static void InsertProperty(this StringBuilder builder, string name, object? value, bool isLastItem)
+        internal static void InsertProperty(this StringBuilder builder, string? name, object? value, bool isLastItem)
         {
+            name ??= "prop";
             builder.Append(value is null
                 ? $"\"{name}\":null{InsertEnd("", isLastItem)}"
                 : $"\"{name}\":\"{value}\"{InsertEnd("", isLastItem)}");

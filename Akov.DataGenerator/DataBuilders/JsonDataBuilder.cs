@@ -9,76 +9,87 @@ namespace Akov.DataGenerator.DataBuilders
 {
     internal class JsonDataBuilder
     {
-        private const int DefaultCount = 10;
-        private const int DefaultAttributeCount = 3;
+        private const int DefaultArrayCount = 10;
         private readonly StringBuilder _builder = new StringBuilder();
-        private readonly GeneratorFactory _generatorFactory = new GeneratorFactory();
+        private readonly GeneratorFactory _generatorFactory;
+        private readonly DataScheme _scheme;
+        private readonly List<Property> _rootProperties;
 
-        internal string Build(DataScheme scheme)
+        public JsonDataBuilder(GeneratorFactory generatorFactory, DataScheme scheme)
         {
-            if (scheme.Properties is null || !scheme.Properties.Any())
-                throw new NotSupportedException($"Properties annotation should not be null or empty");
+            scheme.ThrowIfNull(nameof(scheme));
+            scheme.Templates.ThrowIfNullOrEmpty(nameof(scheme.Templates));
+            scheme.Root.ThrowIfNull(nameof(scheme.Root));
+            scheme.Root!.Template.ThrowIfNull("Root template name");
+            scheme.Definitions.ThrowIfNullOrEmpty(nameof(scheme.Definitions));
 
-            _builder.InsertObject(() => BuildArray(scheme));
+            Template template = scheme.GetTemplate(scheme.Root.Template!);
+            Definition definition = scheme.GetDefinition(template.Pattern!);
+
+            _generatorFactory = generatorFactory;
+            _scheme = scheme;
+            _rootProperties = definition.Properties!;
+        }
+
+        internal string Build()
+        {
+            string? name = _scheme.Root!.Name;
+            _builder.InsertObject(name, () =>  BuildProperties(_rootProperties), true);
             return _builder.ToString();
         }
 
-        protected internal void BuildArray(DataScheme scheme)
+        protected internal void BuildProperties(List<Property> properties)
         {
-            _builder.InsertArray(
-                scheme.OutPropertiesName ?? nameof(DataScheme.Properties),
-                () =>
-                {
-                    int count = scheme.ObjectCount ?? DefaultCount;
-                    for (int i = 0; i < count; i++)
-                        BuildArrayItem(scheme, i == count - 1);
-                });
-        }
-
-        protected internal void BuildArrayItem(DataScheme scheme, bool isLastItem)
-        {
-            _builder.InsertObject(() => BuildProperties(scheme), isLastItem);
-        }
-
-        protected internal void BuildProperties(DataScheme scheme)
-        {
-            for (int i = 0; i < scheme.Properties!.Count; i++)
+            for (int i = 0; i < properties.Count; i++)
             {
-                Template template = scheme.GetTemplate(scheme.Properties[i].Template);
-                BuildProperty(scheme.Properties[i], template, false);
-            }
+                properties[i].Template.ThrowIfNull("Every property should have a template");
 
-            BuildAttributesArray(scheme);
-        }
-
-        protected internal void BuildAttributesArray(DataScheme scheme)
-        {
-            _builder.InsertArray(
-                scheme.OutAttributesName ?? nameof(DataScheme.Attributes),
-                () =>
+                Template template = _scheme.GetTemplate(properties[i].Template!);
+                
+                if(template.Type == TemplateType.Object)
                 {
-                    int count = scheme.AttributesCount ?? DefaultAttributeCount;
-                    for (int i = 0; i < count; i++)
-                        BuildAttributesArrayItem(scheme, i == count - 1);
-                });
-        }
+                    Definition definition = _scheme.GetDefinition(template.Pattern!);
 
-        protected internal void BuildAttributesArrayItem(DataScheme scheme, bool isLastItem)
-        {
-            _builder.InsertObject(() => BuildAttributes(scheme), isLastItem);
-        }
+                    BuildArrayItem(
+                        properties[i].Name,
+                        definition.Properties!, 
+                        i == properties.Count - 1);
+                }
+                else if(template.Type == TemplateType.Array)
+                {
+                    Definition definition = _scheme.GetDefinition(template.Pattern!);
 
-        protected internal void BuildAttributes(DataScheme scheme)
-        {
-            List<Property> attributes = scheme.Attributes ?? new List<Property>();
-            for (int i = 0; i < attributes.Count; i++)
-            {
-                Template template = scheme.GetTemplate(attributes[i].Template);
-
-                BuildProperty(attributes[i], template, i == attributes.Count - 1);
+                    BuildArray(
+                        properties[i].Name, 
+                        properties[i].MaxLength,
+                        definition.Properties!, 
+                        i == properties.Count - 1);
+                }
+                else
+                {
+                    BuildProperty(properties[i], template, i == properties.Count - 1);
+                }
             }
         }
 
+        protected internal void BuildArray(string? arrayName, int? count, List<Property> properties, bool isLastItem)
+        {
+            _builder.InsertArray(
+                arrayName,
+                () =>
+                {
+                    count ??= DefaultArrayCount;
+                    for (int i = 0; i < count.Value; i++)
+                        BuildArrayItem(null, properties, i == count - 1);
+                }, isLastItem);
+        }
+
+        protected internal void BuildArrayItem(string? name, List<Property> properties, bool isLastItem)
+        {
+            _builder.InsertObject(name, () => BuildProperties(properties), isLastItem);
+        }
+
+        
         protected internal void BuildProperty(Property property, Template template, bool isLastItem)
         {
             var generator = _generatorFactory.Get(template.Type);

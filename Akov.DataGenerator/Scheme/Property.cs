@@ -2,9 +2,9 @@
 {
     internal class Property
     {
-        public string Template { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public int? MinLength { get; set; }
+        public string? Template { get; set; }
+        public string? Name { get; set; }
+        public int? MinLength { get; set; } 
         public int? MaxLength { get; set; }
         public int? MinSpaceCount { get; set; }
         public int? MaxSpaceCount { get; set; }

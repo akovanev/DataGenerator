@@ -17,7 +17,7 @@ namespace Akov.DataGenerator.Processor
 
             double value = GetRandomDouble(min, max);
 
-           return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
+            return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
 
         protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)

@@ -12,7 +12,8 @@
         String,
         Set,
         Double,
-        Int,
-        DateTime
+        DateTime,
+        Array,
+        Object
     }
 }
