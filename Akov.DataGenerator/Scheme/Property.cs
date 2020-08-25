@@ -15,7 +15,7 @@
 
     internal class Failure
     {
-        public int? Nullable { get; set; }
-        public int? Invalid { get; set; }
+        public double? Nullable { get; set; }
+        public double? Invalid { get; set; }
     }
 }

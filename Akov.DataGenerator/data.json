@@ -34,16 +34,16 @@
       "minSpaceCount": 1,
       "maxSpaceCount": 2,
       "failure": {
-        "nullable": 5,
-        "invalid": 7
+        "nullable": 0.1,
+        "invalid": 0.1
       }
     },
     {
       "name": "code",
       "template": "set1",
       "failure": {
-        "nullable": 6,
-        "invalid": 7
+        "nullable": 0.1,
+        "invalid": null
       }
     },
     {
@@ -52,8 +52,8 @@
       "minValue": "20/10/19",
       "maxValue": "01/01/20",
       "failure": {
-        "nullable": 6,
-        "invalid": 7
+        "nullable": 0.1,
+        "invalid": 0.2
       }
     }
   ],
@@ -63,10 +63,7 @@
       "template": "string1",
       "minLength": 5,
       "maxLength": 20,
-      "failure": {
-        "nullable": 7,
-        "invalid": 11
-      }
+      "failure": {}
     },
     {
       "name": "price",
@@ -74,8 +71,8 @@
       "minValue": 0.00,
       "maxValue": 125.00,
       "failure": {
-        "nullable": 5,
-        "invalid": 3
+        "nullable": 0.15,
+        "invalid": 0.1
       }
     }
   ]

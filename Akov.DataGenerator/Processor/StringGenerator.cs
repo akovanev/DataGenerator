@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
@@ -11,7 +12,7 @@ namespace Akov.DataGenerator.Processor
         private const int DefaultMinSpaceCount = 0;
         private const int DefaultMaxSpaceCount = 1;
 
-        protected internal override object CreateImpl(Property property, Template template, int index)
+        protected internal override object CreateImpl(Property property, Template template)
         {
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
@@ -23,10 +24,19 @@ namespace Akov.DataGenerator.Processor
             string pattern = string.IsNullOrWhiteSpace(template.Pattern)
                 ? DefaultPattern
                 : template.Pattern;
-            return CreateImpl(pattern, length, spaces);
+            return CreateString(pattern, length, spaces);
         }
 
-        internal string CreateImpl(string pattern, int length, int spaces)
+        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        {
+            if (failureType == FailureType.Nullable) return null;
+
+            //Todo: add logic here
+
+            return "@!$%*";
+        }
+
+        internal string CreateString(string pattern, int length, int spaces)
         {
             int[] patternIndexes = GetRandomSequence(pattern.Length - 1, length);
             int[] spaceIndexes = GetRandomSequence(length - 1, spaces);

@@ -1,4 +1,5 @@
-﻿using Akov.DataGenerator.Scheme;
+﻿using Akov.DataGenerator.Failures;
+using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
 {
@@ -6,7 +7,7 @@ namespace Akov.DataGenerator.Processor
     {
         private const string DefaultPattern = "00000";
 
-        protected internal override object CreateImpl(Property property, Template template, int index)
+        protected internal override object CreateImpl(Property property, Template template)
         {
             string pattern = template.Pattern ?? DefaultPattern;
 
@@ -15,6 +16,15 @@ namespace Akov.DataGenerator.Processor
             int random = GetRandom(0, set.Length - 1);
 
             return set[random];
+        }
+
+        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        {
+            if (failureType == FailureType.Nullable) return null;
+
+            //Todo: add logic here
+
+            return "~~~";
         }
     }
 }

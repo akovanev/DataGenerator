@@ -13,17 +13,12 @@ namespace Akov.DataGenerator.DataBuilders
         private const int DefaultAttributeCount = 3;
         private readonly StringBuilder _builder = new StringBuilder();
         private readonly GeneratorFactory _generatorFactory = new GeneratorFactory();
-        private int _currentIndex;
-        private int _attributeIndex;
 
         internal string Build(DataScheme scheme)
         {
             if (scheme.Properties is null || !scheme.Properties.Any())
                 throw new NotSupportedException($"Properties annotation should not be null or empty");
 
-            _currentIndex = 0;
-            _attributeIndex = 0;
-            
             _builder.InsertObject(() => BuildArray(scheme));
             return _builder.ToString();
         }
@@ -35,8 +30,8 @@ namespace Akov.DataGenerator.DataBuilders
                 () =>
                 {
                     int count = scheme.ObjectCount ?? DefaultCount;
-                    for (; _currentIndex < count; _currentIndex++)
-                        BuildArrayItem(scheme, _currentIndex == count - 1);
+                    for (int i = 0; i < count; i++)
+                        BuildArrayItem(scheme, i == count - 1);
                 });
         }
 
@@ -50,7 +45,7 @@ namespace Akov.DataGenerator.DataBuilders
             for (int i = 0; i < scheme.Properties!.Count; i++)
             {
                 Template template = scheme.GetTemplate(scheme.Properties[i].Template);
-                BuildProperty(scheme.Properties[i], template, _currentIndex, false);
+                BuildProperty(scheme.Properties[i], template, false);
             }
 
             BuildAttributesArray(scheme);
@@ -63,7 +58,7 @@ namespace Akov.DataGenerator.DataBuilders
                 () =>
                 {
                     int count = scheme.AttributesCount ?? DefaultAttributeCount;
-                    for (int i = 0; i < count; i++, _attributeIndex++)
+                    for (int i = 0; i < count; i++)
                         BuildAttributesArrayItem(scheme, i == count - 1);
                 });
         }
@@ -80,14 +75,14 @@ namespace Akov.DataGenerator.DataBuilders
             {
                 Template template = scheme.GetTemplate(attributes[i].Template);
 
-                BuildProperty(attributes[i], template, _attributeIndex, i == attributes.Count - 1);
+                BuildProperty(attributes[i], template, i == attributes.Count - 1);
             }
         }
 
-        protected internal void BuildProperty(Property property, Template template, int index, bool isLastItem)
+        protected internal void BuildProperty(Property property, Template template, bool isLastItem)
         {
             var generator = _generatorFactory.Get(template.Type);
-            object? value = generator.Create(property, template, index);
+            object? value = generator.Create(property, template);
             _builder.InsertProperty(property.Name, value, isLastItem);
         }
     }

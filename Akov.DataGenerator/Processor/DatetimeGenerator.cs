@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
@@ -10,7 +11,7 @@ namespace Akov.DataGenerator.Processor
         private readonly DateTime _minDefault = DateTime.Today.AddYears(-1);
         private readonly DateTime _maxDefault = DateTime.Today;
 
-        protected internal override object CreateImpl(Property property, Template template, int index)
+        protected internal override object CreateImpl(Property property, Template template)
         {
             string format = template.Pattern ?? DefaultDateFormat;
 
@@ -29,6 +30,15 @@ namespace Akov.DataGenerator.Processor
             DateTime value = min.AddDays(random);
 
             return value.ToString(format, CultureInfo.InvariantCulture);
+        }
+
+        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        {
+            if (failureType == FailureType.Nullable) return null;
+
+            //Todo: add logic here
+
+            return "1010.1010.1010";
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
@@ -8,32 +10,27 @@ namespace Akov.DataGenerator.Processor
     {
         private static readonly Random Random = new Random();
 
-        internal object? Create(Property property, Template template, int index)
-        {
-            var failure = CreateFailureImpl(property, index);
+        protected internal abstract object CreateImpl(Property property, Template template);
 
-            return failure.success
-                ? failure.value
-                : CreateImpl(property, template, index);
+        protected internal abstract object? CreateFailureImpl(Property property, Template template, FailureType failureType);
+
+        internal object? Create(Property property, Template template)
+        {
+            FailureType failureType = GetFailureType(property.Failure);
+            return failureType == FailureType.None
+                ? CreateImpl(property, template)
+                : CreateFailureImpl(property, template, failureType);
         }
 
-        protected internal abstract object CreateImpl(Property property, Template template, int index);
-       
-        protected internal (bool success, object? value) CreateFailureImpl(Property property, int index)
+        protected internal FailureType GetFailureType(Failure? failure)
         {
-            Failure? failure = property.Failure;
+            List<FailureObject> failureObjectList = failure.ToFailureObjectList();
 
-            if (failure is null) return (false, null);
+            double random = GetRandomDouble(0, 1);
 
-            if (failure.Nullable.HasValue && (index + 1) % failure.Nullable.Value == 0)
-                return (true, null);
-
-            if (failure.Invalid.HasValue && (index + 1) % failure.Invalid.Value == 0)
-                return (true, "!@~");
-
-            return (false, null);
+            return failureObjectList.GetFailureType(random);
         }
-        
+
         protected internal int GetRandom(int min, int max)
         {
             return Random.Next(min, max);
