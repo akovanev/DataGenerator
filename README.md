@@ -8,23 +8,15 @@ DataGenerator <filename.json>
 
 In case of success the result will be stored to <filename.json>.out.json
 
-## Annotation
+## Parameters
 
 ### General
 
-`objectCount` the count of Objects to be generated.
+`templates`the templates.
 
-`attributesCount`the count of attributes per each Object.
+`root` the root Object.
 
-`outPropertiesName` the name of root item in the generated json.
-
-`outAttributesName` the name of attributes array item.
-
-`templates`the array of templates.
-
-`properties` the Object properties.
-
-`attributes` the array of the Object attributes.
+`definitions` the definitions that could be used for `object` and/or `array` template types.
 
 ### Template types
 
@@ -49,7 +41,7 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `minLength` minimum output data length (for `string` only).
 
-`maxLength` maximum output data length (for `string` only).
+`maxLength` maximum output data length (for `string` and `array` only).
 
 `minSpaceCount` minimum count of spaces (for `string` only).
 
