@@ -20,13 +20,16 @@ namespace Akov.DataGenerator.Processor
             return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
 
-        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        protected internal override object CreateRangeFailureImpl(Property property, Template template)
         {
-            if (failureType == FailureType.Nullable) return null;
+            double min = (double?)property.MinValue ?? MinDefault;
+            double max = (double?)property.MaxValue ?? MaxDefault;
 
-            //Todo: add logic here
+            double value = GetRandom(0, 1) == 0
+                ? GetRandomDouble(-2 * min, min - 1)
+                : GetRandomDouble(max + 1, 2 * max);
 
-            return "DDD";
+            return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿{
-  "objectCount": 100,
-  "attributesCount": 3,
   "templates": [
     {
       "type": "object",
@@ -80,15 +78,15 @@
           "maxSpaceCount": 2,
           "failure": {
             "nullable": 0.1,
-            "invalid": 0.1
+            "format": 0.1,
+            "range": 0.05 
           }
         },
         {
           "name": "code",
           "template": "set1",
           "failure": {
-            "nullable": 0.1,
-            "invalid": null
+            "nullable": 0.1
           }
         },
         {
@@ -98,7 +96,8 @@
           "maxValue": "01/01/20",
           "failure": {
             "nullable": 0.1,
-            "invalid": 0.2
+            "format": 0.2,
+            "range": 0.1
           }
         },
         {
@@ -129,7 +128,8 @@
           "maxValue": 125.0,
           "failure": {
             "nullable": 0.15,
-            "invalid": 0.1
+            "format": 0.075,
+            "range": 0.05
           }
         }
       ]

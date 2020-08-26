@@ -4,6 +4,7 @@
     {
         None,
         Nullable,
-        Invalid
+        Format,
+        Range
     }
 }

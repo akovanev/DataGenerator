@@ -11,8 +11,7 @@ namespace Akov.DataGenerator.Processor
         private static readonly Random Random = new Random();
 
         protected internal abstract object CreateImpl(Property property, Template template);
-
-        protected internal abstract object? CreateFailureImpl(Property property, Template template, FailureType failureType);
+        protected internal abstract object CreateRangeFailureImpl(Property property, Template template);
 
         internal object? Create(Property property, Template template)
         {
@@ -20,6 +19,16 @@ namespace Akov.DataGenerator.Processor
             return failureType == FailureType.None
                 ? CreateImpl(property, template)
                 : CreateFailureImpl(property, template, failureType);
+        }
+
+        protected internal object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        {
+            return failureType switch
+            {
+                FailureType.Nullable => null,
+                FailureType.Range => CreateRangeFailureImpl(property, template),
+                _ => "@!$%*",
+            };
         }
 
         protected internal FailureType GetFailureType(Failure? failure)
@@ -33,7 +42,7 @@ namespace Akov.DataGenerator.Processor
 
         protected internal int GetRandom(int min, int max)
         {
-            return Random.Next(min, max);
+            return Random.Next(min, max + 1);
         }
 
         protected internal double GetRandomDouble(double min, double max)

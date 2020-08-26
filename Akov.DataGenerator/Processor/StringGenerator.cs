@@ -27,13 +27,19 @@ namespace Akov.DataGenerator.Processor
             return CreateString(pattern, length, spaces);
         }
 
-        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        protected internal override object CreateRangeFailureImpl(Property property, Template template)
         {
-            if (failureType == FailureType.Nullable) return null;
+            int minLength = property.MinLength ?? DefaultMinLength;
+            int maxLength = property.MaxLength ?? DefaultMaxLength;
+            int length = GetRandom(0, 1) == 0
+                ? GetRandom(0, minLength - 1)
+                : GetRandom(maxLength + 1, maxLength * 2);
 
-            //Todo: add logic here
+            string pattern = string.IsNullOrWhiteSpace(template.Pattern)
+                ? DefaultPattern
+                : template.Pattern;
 
-            return "@!$%*";
+            return CreateString(pattern, length, DefaultMinSpaceCount);
         }
 
         internal string CreateString(string pattern, int length, int spaces)
@@ -52,7 +58,5 @@ namespace Akov.DataGenerator.Processor
 
             return new string(value);
         }
-
-        
     }
 }

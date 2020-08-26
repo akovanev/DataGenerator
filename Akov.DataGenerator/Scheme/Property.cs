@@ -16,6 +16,7 @@
     internal class Failure
     {
         public double? Nullable { get; set; }
-        public double? Invalid { get; set; }
+        public double? Format { get; set; }
+        public double? Range { get; set; }
     }
 }

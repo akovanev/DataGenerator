@@ -1,5 +1,4 @@
-﻿using Akov.DataGenerator.Failures;
-using Akov.DataGenerator.Scheme;
+﻿using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
 {
@@ -18,13 +17,9 @@ namespace Akov.DataGenerator.Processor
             return set[random];
         }
 
-        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        protected internal override object CreateRangeFailureImpl(Property property, Template template)
         {
-            if (failureType == FailureType.Nullable) return null;
-
-            //Todo: add logic here
-
-            return "~~~";
+            return DefaultPattern;
         }
     }
 }

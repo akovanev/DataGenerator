@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor
@@ -32,13 +31,23 @@ namespace Akov.DataGenerator.Processor
             return value.ToString(format, CultureInfo.InvariantCulture);
         }
 
-        protected internal override object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        protected internal override object CreateRangeFailureImpl(Property property, Template template)
         {
-            if (failureType == FailureType.Nullable) return null;
+            string format = template.Pattern ?? DefaultDateFormat;
 
-            //Todo: add logic here
+            DateTime min = property.MinValue is null
+                ? _minDefault
+                : DateTime.ParseExact((string)property.MinValue, format, CultureInfo.InvariantCulture);
 
-            return "1010.1010.1010";
+            DateTime max = property.MaxValue is null
+                ? _maxDefault
+                : DateTime.ParseExact((string)property.MaxValue, format, CultureInfo.InvariantCulture);
+
+            DateTime value = GetRandom(0, 1) == 0
+                ? min.AddDays(- GetRandom(1, 100))
+                : max.AddDays(GetRandom(1, 100));
+
+            return value.ToString(format, CultureInfo.InvariantCulture);
         }
     }
 }
