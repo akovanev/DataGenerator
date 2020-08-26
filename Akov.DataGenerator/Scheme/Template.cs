@@ -11,6 +11,8 @@
     {
         String,
         Set,
+        Bool,
+        Int,
         Double,
         DateTime,
         Array,

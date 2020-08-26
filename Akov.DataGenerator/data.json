@@ -36,6 +36,14 @@
       "pattern": "dd/MM/yy"
     },
     {
+      "type": "int",
+      "name": "int1"
+    },
+    {
+      "type": "bool",
+      "name": "bool1"
+    },
+    {
       "type": "array",
       "name": "array1",
       "pattern": "Attribute"
@@ -130,6 +138,26 @@
             "nullable": 0.15,
             "format": 0.075,
             "range": 0.05
+          }
+        },
+        {
+          "name": "count",
+          "template": "int1",
+          "minValue": 1,
+          "maxValue": 10,
+          "failure": {
+            "nullable": 0.05,
+            "format": 0.1,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "isActive",
+          "template": "bool1",
+          "failure": {
+            "nullable": 0.05,
+            "format": 0.1,
+            "range": 0.1
           }
         }
       ]

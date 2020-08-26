@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processor

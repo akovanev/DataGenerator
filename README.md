@@ -22,12 +22,16 @@ In case of success the result will be stored to <filename.json>.out.json
 
 * `string` for the string value.
   * `pattern` specifies accessible characters. The space will be added separately.
+  
+* `set` only a value from the set allowed.
+  * `pattern` defines the set of values.
+
+* `bool` for True/False value.
+
+* `int` for the integer value.
 
 * `double` for the double value.
   * `pattern` specifies the double format. E.g. "0.00".
- 
-* `set` only a value from the set allowed.
-  * `pattern` defines the set of values.
 
 * `datetime` for the datetime.
   * `pattern` specifies the datatime format.

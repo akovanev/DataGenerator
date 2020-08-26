@@ -10,9 +10,11 @@ namespace Akov.DataGenerator.Processor
             = new Dictionary<TemplateType, GeneratorBase>
             {
                 {TemplateType.String, new StringGenerator()},
-                {TemplateType.Double, new DoubleGenerator()},
                 {TemplateType.Set, new SetGenerator()},
-                {TemplateType.DateTime, new DatetimeGenerator()}
+                {TemplateType.Bool, new BooleanGenerator()},
+                {TemplateType.Int, new IntGenerator()},
+                {TemplateType.Double, new DoubleGenerator()},
+                {TemplateType.DateTime, new DatetimeGenerator()},
             };
 
         internal GeneratorBase Get(TemplateType type)
