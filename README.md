@@ -3,7 +3,7 @@
 ## Execution
 
 ```
-DataGenerator <filename.json>
+> DataGenerator <filename.json>
 ```
 
 In case of success the result will be stored to <filename.json>.out.json
@@ -20,8 +20,10 @@ In case of success the result will be stored to <filename.json>.out.json
 
 ### Template types
 
+#### Predefined
+
 * `string` for the string value.
-  * `pattern` specifies accessible characters. The space will be added separately.
+  * `pattern` specifies accessible characters. The spaces will be added separately.
   
 * `set` only a value from the set allowed.
   * `pattern` defines the set of values.
@@ -32,9 +34,20 @@ In case of success the result will be stored to <filename.json>.out.json
 
 * `double` for the double value.
   * `pattern` specifies the double format. E.g. "0.00".
+ 
+* `set` only a value from the set allowed.
+  * `pattern` defines the set of values with comma separated.
 
 * `datetime` for the datetime.
   * `pattern` specifies the datatime format.
+
+#### User defined
+
+* `object` for some object from the definitions.
+  * `pattern` points to the definition item.
+
+* `array` for an array of some objects from the definitions.
+  * `pattern` points to the definition item.
 
 
 ### Properties & Attributes
@@ -57,7 +70,9 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `failure nullable` the probability that *null* appears.
 
-`failure invalid` the probability that invalid value appears.
+`failure format` the probability that the invalid value appears.
+
+`failure range` the probability that the value will be out of range. For strings it means that the string length will be out of the specified interval.
 
 ## Example
 
