@@ -2,7 +2,7 @@
 using Akov.DataGenerator.Scheme;
 using Newtonsoft.Json;
 
-namespace Akov.DataGenerator.IO
+namespace Akov.DataGenerator.Common
 { 
     public class IOHelper
     {

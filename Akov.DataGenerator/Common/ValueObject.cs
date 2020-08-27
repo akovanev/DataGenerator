@@ -8,7 +8,6 @@
             Value = value;
         }
 
-
         public string Name { get; }
         public object? Value { get; }
     }
