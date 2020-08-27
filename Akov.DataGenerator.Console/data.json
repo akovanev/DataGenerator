@@ -6,28 +6,28 @@
       "pattern": "Root"
     },
     {
-      "type": "set",
-      "name": "rootSet",
-      "pattern": "10"
-    },
-    {
       "type": "array",
-      "name": "arrayProps",
+      "name": "array_property_template",
       "pattern": "Property"
     },
     {
+      "type": "set",
+      "name": "root_count_value",
+      "pattern": "10"
+    },
+    {
       "type": "string",
-      "name": "string1",
+      "name": "az09",
       "pattern": "abcdefghijklmnopqrstuvwxyz0123456789"
     },
     {
       "type": "double",
-      "name": "double1",
+      "name": "double_two",
       "pattern": "0.00"
     },
     {
       "type": "set",
-      "name": "set1",
+      "name": "code_set",
       "pattern": "1000,1001,1002,1003,1010,1025,1050,1200"
     },
     {
@@ -45,18 +45,14 @@
     },
     {
       "type": "array",
-      "name": "array1",
+      "name": "array_attr_template",
       "pattern": "Attribute"
     },
     {
       "type": "object",
-      "name": "object1",
+      "name": "attr_obj_template",
       "pattern": "Attribute"
-    },
-{
-  "type": "uint",
-  "name": "uint1"
-}
+    }
   ],
   "root":
   {
@@ -69,12 +65,12 @@
       "properties":[
         {
           "name":"root",
-          "template": "rootSet"
+          "template": "root_count_value"
         },
         {
           "name":"data",
-          "template": "arrayProps",
-          "maxLength": 10
+          "template": "array_property_template",
+          "maxLength": 100
         }
       ]
     },
@@ -83,7 +79,7 @@
       "properties": [
         {
           "name": "name",
-          "template": "string1",
+          "template": "az09",
           "minLength": 5,
           "maxLength": 20,
           "minSpaceCount": 1,
@@ -96,7 +92,7 @@
         },
         {
           "name": "code",
-          "template": "set1",
+          "template": "code_set",
           "failure": {
             "nullable": 0.1
           }
@@ -114,21 +110,13 @@
         },
         {
           "name": "attrs",
-          "template": "array1",
+          "template": "array_attr_template",
           "maxLength": 3
         },
         {
-          "name": "attrib",
-          "template": "object1"
-        },
-{
-  "name": "absValue",
-  "template": "uint1",
-  "failure": {
-    "nullable": 0.1,
-    "range": 0.2 
-  }
-}
+          "name": "attribute",
+          "template": "attr_obj_template"
+        }
       ]
     },
    {
@@ -136,14 +124,14 @@
       "properties": [
         {
           "name": "description",
-          "template": "string1",
+          "template": "az09",
           "minLength": 5,
           "maxLength": 20,
           "failure": {}
         },
         {
           "name": "price",
-          "template": "double1",
+          "template": "double_two",
           "minValue": 0.0,
           "maxValue": 125.0,
           "failure": {
