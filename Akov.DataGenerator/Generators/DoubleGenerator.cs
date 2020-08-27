@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class DoubleGenerator : GeneratorBase
+    public class DoubleGenerator : GeneratorBase
     {
         private const double MinDefault = 0;
         private const double MaxDefault = 1;

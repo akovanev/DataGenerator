@@ -4,22 +4,23 @@ using System.Linq;
 using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal abstract class GeneratorBase
+    public abstract class GeneratorBase : IGenerator
     {
         private static readonly Random Random = new Random();
 
-        protected internal abstract object CreateImpl(Property property, Template template);
-        protected internal abstract object CreateRangeFailureImpl(Property property, Template template);
-
-        internal object? Create(Property property, Template template)
+        public object? Create(Property property, Template template)
         {
             FailureType failureType = GetFailureType(property.Failure);
+            
             return failureType == FailureType.None
                 ? CreateImpl(property, template)
                 : CreateFailureImpl(property, template, failureType);
         }
+
+        protected internal abstract object CreateImpl(Property property, Template template);
+        protected internal abstract object CreateRangeFailureImpl(Property property, Template template);
 
         protected internal object? CreateFailureImpl(Property property, Template template, FailureType failureType)
         {

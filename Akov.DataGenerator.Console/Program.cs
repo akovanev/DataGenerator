@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Akov.DataGenerator.IO;
+using System;
 using System.Linq;
-using Akov.DataGenerator.DataBuilders;
-using Akov.DataGenerator.IO;
-using Akov.DataGenerator.Processor;
+using Akov.DataGenerator.Generators;
+using Akov.DataGenerator.Processors;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Serializers;
+using Newtonsoft.Json;
 
 namespace Akov.DataGenerator
 {
@@ -28,12 +30,14 @@ namespace Akov.DataGenerator
             try
             {
                 DataScheme scheme = ioHelper.GetScheme(filename);
-                var dataBuilder = new JsonDataBuilder(generatorFactory, scheme);
+                var dataProcessor = new DataProcessor(scheme, generatorFactory);
                 
-                string data = dataBuilder.Build();
-                
-                ioHelper.SaveData($"{filename}.out.json", data);
-                
+                var data = dataProcessor.CreateData();
+
+                var dataAsJson = JsonValueObjectSerializer.Serialize(data);
+
+                ioHelper.SaveData($"{filename}.out.json", dataAsJson);
+
                 return "Success";
             }
             catch (Exception ex)

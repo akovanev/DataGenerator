@@ -1,6 +1,6 @@
 ﻿namespace Akov.DataGenerator.Failures
 {
-    internal enum FailureType
+    public enum FailureType
     {
         None,
         Nullable,

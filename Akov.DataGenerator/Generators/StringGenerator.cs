@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class StringGenerator : GeneratorBase
+    public class StringGenerator : GeneratorBase
     {
         private const string DefaultPattern = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const int DefaultMinLength = 10;

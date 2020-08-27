@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using Akov.DataGenerator.Scheme;
+
+namespace Akov.DataGenerator.Generators
+{
+    public class GeneratorFactory : IGeneratorFactory
+    {
+        public GeneratorBase Get(TemplateType type)
+        {
+            var generatorDictionary = GetGeneratorDictionary();
+
+            return generatorDictionary.ContainsKey(type)
+                ? generatorDictionary[type]
+                : throw new NotSupportedException($"Generator for {type} is not implemented yet");
+        }
+
+        public virtual Dictionary<TemplateType, GeneratorBase> GetGeneratorDictionary()
+            =>  new Dictionary<TemplateType, GeneratorBase>
+            {
+                {TemplateType.String, new StringGenerator()},
+                {TemplateType.Set, new SetGenerator()},
+                {TemplateType.Bool, new BooleanGenerator()},
+                {TemplateType.Int, new IntGenerator()},
+                {TemplateType.Double, new DoubleGenerator()},
+                {TemplateType.DateTime, new DatetimeGenerator()},
+            };
+    }
+}

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
-using Akov.DataGenerator.DataBuilders;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Scheme
 {
-    internal class DataScheme
+    public class DataScheme
     {
         public List<Template>? Templates { get; set; }
         public Property? Root { get; set; }
@@ -13,7 +12,7 @@ namespace Akov.DataGenerator.Scheme
 
         public Template GetTemplate(string templateName)
         {
-            Template template = Templates.SingleOrDefault(template => template.Name == templateName);
+            Template template = Templates.SingleOrDefault(t => t.Name == templateName);
             template.ThrowIfNull($"Template with the name {templateName} not found");
 
             if(template.Type == TemplateType.Object ||
@@ -27,7 +26,7 @@ namespace Akov.DataGenerator.Scheme
 
         public Definition GetDefinition(string pattern)
         {
-            Definition definition = Definitions.SingleOrDefault(definition => definition.Name == pattern);
+            Definition definition = Definitions.SingleOrDefault(def => def.Name == pattern);
             definition.ThrowIfNull($"Definition with the name {pattern} not found");
             definition.Properties.ThrowIfNullOrEmpty($"Definition with the name {pattern} must have at least one property");
 

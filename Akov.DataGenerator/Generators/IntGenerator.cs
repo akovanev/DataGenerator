@@ -1,8 +1,8 @@
 ﻿using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class IntGenerator : GeneratorBase
+    public class IntGenerator : GeneratorBase
     {
         private const long MinDefault = 0;
         private const long MaxDefault = 100;

@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Akov.DataGenerator.IO
 { 
-    internal class IOHelper
+    public class IOHelper
     {
         public DataScheme GetScheme(string filename)
         {

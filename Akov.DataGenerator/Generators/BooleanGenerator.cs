@@ -1,9 +1,9 @@
 ﻿using System;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class BooleanGenerator : GeneratorBase
+    public class BooleanGenerator : GeneratorBase
     {
         protected internal override object CreateImpl(Property property, Template template)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Akov.DataGenerator.Scheme
 {
-    internal class Property
+    public class Property
     {
         public string? Template { get; set; }
         public string? Name { get; set; }
@@ -13,7 +13,7 @@
         public Failure? Failure { get; set; }
     }
 
-    internal class Failure
+    public class Failure
     {
         public double? Nullable { get; set; }
         public double? Format { get; set; }

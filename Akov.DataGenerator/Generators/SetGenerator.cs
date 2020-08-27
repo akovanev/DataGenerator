@@ -1,8 +1,8 @@
 ﻿using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class SetGenerator : GeneratorBase
+    public class SetGenerator : GeneratorBase
     {
         private const string DefaultPattern = "00000";
 

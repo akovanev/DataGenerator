@@ -1,25 +1,24 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Akov.DataGenerator.DataBuilders
+namespace Akov.DataGenerator.Common
 {
-    internal static class ValidationExtensions
+    public static class ValidationExtensions
     {
-        internal static void ThrowIfNull<T>(this T source, string message)
+        public static void ThrowIfNull<T>(this T source, string message)
         {
             if(source is null)
                 throw new ArgumentNullException(message);
         }
 
-        internal static void ThrowIfNullOrEmpty(this string? source, string message)
+        public static void ThrowIfNullOrEmpty(this string? source, string message)
         {   
             if(String.IsNullOrWhiteSpace(source))
                 throw new ArgumentNullException(message);
         }
 
-        internal static void ThrowIfNullOrEmpty<T>(this IEnumerable<T>? source, string message)
+        public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T>? source, string message)
         {
             source.ThrowIfNull(message);
             
@@ -27,7 +26,7 @@ namespace Akov.DataGenerator.DataBuilders
                 throw new ArgumentException($"Collection is empty. {message}");
         }
 
-        internal static void ThrowIfNotTrue(this bool exprResult, string message)
+        public static void ThrowIfNotTrue(this bool exprResult, string message)
         {
             if(!exprResult)
                 throw new NotSupportedException(message);

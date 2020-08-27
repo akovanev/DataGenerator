@@ -2,9 +2,9 @@
 using System.Globalization;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Processor
+namespace Akov.DataGenerator.Generators
 {
-    internal class DatetimeGenerator : GeneratorBase
+    public class DatetimeGenerator : GeneratorBase
     {
         private const string DefaultDateFormat = "yyyy-MM-dd";
         private readonly DateTime _minDefault = DateTime.Today.AddYears(-1);
