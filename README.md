@@ -73,5 +73,5 @@ In case of success the result will be stored to <filename.json>.out.json
 
 ## Example
 
-[data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator/data.json)
+[data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Console/data.json)
 
