@@ -14,8 +14,9 @@ namespace Akov.DataGenerator.Scheme
         {
             Template template = Templates.SingleOrDefault(t => t.Name == templateName);
             template.ThrowIfNull($"Template with the name {templateName} not found");
+            template.Type.ThrowIfNull($"Type for the template {templateName} not found");
 
-            if(template.Type == TemplateType.Object ||
+            if (template.Type == TemplateType.Object ||
                template.Type == TemplateType.Array)
                {
                    template.Pattern.ThrowIfNullOrEmpty($"Template with the name {templateName} must have pattern");

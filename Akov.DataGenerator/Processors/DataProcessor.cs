@@ -73,8 +73,8 @@ namespace Akov.DataGenerator.Processors
         {
             if (template.Type != TemplateType.Object && template.Type != TemplateType.Array)
                 throw new AggregateException($"Template type expected " +
-                                             $"{TemplateType.Object.ToString()} or {TemplateType.Array.ToString()}" +
-                                             $"but actual {template.Type.ToString()}");
+                                             $"{TemplateType.Object} or {TemplateType.Array}" +
+                                             $"but actual {template.Type}");
 
             template.Pattern.ThrowIfNull($"Template {template.Name} should have a pattern");
 
@@ -85,7 +85,7 @@ namespace Akov.DataGenerator.Processors
 
         internal ValueObject CreateValue(Property property, Template template)
         {
-            var generator = GeneratorFactory.Get(template.Type);
+            var generator = GeneratorFactory.Get(template.Type!);
             object? value = generator.Create(property, template);
             return new ValueObject(property.Name, value);
         }
