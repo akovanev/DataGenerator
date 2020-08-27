@@ -38,19 +38,20 @@ namespace Akov.DataGenerator.Serializers
             {
                 ValueObject first = valueObject.FirstOrDefault();
 
-                if (first == null)
+                if (first is null)
                 {
                     builder.AppendProperty(value, isLastItem);
-                    return;
-                }
-
-                if (first.Value is List<ValueObject>)
-                {
-                    AppendArray(builder, value.Name, valueObject, isLastItem);
                 }
                 else
                 {
-                    AppendObject(builder, value.Name, valueObject, isLastItem);
+                    if (first.Value is List<ValueObject>)
+                    {
+                        AppendArray(builder, value.Name, valueObject, isLastItem);
+                    }
+                    else
+                    {
+                        AppendObject(builder, value.Name, valueObject, isLastItem);
+                    }
                 }
             }
             else
