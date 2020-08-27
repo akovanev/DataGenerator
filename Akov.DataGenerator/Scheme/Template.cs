@@ -2,20 +2,20 @@
 {
     public class Template
     {
-        public TemplateType Type { get; set; }
+        public string? Type { get; set; }
         public string? Name { get; set; }
         public string? Pattern { get; set; }
     }
 
-    public enum TemplateType
+    public class TemplateType
     {
-        String,
-        Set,
-        Bool,
-        Int,
-        Double,
-        DateTime,
-        Array,
-        Object
+        public const string String = "string";
+        public const string Set = "set";
+        public const string Bool = "bool";
+        public const string Int = "int";
+        public const string Double = "double";
+        public const string DateTime = "datetime";
+        public const string Array = "array";
+        public const string Object = "object";
     }
 }

@@ -1,9 +1,7 @@
-﻿using Akov.DataGenerator.Scheme;
-
-namespace Akov.DataGenerator.Generators
+﻿namespace Akov.DataGenerator.Generators
 {
     public interface IGeneratorFactory
     {
-        public GeneratorBase Get(TemplateType type);
+        public GeneratorBase Get(string type);
     }
 }

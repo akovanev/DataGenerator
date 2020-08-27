@@ -1,0 +1,120 @@
+﻿{
+  "templates": [
+    {
+      "type": "object",
+      "name": "root",
+      "pattern": "Root"
+    },
+    {
+      "type": "array",
+      "name": "array_product_template",
+      "pattern": "Product"
+    },
+    {
+      "type": "string",
+      "name": "string_template1",
+      "pattern": "abcdefghijklmnopqrstuvwxyz0123456789"
+    },
+    {
+      "type": "datetime",
+      "name": "datetime_template1",
+      "pattern": "dd/MM/yy"
+    },
+    {
+      "type": "array",
+      "name": "array_sku_template",
+      "pattern": "Sku"
+    },
+    {
+      "type": "double",
+      "name": "price_template",
+      "pattern": "0.00"
+    },
+    {
+      "type": "set",
+      "name": "count_template",
+      "pattern": "100"
+    }
+  ],
+  "root": {
+    "name": null,
+    "template": "root"
+  },
+  "definitions": [
+    {
+      "name": "Root",
+      "properties": [
+        {
+          "name": "count",
+          "template": "count_template"
+        },
+        {
+          "name": "products",
+          "template": "array_product_template",
+          "maxLength": 100
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "name",
+          "template": "string_template1",
+          "minLength": 10,
+          "maxLength": 20,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 2,
+          "failure": {
+            "nullable": 0.1,
+            "format": 0.1,
+            "range": 0.05
+          }
+        },
+        {
+          "name": "lastUpdated",
+          "template": "datetime_template1",
+          "minValue": "20/10/19",
+          "maxValue": "01/01/20",
+          "failure": {
+            "nullable": 0.1,
+            "format": 0.2,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "skus",
+          "template": "array_sku_template",
+          "maxLength": 3
+        }
+      ]
+    },
+    {
+      "name": "Sku",
+      "properties": [
+        {
+          "name": "name",
+          "template": "string_template1",
+          "minLength": 10,
+          "maxLength": 50,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 4,
+          "failure": {
+            "nullable": 0.25
+          }
+        },
+        {
+          "name": "price",
+          "template": "price_template",
+          "minValue": 0.0,
+          "maxValue": 1999.99,
+          "failure": {
+            "nullable": 0.1,
+            "format": 0.05,
+            "range": 0.15
+          }
+        }
+      ]
+    }
+  ]
+}

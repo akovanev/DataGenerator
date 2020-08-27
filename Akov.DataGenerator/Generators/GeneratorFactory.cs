@@ -6,7 +6,7 @@ namespace Akov.DataGenerator.Generators
 {
     public class GeneratorFactory : IGeneratorFactory
     {
-        public GeneratorBase Get(TemplateType type)
+        public GeneratorBase Get(string type)
         {
             var generatorDictionary = GetGeneratorDictionary();
 
@@ -15,8 +15,8 @@ namespace Akov.DataGenerator.Generators
                 : throw new NotSupportedException($"Generator for {type} is not implemented yet");
         }
 
-        public virtual Dictionary<TemplateType, GeneratorBase> GetGeneratorDictionary()
-            =>  new Dictionary<TemplateType, GeneratorBase>
+        public virtual Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+            =>  new Dictionary<string, GeneratorBase>
             {
                 {TemplateType.String, new StringGenerator()},
                 {TemplateType.Set, new SetGenerator()},
