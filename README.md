@@ -12,50 +12,28 @@
 
 In case of success the result will be stored to <filename.json>.out.json
 
-## Parameters
+## Input configuration
 
-### General
+`root` points to the main entry object in definitions.
 
-`templates`the templates.
+`definitions` defines objects and arrays.
 
-`root` the root Object.
+### Properties
 
-`definitions` the definitions that could be used for `object` and/or `array` template types.
+`name` the property name.
 
-### Template types
+`type` the property type. 
 
-#### Predefined
+* `string` string.
+* `set` one of the list of values, separated by comma.
+* `bool` True or False.
+* `int` integer.
+* `double` double.
+* `datetime` datatime
+* `object` object from definition.
+* `array` array from definition.
 
-* `string` for the string value.
-  * `pattern` specifies accessible characters. The spaces will be added separately.
-  
-* `set` only a value from the set allowed.
-  * `pattern` defines the set of values with comma separated.
-
-* `bool` for True/False value.
-
-* `int` for the integer value.
-
-* `double` for the double value.
-  * `pattern` specifies the double format. E.g. "0.00".
-
-* `datetime` for the datetime.
-  * `pattern` specifies the datatime format.
-
-#### User defined
-
-* `object` for some object from the definitions.
-  * `pattern` points to the definition item.
-
-* `array` for an array of some objects from the definitions.
-  * `pattern` points to the definition item.
-
-
-### Properties & Attributes
-
-`name` the Object property name.
-
-`template` the template name.
+`pattern` specifies the template for the specific type. E.g. "abcdefgh" for strings, "0.00" for doubles, "yy/MM/dd" for datateime etc. For arrays and objects points to the definition item name.
 
 `minLength` minimum output data length (for `string` only).
 
@@ -65,17 +43,20 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `maxSpaceCount` maximum count of spaces (for `string` only).
 
-`minValue` minimum value (for `double` and `datetime` only).
+`minValue` minimum value (for `int`, `double` and `datetime`).
 
-`maxValue` maximum value (for `double` and `datetime` only).
+`maxValue` maximum value (for `int`, `double` and `datetime`).
 
-`failure nullable` the probability that *null* appears.
+`failure` stands for inconsitent data appearing with the specified probability. 
+* `nullable` the probability that *null* appears.
 
-`failure format` the probability that the invalid value appears.
+* `format` the probability that the invalid value appears.
 
-`failure range` the probability that the value will be out of range. For strings it means that the string length will be out of the specified interval.
+* `range` the probability that the value will be out of range. For strings it means that the string length will be out of the specified interval.
 
 ## Example
 
 [data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Console/data.json)
+
+
 
