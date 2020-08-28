@@ -1,5 +1,7 @@
 # DataGenerator
 
+[![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://github.com/akovanev/DataGenerator)
+
 [Quick introduction](https://akovanev.com/2020/08/26/data-generator/)
 
 [Custom data generator](https://akovanev.com/2020/08/27/custom-data-generator/)
