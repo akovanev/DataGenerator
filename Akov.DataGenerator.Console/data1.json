@@ -1,56 +1,18 @@
 ﻿{
-  "templates": [
-    {
-      "type": "object",
-      "name": "root",
-      "pattern": "Root"
-    },
-    {
-      "type": "array",
-      "name": "array_product_template",
-      "pattern": "Product"
-    },
-    {
-      "type": "string",
-      "name": "string_template1",
-      "pattern": "abcdefghijklmnopqrstuvwxyz0123456789"
-    },
-    {
-      "type": "datetime",
-      "name": "datetime_template1",
-      "pattern": "dd/MM/yy"
-    },
-    {
-      "type": "array",
-      "name": "array_sku_template",
-      "pattern": "Sku"
-    },
-    {
-      "type": "double",
-      "name": "price_template",
-      "pattern": "0.00"
-    },
-    {
-      "type": "set",
-      "name": "count_template",
-      "pattern": "100"
-    }
-  ],
-  "root": {
-    "name": null,
-    "template": "root"
-  },
+  "root": "Root",
   "definitions": [
     {
       "name": "Root",
       "properties": [
         {
           "name": "count",
-          "template": "count_template"
+          "type": "set",
+          "pattern": "100"
         },
         {
           "name": "products",
-          "template": "array_product_template",
+          "type": "array",
+          "pattern": "Product",
           "maxLength": 100
         }
       ]
@@ -60,7 +22,8 @@
       "properties": [
         {
           "name": "name",
-          "template": "string_template1",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
           "minLength": 10,
           "maxLength": 20,
           "minSpaceCount": 1,
@@ -73,7 +36,8 @@
         },
         {
           "name": "lastUpdated",
-          "template": "datetime_template1",
+          "type": "datetime",
+          "pattern": "dd/MM/yy",
           "minValue": "20/10/19",
           "maxValue": "01/01/20",
           "failure": {
@@ -84,7 +48,8 @@
         },
         {
           "name": "skus",
-          "template": "array_sku_template",
+          "type": "array",
+          "pattern": "Sku",
           "maxLength": 3
         }
       ]
@@ -94,7 +59,8 @@
       "properties": [
         {
           "name": "name",
-          "template": "string_template1",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
           "minLength": 10,
           "maxLength": 50,
           "minSpaceCount": 1,
@@ -105,7 +71,8 @@
         },
         {
           "name": "price",
-          "template": "price_template",
+          "type": "double",
+          "pattern": "0.00",
           "minValue": 0.0,
           "maxValue": 1999.99,
           "failure": {
