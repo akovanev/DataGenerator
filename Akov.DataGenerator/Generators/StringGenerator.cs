@@ -11,7 +11,7 @@ namespace Akov.DataGenerator.Generators
         private const int DefaultMinSpaceCount = 0;
         private const int DefaultMaxSpaceCount = 1;
 
-        protected internal override object CreateImpl(Property property, Template template)
+        protected internal override object CreateImpl(Property property)
         {
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
@@ -20,13 +20,13 @@ namespace Akov.DataGenerator.Generators
 
             int length = GetRandom(minLength, maxLength);
             int spaces = GetRandom(minSpaceCount, maxSpaceCount);
-            string pattern = string.IsNullOrWhiteSpace(template.Pattern)
+            string pattern = string.IsNullOrWhiteSpace(property.Pattern)
                 ? DefaultPattern
-                : template.Pattern;
+                : property.Pattern;
             return CreateString(pattern, length, spaces);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property, Template template)
+        protected internal override object CreateRangeFailureImpl(Property property)
         {
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
@@ -34,9 +34,9 @@ namespace Akov.DataGenerator.Generators
                 ? GetRandom(0, minLength - 1)
                 : GetRandom(maxLength + 1, maxLength * 2);
 
-            string pattern = string.IsNullOrWhiteSpace(template.Pattern)
+            string pattern = string.IsNullOrWhiteSpace(property.Pattern)
                 ? DefaultPattern
-                : template.Pattern;
+                : property.Pattern;
 
             return CreateString(pattern, length, DefaultMinSpaceCount);
         }

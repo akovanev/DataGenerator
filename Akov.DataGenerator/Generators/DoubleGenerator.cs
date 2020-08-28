@@ -9,17 +9,17 @@ namespace Akov.DataGenerator.Generators
         private const double MaxDefault = 1;
         private const string Pattern = "0.00";
 
-        protected internal override object CreateImpl(Property property, Template template)
+        protected internal override object CreateImpl(Property property)
         {
             double min = (double?)property.MinValue ?? MinDefault;
             double max = (double?)property.MaxValue ?? MaxDefault;
 
             double value = GetRandomDouble(min, max);
 
-            return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
+            return value.ToString(property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property, Template template)
+        protected internal override object CreateRangeFailureImpl(Property property)
         {
             double min = (double?)property.MinValue ?? MinDefault;
             double max = (double?)property.MaxValue ?? MaxDefault;
@@ -28,7 +28,7 @@ namespace Akov.DataGenerator.Generators
                 ? GetRandomDouble(-2 * min, min - 1)
                 : GetRandomDouble(max + 1, 2 * max);
 
-            return value.ToString(template.Pattern ?? Pattern, CultureInfo.InvariantCulture);
+            return value.ToString(property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
     }
 }

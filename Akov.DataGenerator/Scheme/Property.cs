@@ -2,7 +2,8 @@
 {
     public class Property
     {
-        public string? Template { get; set; }
+        public string? Type { get; set; }
+        public string? Pattern { get; set; }
         public string? Name { get; set; }
         public int? MinLength { get; set; } 
         public int? MaxLength { get; set; }

@@ -5,12 +5,12 @@ namespace Akov.DataGenerator.Generators
 {
     public class UIntGenerator : GeneratorBase
     {
-        protected override object CreateImpl(Property property, Template template)
+        protected override object CreateImpl(Property property)
         {
             return GetRandom(0, 1000);
         }
 
-        protected override object CreateRangeFailureImpl(Property property, Template template)
+        protected override object CreateRangeFailureImpl(Property property)
         {
             return GetRandom(-100, -1);
         }

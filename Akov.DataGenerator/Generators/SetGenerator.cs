@@ -6,9 +6,9 @@ namespace Akov.DataGenerator.Generators
     {
         private const string DefaultPattern = "00000";
 
-        protected internal override object CreateImpl(Property property, Template template)
+        protected internal override object CreateImpl(Property property)
         {
-            string pattern = template.Pattern ?? DefaultPattern;
+            string pattern = property.Pattern ?? DefaultPattern;
 
             string[] set = pattern.Split(",");
 
@@ -17,7 +17,7 @@ namespace Akov.DataGenerator.Generators
             return set[random];
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property, Template template)
+        protected internal override object CreateRangeFailureImpl(Property property)
         {
             return DefaultPattern;
         }

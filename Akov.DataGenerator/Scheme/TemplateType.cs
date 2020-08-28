@@ -1,12 +1,5 @@
 ﻿namespace Akov.DataGenerator.Scheme
 {
-    public class Template
-    {
-        public string? Type { get; set; }
-        public string? Name { get; set; }
-        public string? Pattern { get; set; }
-    }
-
     public class TemplateType
     {
         public const string String = "string";

@@ -17,9 +17,7 @@ namespace Akov.DataGenerator.Processors
         public DataProcessor(DataScheme scheme, IGeneratorFactory generatorFactory)
         {
             scheme.ThrowIfNull(nameof(scheme));
-            scheme.Templates.ThrowIfNullOrEmpty(nameof(scheme.Templates));
             scheme.Root.ThrowIfNull(nameof(scheme.Root));
-            scheme.Root!.Template.ThrowIfNull("Root template name");
             scheme.Definitions.ThrowIfNullOrEmpty(nameof(scheme.Definitions));
 
             Scheme = scheme;
@@ -28,10 +26,8 @@ namespace Akov.DataGenerator.Processors
 
         public ValueObject CreateData()
         {
-            Template template = Scheme.GetTemplate(Scheme.Root!.Template!);
-            template.Pattern.ThrowIfNull($"Template {template.Name} should have a pattern");
-            Definition definition = Scheme.GetDefinition(template.Pattern!);
-            return new ValueObject(Scheme.Root!.Name, CreateProperties(definition.Properties!));
+            Definition definition = Scheme.GetDefinition(Scheme.Root!);
+            return new ValueObject(null, CreateProperties(definition.Properties!));
         }
 
         internal List<ValueObject> CreateProperties(List<Property> properties)
@@ -41,52 +37,51 @@ namespace Akov.DataGenerator.Processors
 
         internal ValueObject CreateProperty(Property property)
         {
-            property.Template.ThrowIfNull($"Property {property.Name} does not have a template");
+            property.Name.ThrowIfNull($"Property does not have a name");
+            property.Type.ThrowIfNull($"Property {property.Name} does not have the type");
 
-            Template template = Scheme.GetTemplate(property.Template!);
-
-            if (template.Type == TemplateType.Object)
+            if (property.Type == TemplateType.Object)
             {
-                return CreateObjectProperty(property, template);
+                return CreateObjectProperty(property);
             }
-            if (template.Type == TemplateType.Array)
+            if (property.Type == TemplateType.Array)
             {
                 int count = property.MaxLength ?? DefaultArrayCount;
 
                 var arrayOfValues = new List<ValueObject>();
                 for (int i = 0; i < count; i++)
-                    arrayOfValues.Add(CreateObjectProperty(property, template));
+                    arrayOfValues.Add(CreateObjectProperty(property));
 
                 return new ValueObject(property.Name, arrayOfValues);
             }
 
-            return CreateValue(property, template);
+            return CreateValue(property);
         }
 
-        internal ValueObject CreateObjectProperty(Property property, Template template)
+        internal ValueObject CreateObjectProperty(Property property)
         {
-            List<ValueObject> values = CreateObjectValues(property, template);
+            List<ValueObject> values = CreateObjectValues(property);
             return new ValueObject(property.Name, values);
         }
 
-        internal List<ValueObject> CreateObjectValues(Property property, Template template)
+        internal List<ValueObject> CreateObjectValues(Property property)
         {
-            if (template.Type != TemplateType.Object && template.Type != TemplateType.Array)
-                throw new AggregateException($"Template type expected " +
+            if (property.Type != TemplateType.Object && property.Type != TemplateType.Array)
+                throw new AggregateException($"Property type expected " +
                                              $"{TemplateType.Object} or {TemplateType.Array}" +
-                                             $"but actual {template.Type}");
+                                             $"but actual {property.Type}");
 
-            template.Pattern.ThrowIfNull($"Template {template.Name} should have a pattern");
+            property.Pattern.ThrowIfNull($"Property {property.Name} does not have a pattern");
 
-            Definition definition = Scheme.GetDefinition(template.Pattern!);
+            Definition definition = Scheme.GetDefinition(property.Pattern!);
 
             return CreateProperties(definition.Properties!);
         }
 
-        internal ValueObject CreateValue(Property property, Template template)
+        internal ValueObject CreateValue(Property property)
         {
-            var generator = GeneratorFactory.Get(template.Type!);
-            object? value = generator.Create(property, template);
+            var generator = GeneratorFactory.Get(property.Type!);
+            object? value = generator.Create(property);
             return new ValueObject(property.Name, value);
         }
     }

@@ -10,24 +10,24 @@ namespace Akov.DataGenerator.Generators
     {
         private static readonly Random Random = new Random();
 
-        public object? Create(Property property, Template template)
+        public object? Create(Property property)
         {
             FailureType failureType = GetFailureType(property.Failure);
             
             return failureType == FailureType.None
-                ? CreateImpl(property, template)
-                : CreateFailureImpl(property, template, failureType);
+                ? CreateImpl(property)
+                : CreateFailureImpl(property, failureType);
         }
 
-        protected internal abstract object CreateImpl(Property property, Template template);
-        protected internal abstract object CreateRangeFailureImpl(Property property, Template template);
+        protected internal abstract object CreateImpl(Property property);
+        protected internal abstract object CreateRangeFailureImpl(Property property);
 
-        protected internal object? CreateFailureImpl(Property property, Template template, FailureType failureType)
+        protected internal object? CreateFailureImpl(Property property, FailureType failureType)
         {
             return failureType switch
             {
                 FailureType.Nullable => null,
-                FailureType.Range => CreateRangeFailureImpl(property, template),
+                FailureType.Range => CreateRangeFailureImpl(property),
                 _ => "@!$%*",
             };
         }

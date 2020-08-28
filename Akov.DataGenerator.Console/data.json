@@ -1,75 +1,18 @@
 ﻿{
-  "templates": [
-    {
-      "type": "object",
-      "name": "root",
-      "pattern": "Root"
-    },
-    {
-      "type": "array",
-      "name": "array_property_template",
-      "pattern": "Property"
-    },
-    {
-      "type": "set",
-      "name": "root_count_value",
-      "pattern": "10"
-    },
-    {
-      "type": "string",
-      "name": "az09",
-      "pattern": "abcdefghijklmnopqrstuvwxyz0123456789"
-    },
-    {
-      "type": "double",
-      "name": "double_two",
-      "pattern": "0.00"
-    },
-    {
-      "type": "set",
-      "name": "code_set",
-      "pattern": "1000,1001,1002,1003,1010,1025,1050,1200"
-    },
-    {
-      "type": "datetime",
-      "name": "datetime1",
-      "pattern": "dd/MM/yy"
-    },
-    {
-      "type": "int",
-      "name": "int1"
-    },
-    {
-      "type": "bool",
-      "name": "bool1"
-    },
-    {
-      "type": "array",
-      "name": "array_attr_template",
-      "pattern": "Attribute"
-    },
-    {
-      "type": "object",
-      "name": "attr_obj_template",
-      "pattern": "Attribute"
-    }
-  ],
-  "root":
-  {
-    "name": null,
-    "template": "root"
-  },
+  "root": "Root",
   "definitions": [
     {
-      "name" : "Root",
-      "properties":[
+      "name": "Root",
+      "properties": [
         {
-          "name":"root",
-          "template": "root_count_value"
+          "name": "root",
+          "type": "set",
+          "pattern": "100"
         },
         {
-          "name":"data",
-          "template": "array_property_template",
+          "name": "data",
+          "type": "array",
+          "pattern": "Property",
           "maxLength": 100
         }
       ]
@@ -79,7 +22,8 @@
       "properties": [
         {
           "name": "name",
-          "template": "az09",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
           "minLength": 5,
           "maxLength": 20,
           "minSpaceCount": 1,
@@ -92,14 +36,16 @@
         },
         {
           "name": "code",
-          "template": "code_set",
+          "type": "set",
+          "pattern": "1000,1001,1002,1003,1010,1025,1050,1200",
           "failure": {
             "nullable": 0.1
           }
         },
         {
           "name": "updated",
-          "template": "datetime1",
+          "type": "datetime",
+          "pattern": "dd/MM/yy",
           "minValue": "20/10/19",
           "maxValue": "01/01/20",
           "failure": {
@@ -110,28 +56,32 @@
         },
         {
           "name": "attrs",
-          "template": "array_attr_template",
+          "type": "array",
+          "pattern": "Attribute",
           "maxLength": 3
         },
         {
           "name": "attribute",
-          "template": "attr_obj_template"
+          "type": "object",
+          "pattern": "Attribute"
         }
       ]
     },
-   {
+    {
       "name": "Attribute",
       "properties": [
         {
           "name": "description",
-          "template": "az09",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
           "minLength": 5,
           "maxLength": 20,
           "failure": {}
         },
         {
           "name": "price",
-          "template": "double_two",
+          "type": "double",
+          "pattern": "0.00",
           "minValue": 0.0,
           "maxValue": 125.0,
           "failure": {
@@ -142,7 +92,7 @@
         },
         {
           "name": "count",
-          "template": "int1",
+          "type": "int",
           "minValue": 1,
           "maxValue": 10,
           "failure": {
@@ -153,7 +103,7 @@
         },
         {
           "name": "isActive",
-          "template": "bool1",
+          "type": "bool",
           "failure": {
             "nullable": 0.05,
             "format": 0.1,

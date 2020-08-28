@@ -10,9 +10,9 @@ namespace Akov.DataGenerator.Generators
         private readonly DateTime _minDefault = DateTime.Today.AddYears(-1);
         private readonly DateTime _maxDefault = DateTime.Today;
 
-        protected internal override object CreateImpl(Property property, Template template)
+        protected internal override object CreateImpl(Property property)
         {
-            string format = template.Pattern ?? DefaultDateFormat;
+            string format = property.Pattern ?? DefaultDateFormat;
 
             DateTime min = property.MinValue is null 
                 ? _minDefault 
@@ -31,9 +31,9 @@ namespace Akov.DataGenerator.Generators
             return value.ToString(format, CultureInfo.InvariantCulture);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property, Template template)
+        protected internal override object CreateRangeFailureImpl(Property property)
         {
-            string format = template.Pattern ?? DefaultDateFormat;
+            string format = property.Pattern ?? DefaultDateFormat;
 
             DateTime min = property.MinValue is null
                 ? _minDefault

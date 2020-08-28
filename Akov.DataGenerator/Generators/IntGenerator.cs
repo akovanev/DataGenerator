@@ -7,7 +7,7 @@ namespace Akov.DataGenerator.Generators
         private const long MinDefault = 0;
         private const long MaxDefault = 100;
 
-        protected internal override object CreateImpl(Property property, Template template)
+        protected internal override object CreateImpl(Property property)
         {
             long min = (long?)property.MinValue ?? MinDefault;
             long max = (long?)property.MaxValue ?? MaxDefault;
@@ -15,7 +15,7 @@ namespace Akov.DataGenerator.Generators
             return GetRandom((int)min, (int)max);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property, Template template)
+        protected internal override object CreateRangeFailureImpl(Property property)
         {
             long min = (long?)property.MinValue ?? MinDefault;
             long max = (long?)property.MaxValue ?? MaxDefault;

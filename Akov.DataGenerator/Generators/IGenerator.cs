@@ -4,6 +4,6 @@ namespace Akov.DataGenerator.Generators
 {
     public interface IGenerator
     {
-        public object? Create(Property property, Template template);
+        public object? Create(Property property);
     }
 }
