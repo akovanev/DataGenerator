@@ -1,4 +1,6 @@
 ﻿using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
@@ -6,18 +8,19 @@ namespace Akov.DataGenerator.Generators
     {
         private const string DefaultPattern = "00000";
 
-        protected internal override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
+            Property property = propertyObject.Property;
             string pattern = property.Pattern ?? DefaultPattern;
 
             string[] set = pattern.Split(",");
 
-            int random = GetRandom(0, set.Length - 1);
+            int random = GetRandomInstance(propertyObject).GetInt(0, set.Length - 1);
 
             return set[random];
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
             return DefaultPattern;
         }

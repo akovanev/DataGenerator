@@ -3,8 +3,8 @@
     public enum FailureType
     {
         None,
+        Custom,
         Nullable,
-        Format,
         Range
     }
 }

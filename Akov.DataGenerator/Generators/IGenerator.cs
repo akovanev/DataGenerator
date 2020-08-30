@@ -1,9 +1,9 @@
-﻿using Akov.DataGenerator.Scheme;
+﻿using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
 {
     public interface IGenerator
     {
-        public object? Create(Property property);
+        public object? Create(PropertyObject propertyObject);
     }
 }

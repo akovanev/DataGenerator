@@ -1,28 +1,23 @@
 ﻿using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
 {
-    public class IntGenerator : GeneratorBase
+    public class IntGenerator : NumberGenerator
     {
-        private const long MinDefault = 0;
-        private const long MaxDefault = 100;
+        private const double MinDefault = 0;
+        private const double MaxDefault = 100;
 
-        protected internal override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
-            long min = (long?)property.MinValue ?? MinDefault;
-            long max = (long?)property.MaxValue ?? MaxDefault;
-
-            return GetRandom((int)min, (int)max);
+            double value = CreateValue(propertyObject, MinDefault, MaxDefault);
+            return (int) value;
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
-            long min = (long?)property.MinValue ?? MinDefault;
-            long max = (long?)property.MaxValue ?? MaxDefault;
-
-            return GetRandom(0, 1) == 0
-                ? GetRandom(-2 * (int)min, (int)min - 1)
-                : GetRandom((int)max + 1, (int)max * 2);
+            double value = CreateRangeFailureValue(propertyObject, MinDefault, MaxDefault);
+            return (int) value;
         }
     }
 }

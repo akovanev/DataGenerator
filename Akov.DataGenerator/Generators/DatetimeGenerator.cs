@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
@@ -10,8 +12,33 @@ namespace Akov.DataGenerator.Generators
         private readonly DateTime _minDefault = DateTime.Today.AddYears(-1);
         private readonly DateTime _maxDefault = DateTime.Today;
 
-        protected internal override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
+            Func<DateTime, int, DateTime> getDateTime = (min, days) =>
+            {
+                int random = GetRandomInstance(propertyObject).GetInt(0, days);
+                return min.AddDays(random);
+            };
+
+            return CreateImpl(propertyObject, getDateTime);
+        }
+
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
+        {
+            Func<DateTime, int, DateTime> getDateTime = (min, days) =>
+            {
+                int random = GetRandomChoiceInstance().GetInt(0, days);
+                return random < days / 2
+                    ? min.AddDays(-random - 1)
+                    : min.AddDays(days + 1 + random);
+            };
+
+            return CreateImpl(propertyObject, getDateTime);
+        }
+
+        private object CreateImpl(PropertyObject propertyObject, Func<DateTime, int, DateTime> getDateTime)
+        {
+            Property property = propertyObject.Property;
             string format = property.Pattern ?? DefaultDateFormat;
 
             DateTime min = property.MinValue is null 
@@ -24,28 +51,7 @@ namespace Akov.DataGenerator.Generators
 
             int days = (max - min).Days;
 
-            int random = GetRandom(0, days);
-
-            DateTime value = min.AddDays(random);
-
-            return value.ToString(format, CultureInfo.InvariantCulture);
-        }
-
-        protected internal override object CreateRangeFailureImpl(Property property)
-        {
-            string format = property.Pattern ?? DefaultDateFormat;
-
-            DateTime min = property.MinValue is null
-                ? _minDefault
-                : DateTime.ParseExact((string)property.MinValue, format, CultureInfo.InvariantCulture);
-
-            DateTime max = property.MaxValue is null
-                ? _maxDefault
-                : DateTime.ParseExact((string)property.MaxValue, format, CultureInfo.InvariantCulture);
-
-            DateTime value = GetRandom(0, 1) == 0
-                ? min.AddDays(- GetRandom(1, 100))
-                : max.AddDays(GetRandom(1, 100));
+            DateTime value = getDateTime(min, days);
 
             return value.ToString(format, CultureInfo.InvariantCulture);
         }

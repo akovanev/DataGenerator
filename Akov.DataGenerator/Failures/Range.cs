@@ -2,16 +2,16 @@
 {
     internal class Range
     {
-        internal Range(double min, double max)
+        public Range(double min, double max)
         {
             Min = min;
             Max = max;
         }
 
-        internal double Min { get; }
-        internal double Max { get; }
+        public double Min { get; }
+        public double Max { get; }
 
-        internal bool In(double value)
+        public bool In(double value)
         {
             return Min <= value && value < Max;
         }

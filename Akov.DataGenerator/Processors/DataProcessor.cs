@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Scheme;
 
@@ -9,10 +10,9 @@ namespace Akov.DataGenerator.Processors
 {
     public class DataProcessor : IDataPcocessor
     {
-        protected const int DefaultArrayCount = 10;
-
-        protected readonly DataScheme Scheme;
-        protected readonly IGeneratorFactory GeneratorFactory;
+        private const int DefaultArrayCount = 10;
+        private readonly DataScheme _scheme;
+        private readonly IGeneratorFactory _generatorFactory;
 
         public DataProcessor(DataScheme scheme, IGeneratorFactory generatorFactory)
         {
@@ -20,69 +20,88 @@ namespace Akov.DataGenerator.Processors
             scheme.Root.ThrowIfNull(nameof(scheme.Root));
             scheme.Definitions.ThrowIfNullOrEmpty(nameof(scheme.Definitions));
 
-            Scheme = scheme;
-            GeneratorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
+            _scheme = scheme;
+            _generatorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
         }
 
-        public ValueObject CreateData()
+        public NameValueObject CreateData()
         {
-            Definition definition = Scheme.GetDefinition(Scheme.Root!);
-            return new ValueObject(null, CreateProperties(definition.Properties!));
+            Definition definition = _scheme.GetDefinition(_scheme.Root!);
+            return new NameValueObject(null, CreateFromDefinition(definition));
         }
 
-        internal List<ValueObject> CreateProperties(List<Property> properties)
+        private List<NameValueObject> CreateFromDefinition(Definition definition)
         {
-            return properties.Select(CreateProperty).ToList();
+            return definition.Properties
+                .Select(p => CreateFromDefinitionProperty(definition.Name!, p))
+                .ToList();
         }
 
-        internal ValueObject CreateProperty(Property property)
+        private NameValueObject CreateFromDefinitionProperty(string definitionName, Property property)
         {
             property.Name.ThrowIfNull($"Property does not have a name");
             property.Type.ThrowIfNull($"Property {property.Name} does not have the type");
 
-            if (property.Type == TemplateType.Object)
-            {
-                return CreateObjectProperty(property);
-            }
-            if (property.Type == TemplateType.Array)
-            {
-                int count = property.MaxLength ?? DefaultArrayCount;
+            PropertyObject propertyObject = CreatePropertyObject(definitionName, property);
+            return CreateFromPropertyObject(propertyObject);
+        }
 
-                var arrayOfValues = new List<ValueObject>();
+        private NameValueObject CreateFromPropertyObject(PropertyObject propertyObject)
+        {
+            if (propertyObject.Property.Type == TemplateType.Object)
+            {
+                return CreateFromObjectTemplate(propertyObject);
+            }
+            if (propertyObject.Property.Type == TemplateType.Array)
+            {
+                int count = propertyObject.Property.MaxLength ?? DefaultArrayCount;
+
+                var arrayOfValues = new List<NameValueObject>();
                 for (int i = 0; i < count; i++)
-                    arrayOfValues.Add(CreateObjectProperty(property));
+                    arrayOfValues.Add(CreateFromObjectTemplate(propertyObject));
 
-                return new ValueObject(property.Name, arrayOfValues);
+                return new NameValueObject(propertyObject.Property.Name, arrayOfValues);
             }
 
-            return CreateValue(property);
+            return CreateValue(propertyObject);
         }
 
-        internal ValueObject CreateObjectProperty(Property property)
+        private NameValueObject CreateFromObjectTemplate(PropertyObject propertyObject)
         {
-            List<ValueObject> values = CreateObjectValues(property);
-            return new ValueObject(property.Name, values);
+            List<NameValueObject> values = CreateValues(propertyObject);
+            return new NameValueObject(propertyObject.Property.Name, values);
         }
 
-        internal List<ValueObject> CreateObjectValues(Property property)
+        private List<NameValueObject> CreateValues(PropertyObject propertyObject)
         {
-            if (property.Type != TemplateType.Object && property.Type != TemplateType.Array)
+            if (propertyObject.Property.Type != TemplateType.Object && 
+                propertyObject.Property.Type != TemplateType.Array)
                 throw new AggregateException($"Property type expected " +
                                              $"{TemplateType.Object} or {TemplateType.Array}" +
-                                             $"but actual {property.Type}");
+                                             $"but actual {propertyObject.Property.Type}");
 
-            property.Pattern.ThrowIfNull($"Property {property.Name} does not have a pattern");
+            propertyObject.Property.Pattern
+                .ThrowIfNull($"Property {propertyObject.Property.Name} does not have a pattern");
 
-            Definition definition = Scheme.GetDefinition(property.Pattern!);
-
-            return CreateProperties(definition.Properties!);
+            Definition definition = _scheme.GetDefinition(propertyObject.Property.Pattern!);
+            return CreateFromDefinition(definition);
         }
 
-        internal ValueObject CreateValue(Property property)
+        private NameValueObject CreateValue(PropertyObject propertyObject)
         {
-            var generator = GeneratorFactory.Get(property.Type!);
-            object? value = generator.Create(property);
-            return new ValueObject(property.Name, value);
+            var generator = _generatorFactory.Get(propertyObject.Property.Type!);
+            object? value = generator.Create(propertyObject);
+            return new NameValueObject(propertyObject.Property.Name, value);
+        }
+
+        private PropertyObject CreatePropertyObject(string definitionName, Property property)
+        {
+            if(property.Type == TemplateType.File)
+            {
+                return null!;
+            }
+
+            return new PropertyObject(definitionName, property);
         }
     }
 }

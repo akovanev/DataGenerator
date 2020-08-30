@@ -10,5 +10,7 @@
         public const string DateTime = "datetime";
         public const string Array = "array";
         public const string Object = "object";
+        public const string File = "file";
+        //public const string Guid = "guid";
     }
 }

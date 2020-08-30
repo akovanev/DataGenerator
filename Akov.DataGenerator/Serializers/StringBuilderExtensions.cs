@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Serializers
 {
@@ -29,16 +29,16 @@ namespace Akov.DataGenerator.Serializers
             builder.Append(InsertEnd("]", isLastItem));
         }
 
-        internal static void AppendProperty(this StringBuilder builder, ValueObject value, bool isLastItem)
+        internal static void AppendProperty(this StringBuilder builder, NameValueObject value, bool isLastItem)
         {
             string name = value.Name ?? "prop";
             builder.Append($"\"{name}\":");
 
-            if (value.Value is List<ValueObject>)
+            if (value.Value is List<NameValueObject>)
                 builder.Append("[]");
-            else if (value.Value is ValueObject)
+            else if (value.Value is NameValueObject)
                 builder.Append("{}");
-            else builder.Append(value.Value is null || value.Value is List<ValueObject>
+            else builder.Append(value.Value is null || value.Value is List<NameValueObject>
                     ? "null"
                     : $"\"{value.Value}\"");
 

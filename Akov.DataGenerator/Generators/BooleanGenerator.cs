@@ -1,18 +1,21 @@
 ﻿using System;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
     public class BooleanGenerator : GeneratorBase
     {
-        protected internal override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
-            return Convert.ToBoolean(GetRandom(0,1));
+            return Convert.ToBoolean(
+                GetRandomInstance(propertyObject).GetInt(0,1));
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
-            return GetRandom(0, 1);
+            return GetRandomChoiceInstance().GetInt(0, 1);
         }
     }
 }

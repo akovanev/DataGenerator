@@ -1,34 +1,25 @@
 ﻿using System.Globalization;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
 {
-    public class DoubleGenerator : GeneratorBase
+    public class DoubleGenerator : NumberGenerator
     {
         private const double MinDefault = 0;
         private const double MaxDefault = 1;
         private const string Pattern = "0.00";
 
-        protected internal override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
-            double min = (double?)property.MinValue ?? MinDefault;
-            double max = (double?)property.MaxValue ?? MaxDefault;
-
-            double value = GetRandomDouble(min, max);
-
-            return value.ToString(property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
+            double value = CreateValue(propertyObject, MinDefault, MaxDefault);
+            return value.ToString(propertyObject.Property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
-            double min = (double?)property.MinValue ?? MinDefault;
-            double max = (double?)property.MaxValue ?? MaxDefault;
-
-            double value = GetRandom(0, 1) == 0
-                ? GetRandomDouble(-2 * min, min - 1)
-                : GetRandomDouble(max + 1, 2 * max);
-
-            return value.ToString(property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
+            double value = CreateRangeFailureValue(propertyObject, MinDefault, MaxDefault);
+            return value.ToString(propertyObject.Property.Pattern ?? Pattern, CultureInfo.InvariantCulture);
         }
     }
 }

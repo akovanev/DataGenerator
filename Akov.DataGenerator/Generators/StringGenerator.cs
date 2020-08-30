@@ -1,5 +1,8 @@
 ﻿using System.Linq;
+using System;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
@@ -11,28 +14,34 @@ namespace Akov.DataGenerator.Generators
         private const int DefaultMinSpaceCount = 0;
         private const int DefaultMaxSpaceCount = 1;
 
-        protected internal override object CreateImpl(Property property)
+        protected  override object CreateImpl(PropertyObject propertyObject)
         {
+            Property property = propertyObject.Property;
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
             int minSpaceCount = property.MinSpaceCount ?? DefaultMinSpaceCount;
             int maxSpaceCount = property.MaxSpaceCount ?? DefaultMaxSpaceCount;
 
-            int length = GetRandom(minLength, maxLength);
-            int spaces = GetRandom(minSpaceCount, maxSpaceCount);
+            Random random = GetRandomInstance(propertyObject);
+            int length = random.GetInt(minLength, maxLength);
+            int spaces = random.GetInt(minSpaceCount, maxSpaceCount);
             string pattern = string.IsNullOrWhiteSpace(property.Pattern)
                 ? DefaultPattern
                 : property.Pattern;
             return CreateString(pattern, length, spaces);
         }
 
-        protected internal override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
+            Property property = propertyObject.Property;
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
-            int length = GetRandom(0, 1) == 0
-                ? GetRandom(0, minLength - 1)
-                : GetRandom(maxLength + 1, maxLength * 2);
+            
+            Random random = GetRandomChoiceInstance();
+
+            int length = random.GetInt(0, 1) == 0
+                ? random.GetInt(0, minLength - 1)
+                : random.GetInt(maxLength + 1, maxLength * 2);
 
             string pattern = string.IsNullOrWhiteSpace(property.Pattern)
                 ? DefaultPattern
@@ -41,10 +50,11 @@ namespace Akov.DataGenerator.Generators
             return CreateString(pattern, length, DefaultMinSpaceCount);
         }
 
-        internal string CreateString(string pattern, int length, int spaces)
+        private string CreateString(string pattern, int length, int spaces)
         {
-            int[] patternIndexes = GetRandomSequence(pattern.Length - 1, length);
-            int[] spaceIndexes = GetRandomSequence(length - 1, spaces);
+            Random random = GetRandomChoiceInstance(); //todo: should be improved
+            int[] patternIndexes = random.GetSequence(pattern.Length - 1, length);
+            int[] spaceIndexes = random.GetSequence(length - 1, spaces);
 
             char[] value = new char[length];
             

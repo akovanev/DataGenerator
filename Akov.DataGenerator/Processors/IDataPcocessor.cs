@@ -1,9 +1,9 @@
-﻿using Akov.DataGenerator.Common;
+﻿using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Processors
 {
     public interface IDataPcocessor
     {
-        ValueObject CreateData();
+        NameValueObject CreateData();
     }
 }

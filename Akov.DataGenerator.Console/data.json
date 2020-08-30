@@ -30,7 +30,7 @@
           "maxSpaceCount": 2,
           "failure": {
             "nullable": 0.1,
-            "format": 0.1,
+            "custom": 0.1,
             "range": 0.05
           }
         },
@@ -50,7 +50,7 @@
           "maxValue": "01/01/20",
           "failure": {
             "nullable": 0.1,
-            "format": 0.2,
+            "custom": 0.2,
             "range": 0.1
           }
         },
@@ -86,7 +86,7 @@
           "maxValue": 125.0,
           "failure": {
             "nullable": 0.15,
-            "format": 0.075,
+            "custom": 0.075,
             "range": 0.05
           }
         },
@@ -97,7 +97,7 @@
           "maxValue": 10,
           "failure": {
             "nullable": 0.05,
-            "format": 0.1,
+            "custom": 0.1,
             "range": 0.1
           }
         },
@@ -106,7 +106,7 @@
           "type": "bool",
           "failure": {
             "nullable": 0.05,
-            "format": 0.1,
+            "custom": 0.1,
             "range": 0.1
           }
         }

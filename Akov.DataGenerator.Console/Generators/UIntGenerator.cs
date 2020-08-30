@@ -1,18 +1,22 @@
 ﻿using System.Collections.Generic;
-using Akov.DataGenerator.Scheme;
+using System;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
-    public class UIntGenerator : GeneratorBase
+    public class UIntGenerator : NumberGenerator
     {
-        protected override object CreateImpl(Property property)
+        protected override object CreateImpl(PropertyObject propertyObject)
         {
-            return GetRandom(0, 1000);
+            Random random = GetRandomInstance(propertyObject);
+            return random.GetInt(0, 1000);
         }
 
-        protected override object CreateRangeFailureImpl(Property property)
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
-            return GetRandom(-100, -1);
+            Random random = GetRandomChoiceInstance();
+            return random.GetInt(-100, -1);
         }
     }
 

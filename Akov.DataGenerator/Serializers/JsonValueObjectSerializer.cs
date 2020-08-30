@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Serializers
 {
     public class JsonValueObjectSerializer
     {
-        public static string Serialize(ValueObject value)
+        public static string Serialize(NameValueObject value)
         {
             var builder = new StringBuilder();
 
-            AppendObject(builder, value.Name, value.Value as List<ValueObject>, true);
+            AppendObject(builder, value.Name, value.Value as List<NameValueObject>, true);
 
             return builder.ToString();
         }
 
-        internal static void AppendObject(StringBuilder builder, string name, List<ValueObject>? properties, bool isLastItem)
+        internal static void AppendObject(StringBuilder builder, string name, List<NameValueObject>? properties, bool isLastItem)
         {
             if(properties is null)
-                throw new NotSupportedException($"Cannot cast {properties} to {nameof(List<ValueObject>)}");
+                throw new NotSupportedException($"Cannot cast {properties} to {nameof(List<NameValueObject>)}");
 
             builder.AppendObjectBegin(name);
 
@@ -32,11 +32,11 @@ namespace Akov.DataGenerator.Serializers
             builder.AppendObjectEnd(isLastItem);
         }
 
-        internal static void AppendProperty(StringBuilder builder, ValueObject value, bool isLastItem)
+        internal static void AppendProperty(StringBuilder builder, NameValueObject value, bool isLastItem)
         {
-            if (value.Value is List<ValueObject> valueObject)
+            if (value.Value is List<NameValueObject> valueObject)
             {
-                ValueObject first = valueObject.FirstOrDefault();
+                NameValueObject first = valueObject.FirstOrDefault();
 
                 if (first is null)
                 {
@@ -44,7 +44,7 @@ namespace Akov.DataGenerator.Serializers
                 }
                 else
                 {
-                    if (first.Value is List<ValueObject>)
+                    if (first.Value is List<NameValueObject>)
                     {
                         AppendArray(builder, value.Name, valueObject, isLastItem);
                     }
@@ -60,13 +60,13 @@ namespace Akov.DataGenerator.Serializers
             }
         }
 
-        internal static void AppendArray(StringBuilder builder, string name, List<ValueObject> valueList, bool isLastItem)
+        internal static void AppendArray(StringBuilder builder, string name, List<NameValueObject> valueList, bool isLastItem)
         {
             builder.AppendArrayBegin(name);
 
             for (int i = 0; i < valueList.Count; i++)
             {
-                AppendObject(builder, "", valueList[i].Value as List<ValueObject>, i == valueList.Count - 1);
+                AppendObject(builder, "", valueList[i].Value as List<NameValueObject>, i == valueList.Count - 1);
             }
 
             builder.AppendArrayEnd(isLastItem);

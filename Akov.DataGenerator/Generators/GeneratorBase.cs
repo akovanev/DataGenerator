@@ -3,59 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Generators
 {
     public abstract class GeneratorBase : IGenerator
     {
-        private static readonly Random Random = new Random();
+        private static readonly RandomFactory _randomFactory = new RandomFactory();
 
-        public object? Create(Property property)
+        public object? Create(PropertyObject propertyObject)
         {
-            FailureType failureType = GetFailureType(property.Failure);
-            
+            FailureType failureType = GetFailureType(propertyObject);
+
             return failureType == FailureType.None
-                ? CreateImpl(property)
-                : CreateFailureImpl(property, failureType);
+                ? CreateImpl(propertyObject)
+                : CreateFailureImpl(propertyObject, failureType);
         }
 
-        protected internal abstract object CreateImpl(Property property);
-        protected internal abstract object CreateRangeFailureImpl(Property property);
+        protected abstract object CreateImpl(PropertyObject propertyObject);
+        protected abstract object CreateRangeFailureImpl(PropertyObject propertyObject);
 
-        protected internal object? CreateFailureImpl(Property property, FailureType failureType)
-        {
+        protected object? CreateFailureImpl(PropertyObject propertyObject, FailureType failureType)
+        {            
             return failureType switch
             {
                 FailureType.Nullable => null,
-                FailureType.Range => CreateRangeFailureImpl(property),
-                _ => "@!$%*",
+                FailureType.Range => CreateRangeFailureImpl(propertyObject),
+                _ => CreateCustomFailureImpl(propertyObject)
             };
         }
 
-        protected internal FailureType GetFailureType(Failure? failure)
+        protected virtual object CreateCustomFailureImpl(PropertyObject propertyObject)
+            => "!Attention: Error Value!";
+
+        protected Random GetRandomInstance(PropertyObject propertyObject)
         {
+            return _randomFactory.GetOrCreate(
+                propertyObject.DefinitionName,
+                propertyObject.Property.Name!,
+                true);
+        }
+
+        protected Random GetRandomChoiceInstance()
+        {
+            return _randomFactory.GetOrCreate(nameof(GetRandomChoiceInstance));
+        }
+
+        private  FailureType GetFailureType(PropertyObject propertyObject)
+        {
+            Failure? failure = propertyObject.Property.Failure;
+
+            if(failure is null) return FailureType.None;
+
             List<FailureObject> failureObjectList = failure.ToFailureObjectList();
 
-            double random = GetRandomDouble(0, 1);
+            Random random = _randomFactory.GetOrCreate(
+                propertyObject.DefinitionName,
+                propertyObject.Property.Name!,
+                false);
 
-            return failureObjectList.GetFailureType(random);
-        }
-
-        protected internal int GetRandom(int min, int max)
-        {
-            return Random.Next(min, max + 1);
-        }
-
-        protected internal double GetRandomDouble(double min, double max)
-        {
-            return min + Random.NextDouble() * (max - min);
-        }
-
-        protected internal int[] GetRandomSequence(int max, int count)
-        {
-            return Enumerable.Range(0, count)
-                .Select(x => Random.Next(max))
-                .ToArray();
+            double value = random.GetDouble(0, 1);
+            return failureObjectList.GetFailureType(value);
         }
     }
 }
