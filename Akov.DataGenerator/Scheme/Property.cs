@@ -17,7 +17,7 @@
     public class Failure
     {
         public double? Nullable { get; set; }
-        public double? Format { get; set; }
+        public double? Custom { get; set; }
         public double? Range { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Akov.DataGenerator.Failures
     {
         public static List<FailureObject> ToFailureObjectList(this Failure? failure)
         {
-            double customProbability = failure?.Format ?? 0;
+            double customProbability = failure?.Custom ?? 0;
             double nullProbability = failure?.Nullable ?? 0;
             double rangeProbability = failure?.Range ?? 0;
 
