@@ -27,7 +27,7 @@ In case of success the result will be stored to <filename.json>.out.json
 `type` the property type. 
 * `string` string.
 * `set` one of the list of values.
-* `file` file of values, separated by commma by default.
+* `file` file of values.
 * `bool` True or False.
 * `int` integer.
 * `double` double.
@@ -38,18 +38,20 @@ In case of success the result will be stored to <filename.json>.out.json
 `pattern` 
 * for `string` defines all possible characters, e.g. "abcdefghABCFEDGH". Spaces will be added additionally.
 * for `set` defines all posiible values separated by comma by default.
-* for `file` specifies the path to an existing file. 
+* for `file` specifies the path to an existing file. The data are separated by comma by default. 
 * for `double` specifies the output format, e.g. "0.00".
 * for `datetime` specifies the output format, e.g. "yyyy-MM-dd".
 * for `array` and `object` points to the definition item name.
+
+`sequenceSeparator` the separator for `set` and within a file. 
 
 `minLength` minimum output data length for `string`.
 
 `maxLength` maximum output data length for `string`, maximum size for `array`.
 
-`minSpaceCount` minimum count of spaces in the string (for `string` only).
+`minSpaceCount` minimum count of spaces in the `string`.
 
-`maxSpaceCount` maximum count of spaces in the string (for `string` only).
+`maxSpaceCount` maximum count of spaces in the `string`.
 
 `minValue` minimum value for `int`, `double` and `datetime`.
 
