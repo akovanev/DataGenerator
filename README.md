@@ -37,7 +37,7 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `pattern` 
 * for `string` defines all possible characters, e.g. "abcdefghABCFEDGH". Spaces will be added additionally.
-* for `set` defines all posiible values separated by comma by default.
+* for `set` defines all possible values separated by comma by default.
 * for `file` specifies the path to an existing file. The data are separated by comma by default. 
 * for `double` specifies the output format, e.g. "0.00".
 * for `datetime` specifies the output format, e.g. "yyyy-MM-dd".
@@ -45,17 +45,17 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `sequenceSeparator` the separator for `set` and within a file. 
 
-`minLength` minimum output data length for `string`.
+`minLength` the minimum output data length for `string`.
 
-`maxLength` maximum output data length for `string`, maximum size for `array`.
+`maxLength` the maximum output data length for `string`, size for `array`.
 
-`minSpaceCount` minimum count of spaces in the `string`.
+`minSpaceCount` the minimum count of spaces in the `string`.
 
-`maxSpaceCount` maximum count of spaces in the `string`.
+`maxSpaceCount` the maximum count of spaces in the `string`.
 
-`minValue` minimum value for `int`, `double` and `datetime`.
+`minValue` the minimum value for `int`, `double` and `datetime`.
 
-`maxValue` maximum value for `int`, `double` and `datetime`.
+`maxValue` the maximum value for `int`, `double` and `datetime`.
 
 `failure` stands for inconsitent data appearing with the specified probability. 
 
