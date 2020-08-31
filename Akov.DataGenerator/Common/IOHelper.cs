@@ -8,9 +8,14 @@ namespace Akov.DataGenerator.Common
     {
         public DataScheme GetScheme(string filename)
         {
-            using var reader = new StreamReader(filename);
-            string input = reader.ReadToEnd();
+            string input = GetFileContent(filename);
             return JsonConvert.DeserializeObject<DataScheme>(input);
+        }
+
+        public string GetFileContent(string filename)
+        {
+            using var reader = new StreamReader(filename);
+            return reader.ReadToEnd();
         }
 
         public void SaveData(string filename, string data)

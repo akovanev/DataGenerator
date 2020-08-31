@@ -13,6 +13,7 @@ namespace Akov.DataGenerator.Processors
         private const int DefaultArrayCount = 10;
         private readonly DataScheme _scheme;
         private readonly IGeneratorFactory _generatorFactory;
+        private readonly IOHelper _ioHelper;
 
         public DataProcessor(DataScheme scheme, IGeneratorFactory generatorFactory)
         {
@@ -22,6 +23,7 @@ namespace Akov.DataGenerator.Processors
 
             _scheme = scheme;
             _generatorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
+            _ioHelper = new IOHelper();
         }
 
         public NameValueObject CreateData()
@@ -98,7 +100,9 @@ namespace Akov.DataGenerator.Processors
         {
             if(property.Type == TemplateType.File)
             {
-                return null!;
+                property.Pattern.ThrowIfNull($"Property {property.Name} does not have a pattern");
+                string fileContent = _ioHelper.GetFileContent(property.Pattern!);
+                return new PropertyObject(definitionName, property, fileContent);
             }
 
             return new PropertyObject(definitionName, property);

@@ -11,9 +11,14 @@ namespace Akov.DataGenerator.Generators
         protected override object CreateImpl(PropertyObject propertyObject)
         {
             Property property = propertyObject.Property;
-            string pattern = property.Pattern ?? DefaultPattern;
+            
+            string? pattern = property.Type! == TemplateType.File
+                ? propertyObject.PredefinedValues 
+                : property.Pattern;
+            
+            pattern ??= DefaultPattern;
 
-            string[] set = pattern.Split(",");
+            string[] set = pattern.Split(property.SequenceSeparator ?? ",");
 
             int random = GetRandomInstance(propertyObject).GetInt(0, set.Length - 1);
 

@@ -44,6 +44,15 @@
           }
         },
         {
+          "name": "code2",
+          "type": "file",
+          "pattern": "set.txt",
+          "sequenceSeparator": ", ",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
           "name": "updated",
           "type": "datetime",
           "pattern": "dd/MM/yy",

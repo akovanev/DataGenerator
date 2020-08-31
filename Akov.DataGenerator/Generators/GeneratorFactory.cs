@@ -20,6 +20,7 @@ namespace Akov.DataGenerator.Generators
             {
                 {TemplateType.String, new StringGenerator()},
                 {TemplateType.Set, new SetGenerator()},
+                {TemplateType.File, new SetGenerator()},
                 {TemplateType.Bool, new BooleanGenerator()},
                 {TemplateType.Int, new IntGenerator()},
                 {TemplateType.Double, new DoubleGenerator()},

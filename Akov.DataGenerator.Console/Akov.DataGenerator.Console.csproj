@@ -29,6 +29,9 @@
     <None Update="data1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+     <None Update="set.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
