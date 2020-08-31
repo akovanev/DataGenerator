@@ -53,6 +53,14 @@
           }
         },
         {
+          "name": "id",
+          "type": "guid",
+          "pattern": "B",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
           "name": "updated",
           "type": "datetime",
           "pattern": "dd/MM/yy",

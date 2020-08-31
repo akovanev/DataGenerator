@@ -1,5 +1,4 @@
-﻿using Akov.DataGenerator.Scheme;
-using Akov.DataGenerator.Models;
+﻿using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
 {

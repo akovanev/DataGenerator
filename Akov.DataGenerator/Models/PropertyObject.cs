@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Models
