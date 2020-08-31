@@ -26,10 +26,13 @@
     <None Update="data.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="data1.json">
+    <None Update="firstnames.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-     <None Update="set.txt">
+    <None Update="lastnames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Products.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

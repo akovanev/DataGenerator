@@ -10,48 +10,16 @@
           "pattern": "100"
         },
         {
-          "name": "data",
+          "name": "students",
           "type": "array",
-          "pattern": "Property",
+          "pattern": "Student",
           "maxLength": 100
         }
       ]
     },
     {
-      "name": "Property",
+      "name": "Student",
       "properties": [
-        {
-          "name": "name",
-          "type": "string",
-          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
-          "minLength": 5,
-          "maxLength": 20,
-          "minSpaceCount": 1,
-          "maxSpaceCount": 2,
-          "failure": {
-            "nullable": 0.1,
-            "custom": 0.1,
-            "range": 0.05
-          },
-          "customFailure": "###01234"
-        },
-        {
-          "name": "code",
-          "type": "set",
-          "pattern": "1000,1001,1002,1003,1010,1025,1050,1200",
-          "failure": {
-            "nullable": 0.1
-          }
-        },
-        {
-          "name": "code2",
-          "type": "file",
-          "pattern": "set.txt",
-          "sequenceSeparator": ", ",
-          "failure": {
-            "nullable": 0.1
-          }
-        },
         {
           "name": "id",
           "type": "guid",
@@ -61,7 +29,52 @@
           }
         },
         {
-          "name": "updated",
+          "name": "firstname",
+          "type": "file",
+          "pattern": "firstnames.txt",
+          "sequenceSeparator": ",",
+          "failure": {
+            "nullable": 0.075
+          }
+        },
+        {
+          "name": "lastname",
+          "type": "file",
+          "pattern": "lastnames.txt",
+          "sequenceSeparator": ",",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
+          "name": "fullname",
+          "type": "calc"
+        },
+        {
+          "name": "test_variant",
+          "type": "set",
+          "pattern": "A,B,C,D,E,F,G,H",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
+          "name": "encoded_solution",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
+          "minLength": 15,
+          "maxLength": 50,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 3,
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.1,
+            "range": 0.05
+          },
+          "customFailure": "####-####-####"
+        },
+        {
+          "name": "last_updated",
           "type": "datetime",
           "pattern": "dd/MM/yy",
           "minValue": "20/10/19",
@@ -73,43 +86,31 @@
           }
         },
         {
-          "name": "attrs",
+          "name": "subjects",
           "type": "array",
-          "pattern": "Attribute",
-          "maxLength": 3
+          "pattern": "Subject",
+          "maxLength": 4
         },
         {
-          "name": "attribute",
+          "name": "next_subject",
           "type": "object",
-          "pattern": "Attribute"
+          "pattern": "Subject"
         }
       ]
     },
     {
-      "name": "Attribute",
+      "name": "Subject",
       "properties": [
         {
-          "name": "description",
+          "name": "encoded_description",
           "type": "string",
           "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
-          "minLength": 5,
-          "maxLength": 20,
+          "minLength": 10,
+          "maxLength": 10,
           "failure": {}
         },
         {
-          "name": "price",
-          "type": "double",
-          "pattern": "0.00",
-          "minValue": 0.0,
-          "maxValue": 125.0,
-          "failure": {
-            "nullable": 0.15,
-            "custom": 0.075,
-            "range": 0.05
-          }
-        },
-        {
-          "name": "count",
+          "name": "attempts",
           "type": "int",
           "minValue": 1,
           "maxValue": 10,
@@ -120,12 +121,24 @@
           }
         },
         {
-          "name": "isActive",
+          "name": "isPassed",
           "type": "bool",
           "failure": {
             "nullable": 0.05,
             "custom": 0.1,
             "range": 0.1
+          }
+        },
+        {
+          "name": "total_price",
+          "type": "double",
+          "pattern": "0.00",
+          "minValue": 0.0,
+          "maxValue": 125.0,
+          "failure": {
+            "nullable": 0.15,
+            "custom": 0.075,
+            "range": 0.05
           }
         }
       ]

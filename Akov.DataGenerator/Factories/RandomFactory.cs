@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Common
+namespace Akov.DataGenerator.Factories
 {
     internal class RandomFactory
     {

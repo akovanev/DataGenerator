@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Factories;
 using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Scheme;
@@ -13,7 +14,7 @@ namespace Akov.DataGenerator.Processors
         private const int DefaultArrayCount = 10;
         private readonly DataScheme _scheme;
         private readonly IGeneratorFactory _generatorFactory;
-        private readonly IOHelper _ioHelper;
+        private readonly PropertyObjectFactory _propertyObjectFactory;
 
         public DataProcessor(DataScheme scheme, IGeneratorFactory generatorFactory)
         {
@@ -23,7 +24,7 @@ namespace Akov.DataGenerator.Processors
 
             _scheme = scheme;
             _generatorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
-            _ioHelper = new IOHelper();
+            _propertyObjectFactory = new PropertyObjectFactory();
         }
 
         public NameValueObject CreateData()
@@ -34,17 +35,40 @@ namespace Akov.DataGenerator.Processors
 
         private List<NameValueObject> CreateFromDefinition(Definition definition)
         {
-            return definition.Properties
+            definition.Properties!.ThrowIfAnyGeneralError();
+
+            List<Property> properties = definition.Properties
+                .Where(p => p.Type != TemplateType.Calc)
+                .ToList();
+
+            List<Property> calcProperties = definition.Properties
+                .Except(properties)
+                .ToList();
+
+            List<NameValueObject> values = properties
                 .Select(p => CreateFromDefinitionProperty(definition.Name!, p))
                 .ToList();
+
+            values.AddRange(calcProperties
+                .Select(p => CreateFromCalculatedProperty(definition.Name!, p, values))
+                .ToList());
+
+            var propertiesByOrder = definition.Properties!.Select(p => p.Name!).ToList();
+            return values.OrderBy(v => propertiesByOrder.IndexOf(v.Name)).ToList();
         }
 
         private NameValueObject CreateFromDefinitionProperty(string definitionName, Property property)
         {
-            property.Name.ThrowIfNull($"Property does not have a name");
-            property.Type.ThrowIfNull($"Property {property.Name} does not have the type");
+            PropertyObject propertyObject = _propertyObjectFactory.CreatePropertyObject(definitionName, property);
+            return CreateFromPropertyObject(propertyObject);
+        }
 
-            PropertyObject propertyObject = CreatePropertyObject(definitionName, property);
+        private NameValueObject CreateFromCalculatedProperty(
+            string definitionName, Property property, List<NameValueObject> values)
+        {
+            CalcPropertyObject propertyObject = 
+                _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
+
             return CreateFromPropertyObject(propertyObject);
         }
 
@@ -94,18 +118,6 @@ namespace Akov.DataGenerator.Processors
             var generator = _generatorFactory.Get(propertyObject.Property.Type!);
             object? value = generator.Create(propertyObject);
             return new NameValueObject(propertyObject.Property.Name, value);
-        }
-
-        private PropertyObject CreatePropertyObject(string definitionName, Property property)
-        {
-            if(property.Type == TemplateType.File)
-            {
-                property.Pattern.ThrowIfNull($"Property {property.Name} does not have a pattern");
-                string fileContent = _ioHelper.GetFileContent(property.Pattern!);
-                return new PropertyObject(definitionName, property, fileContent);
-            }
-
-            return new PropertyObject(definitionName, property);
         }
     }
 }

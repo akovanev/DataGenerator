@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Common;
 
@@ -17,16 +16,6 @@ namespace Akov.DataGenerator.Generators
         {
             Random random = GetRandomInstance(propertyObject, nameof(CreateRangeFailureImpl));
             return random.GetInt(-100, -1);
-        }
-    }
-
-    public class ExtendedGeneratorFactory : GeneratorFactory
-    {
-        public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
-        {
-            Dictionary<string, GeneratorBase> generators = base.GetGeneratorDictionary();
-            generators.Add("uint", new UIntGenerator());
-            return generators;
         }
     }
 }

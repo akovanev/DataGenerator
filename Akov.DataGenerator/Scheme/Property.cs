@@ -1,4 +1,7 @@
-﻿namespace Akov.DataGenerator.Scheme
+﻿using System.Collections.Generic;
+using Akov.DataGenerator.Common;
+
+namespace Akov.DataGenerator.Scheme
 {
     public class Property
     {
@@ -21,5 +24,17 @@
         public double? Nullable { get; set; }
         public double? Custom { get; set; }
         public double? Range { get; set; }
+    }
+
+    public static class PropertyExtensions
+    {
+        public static void ThrowIfAnyGeneralError(this IEnumerable<Property> properties)
+        {
+            foreach (var property in properties)
+            {
+                property.Name.ThrowIfNull($"Property does not have a name");
+                property.Type.ThrowIfNull($"Property {property.Name} does not have the type");
+            }
+        }
     }
 }

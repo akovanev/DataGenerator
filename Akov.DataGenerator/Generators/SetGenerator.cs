@@ -13,7 +13,7 @@ namespace Akov.DataGenerator.Generators
             Property property = propertyObject.Property;
             
             string? pattern = property.Type! == TemplateType.File
-                ? propertyObject.PredefinedValues 
+                ? propertyObject.PredefinedValues as string
                 : property.Pattern;
             
             pattern ??= DefaultPattern;

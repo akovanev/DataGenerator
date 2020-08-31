@@ -14,9 +14,9 @@ namespace Akov.DataGenerator
                 return;
             }
 
-var dg = new DG(new ExtendedGeneratorFactory());
+            var dg = new DG(new ExtendedGeneratorFactory());
 
-Console.WriteLine(dg.Execute(args[0]));
+            Console.WriteLine(dg.Execute(args[0]));
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Akov.DataGenerator.Models
 {
     public class PropertyObject
     {
-        public PropertyObject(string definitionName, Property property, string? predefinedValues = null)
+        public PropertyObject(string definitionName, Property property, object? predefinedValues = null)
         {
             DefinitionName = definitionName;
             Property = property;
@@ -13,6 +13,6 @@ namespace Akov.DataGenerator.Models
 
         public string DefinitionName { get; }
         public Property Property { get; }
-        public string? PredefinedValues { get; }
+        public object? PredefinedValues { get; }
     }
 }

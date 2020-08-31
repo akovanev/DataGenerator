@@ -12,6 +12,6 @@
         public const string Array = "array";
         public const string Object = "object";
         public const string File = "file";
-        //public const string Calc = "calc";
+        public const string Calc = "calc";
     }
 }
