@@ -1,0 +1,33 @@
+﻿using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Common;
+
+namespace Akov.DataGenerator.Generators
+{
+    public class SetGenerator : GeneratorBase
+    {
+        private const string DefaultPattern = "00000";
+
+        protected override object CreateImpl(PropertyObject propertyObject)
+        {
+            Property property = propertyObject.Property;
+            
+            string? pattern = property.Type! == TemplateType.File
+                ? propertyObject.PredefinedValues as string
+                : property.Pattern;
+            
+            pattern ??= DefaultPattern;
+
+            string[] set = pattern.Split(property.SequenceSeparator ?? ",");
+
+            int random = GetRandomInstance(propertyObject).GetInt(0, set.Length - 1);
+
+            return set[random];
+        }
+
+        protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
+        {
+            return DefaultPattern;
+        }
+    }
+}

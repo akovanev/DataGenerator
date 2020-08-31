@@ -1,0 +1,87 @@
+﻿{
+  "root": "Root",
+  "definitions": [
+    {
+      "name": "Root",
+      "properties": [
+        {
+          "name": "count",
+          "type": "set",
+          "pattern": "100"
+        },
+        {
+          "name": "products",
+          "type": "array",
+          "pattern": "Product",
+          "maxLength": 100
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "name",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
+          "minLength": 10,
+          "maxLength": 20,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 2,
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.1,
+            "range": 0.05
+          }
+        },
+        {
+          "name": "lastUpdated",
+          "type": "datetime",
+          "pattern": "dd/MM/yy",
+          "minValue": "20/10/19",
+          "maxValue": "01/01/20",
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.2,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "skus",
+          "type": "array",
+          "pattern": "Sku",
+          "maxLength": 3
+        }
+      ]
+    },
+    {
+      "name": "Sku",
+      "properties": [
+        {
+          "name": "name",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
+          "minLength": 10,
+          "maxLength": 50,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 4,
+          "failure": {
+            "nullable": 0.25
+          }
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "pattern": "0.00",
+          "minValue": 0.0,
+          "maxValue": 1999.99,
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.05,
+            "range": 0.15
+          }
+        }
+      ]
+    }
+  ]
+}

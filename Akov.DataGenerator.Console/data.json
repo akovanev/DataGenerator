@@ -1,0 +1,147 @@
+﻿{
+  "root": "Root",
+  "definitions": [
+    {
+      "name": "Root",
+      "properties": [
+        {
+          "name": "root",
+          "type": "set",
+          "pattern": "100"
+        },
+        {
+          "name": "students",
+          "type": "array",
+          "pattern": "Student",
+          "maxLength": 100
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "properties": [
+        {
+          "name": "id",
+          "type": "guid",
+          "pattern": "B",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
+          "name": "firstname",
+          "type": "file",
+          "pattern": "firstnames.txt",
+          "sequenceSeparator": ",",
+          "failure": {
+            "nullable": 0.075
+          }
+        },
+        {
+          "name": "lastname",
+          "type": "file",
+          "pattern": "lastnames.txt",
+          "sequenceSeparator": ",",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
+          "name": "fullname",
+          "type": "calc"
+        },
+        {
+          "name": "test_variant",
+          "type": "set",
+          "pattern": "A,B,C,D,E,F,G,H",
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
+          "name": "encoded_solution",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
+          "minLength": 15,
+          "maxLength": 50,
+          "minSpaceCount": 1,
+          "maxSpaceCount": 3,
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.1,
+            "range": 0.05
+          },
+          "customFailure": "####-####-####"
+        },
+        {
+          "name": "last_updated",
+          "type": "datetime",
+          "pattern": "dd/MM/yy",
+          "minValue": "20/10/19",
+          "maxValue": "01/01/20",
+          "failure": {
+            "nullable": 0.1,
+            "custom": 0.2,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "subjects",
+          "type": "array",
+          "pattern": "Subject",
+          "maxLength": 4
+        },
+        {
+          "name": "next_subject",
+          "type": "object",
+          "pattern": "Subject"
+        }
+      ]
+    },
+    {
+      "name": "Subject",
+      "properties": [
+        {
+          "name": "encoded_description",
+          "type": "string",
+          "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
+          "minLength": 10,
+          "maxLength": 10,
+          "failure": {}
+        },
+        {
+          "name": "attempts",
+          "type": "int",
+          "minValue": 1,
+          "maxValue": 10,
+          "failure": {
+            "nullable": 0.05,
+            "custom": 0.1,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "isPassed",
+          "type": "bool",
+          "failure": {
+            "nullable": 0.05,
+            "custom": 0.1,
+            "range": 0.1
+          }
+        },
+        {
+          "name": "total_price",
+          "type": "double",
+          "pattern": "0.00",
+          "minValue": 0.0,
+          "maxValue": 125.0,
+          "failure": {
+            "nullable": 0.15,
+            "custom": 0.075,
+            "range": 0.05
+          }
+        }
+      ]
+    }
+  ]
+}
