@@ -25,36 +25,45 @@ In case of success the result will be stored to <filename.json>.out.json
 `name` the property name.
 
 `type` the property type. 
-
 * `string` string.
-* `set` one of the list of values, separated by comma.
+* `set` one of the list of values.
+* `file` file of values, separated by commma by default.
 * `bool` True or False.
 * `int` integer.
 * `double` double.
-* `datetime` datatime
+* `datetime` datatime.
 * `object` object from definition.
 * `array` array from definition.
 
-`pattern` specifies the template for the specific type. E.g. "abcdefgh" for strings, "0.00" for doubles, "yy/MM/dd" for datateime etc. For arrays and objects points to the definition item name.
+`pattern` 
+* for `string` defines all possible characters, e.g. "abcdefghABCFEDGH". Spaces will be added additionally.
+* for `set` defines all posiible values separated by comma by default.
+* for `file` specifies the path to an existing file. 
+* for `double` specifies the output format, e.g. "0.00".
+* for `datetime` specifies the output format, e.g. "yyyy-MM-dd".
+* for `array` and `object` points to the definition item name.
 
-`minLength` minimum output data length (for `string` only).
+`minLength` minimum output data length for `string`.
 
-`maxLength` maximum output data length (for `string` and `array` only).
+`maxLength` maximum output data length for `string`, maximum size for `array`.
 
-`minSpaceCount` minimum count of spaces (for `string` only).
+`minSpaceCount` minimum count of spaces in the string (for `string` only).
 
-`maxSpaceCount` maximum count of spaces (for `string` only).
+`maxSpaceCount` maximum count of spaces in the string (for `string` only).
 
-`minValue` minimum value (for `int`, `double` and `datetime`).
+`minValue` minimum value for `int`, `double` and `datetime`.
 
-`maxValue` maximum value (for `int`, `double` and `datetime`).
+`maxValue` maximum value for `int`, `double` and `datetime`.
 
 `failure` stands for inconsitent data appearing with the specified probability. 
+
 * `nullable` the probability that *null* appears.
 
-* `custom` the probability that the invalid format value appears.
+* `custom` the probability that the invalid value appears.
 
-* `range` the probability that the value will be out of range. For strings it means that the string length will be out of the specified interval.
+* `range` the probability that the value will be out of range. For `string` it currently means that the string length will be out of the specified interval.
+ 
+`customFailure` specifies the value that will appear for the `custom` failure.
 
 ## Example
 
