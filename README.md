@@ -6,7 +6,7 @@
 
 [Custom data generator](https://akovanev.com/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
 
-[Calculated properties with Data generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated paoperties and files as custom data sources.
+[Calculated properties with Data generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
 
 ## Execution
 
