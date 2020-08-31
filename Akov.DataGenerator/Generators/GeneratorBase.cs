@@ -35,7 +35,7 @@ namespace Akov.DataGenerator.Generators
         }
 
         protected virtual object CreateCustomFailureImpl(PropertyObject propertyObject)
-            => "!Attention: Error Value!";
+            => propertyObject.Property.CustomFailure ?? "ERROR!!!";
 
         protected Random GetRandomInstance(PropertyObject propertyObject, string step = nameof(CreateImpl))
         {

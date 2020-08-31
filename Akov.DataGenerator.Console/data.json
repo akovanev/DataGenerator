@@ -32,7 +32,8 @@
             "nullable": 0.1,
             "custom": 0.1,
             "range": 0.05
-          }
+          },
+          "customFailure": "###01234"
         },
         {
           "name": "code",

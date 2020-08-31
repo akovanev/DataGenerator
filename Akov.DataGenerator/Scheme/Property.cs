@@ -12,6 +12,7 @@
         public object? MinValue { get; set; }
         public object? MaxValue { get; set; }
         public Failure? Failure { get; set; }
+        public string? CustomFailure { get; set; }
     }
 
     public class Failure

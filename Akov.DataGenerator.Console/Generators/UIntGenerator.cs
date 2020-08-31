@@ -17,7 +17,7 @@ namespace Akov.DataGenerator.Generators
         {
             Random random = GetRandomInstance(propertyObject, nameof(CreateRangeFailureImpl));
             return random.GetInt(-100, -1);
-        }Í
+        }
     }
 
     public class ExtendedGeneratorFactory : GeneratorFactory
