@@ -30,6 +30,7 @@ In case of success the result will be stored to <filename.json>.out.json
 * `string` string.
 * `set` one of the list of values.
 * `file` file of values.
+* `guid` guid.
 * `bool` True or False.
 * `int` integer.
 * `double` double.
