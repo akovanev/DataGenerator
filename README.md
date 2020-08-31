@@ -52,7 +52,7 @@ In case of success the result will be stored to <filename.json>.out.json
 `failure` stands for inconsitent data appearing with the specified probability. 
 * `nullable` the probability that *null* appears.
 
-* `format` the probability that the invalid value appears.
+* `custom` the probability that the invalid format value appears.
 
 * `range` the probability that the value will be out of range. For strings it means that the string length will be out of the specified interval.
 
