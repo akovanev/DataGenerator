@@ -28,7 +28,7 @@ namespace Akov.DataGenerator.Generators
             string pattern = string.IsNullOrWhiteSpace(property.Pattern)
                 ? DefaultPattern
                 : property.Pattern;
-            return CreateString(pattern, length, spaces);
+            return CreateString(propertyObject, pattern, length, spaces);
         }
 
         protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
@@ -37,9 +37,9 @@ namespace Akov.DataGenerator.Generators
             int minLength = property.MinLength ?? DefaultMinLength;
             int maxLength = property.MaxLength ?? DefaultMaxLength;
             
-            Random random = GetRandomChoiceInstance();
+            Random random = GetRandomInstance(propertyObject, nameof(CreateRangeFailureImpl));
 
-            int length = random.GetInt(0, 1) == 0
+            int length = minLength > 1 && random.GetInt(0, 1) == 0
                 ? random.GetInt(0, minLength - 1)
                 : random.GetInt(maxLength + 1, maxLength * 2);
 
@@ -47,12 +47,12 @@ namespace Akov.DataGenerator.Generators
                 ? DefaultPattern
                 : property.Pattern;
 
-            return CreateString(pattern, length, DefaultMinSpaceCount);
+            return CreateString(propertyObject, pattern, length, DefaultMinSpaceCount);
         }
 
-        private string CreateString(string pattern, int length, int spaces)
+        private string CreateString(PropertyObject propertyObject, string pattern, int length, int spaces)
         {
-            Random random = GetRandomChoiceInstance(); //todo: should be improved
+            Random random = GetRandomInstance(propertyObject, nameof(CreateString));
             int[] patternIndexes = random.GetSequence(pattern.Length - 1, length);
             int[] spaceIndexes = random.GetSequence(length - 1, spaces);
 

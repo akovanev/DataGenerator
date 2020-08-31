@@ -27,7 +27,7 @@ namespace Akov.DataGenerator.Generators
         {
             Func<DateTime, int, DateTime> getDateTime = (min, days) =>
             {
-                int random = GetRandomChoiceInstance().GetInt(0, days);
+                int random = GetRandomInstance(propertyObject, nameof(CreateRangeFailureImpl)).GetInt(0, days);
                 return random < days / 2
                     ? min.AddDays(-random - 1)
                     : min.AddDays(days + 1 + random);

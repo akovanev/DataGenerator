@@ -37,18 +37,13 @@ namespace Akov.DataGenerator.Generators
         protected virtual object CreateCustomFailureImpl(PropertyObject propertyObject)
             => "!Attention: Error Value!";
 
-        protected Random GetRandomInstance(PropertyObject propertyObject)
+        protected Random GetRandomInstance(PropertyObject propertyObject, string step = nameof(CreateImpl))
         {
-            return _randomFactory.GetOrCreate(
+            return _randomFactory.GetOrCreate( 
                 propertyObject.DefinitionName,
                 propertyObject.Property.Name!,
-                true);
-        }
-
-        protected Random GetRandomChoiceInstance()
-        {
-            return _randomFactory.GetOrCreate(nameof(GetRandomChoiceInstance));
-        }
+                step);
+        }   
 
         private  FailureType GetFailureType(PropertyObject propertyObject)
         {
@@ -61,7 +56,7 @@ namespace Akov.DataGenerator.Generators
             Random random = _randomFactory.GetOrCreate(
                 propertyObject.DefinitionName,
                 propertyObject.Property.Name!,
-                false);
+                nameof(failure));
 
             double value = random.GetDouble(0, 1);
             return failureObjectList.GetFailureType(value);

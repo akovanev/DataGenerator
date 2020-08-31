@@ -37,7 +37,8 @@ namespace Akov.DataGenerator.Generators
                 : maxDefault;
 
             double diff = max - min;
-            double random = GetRandomChoiceInstance().GetDouble(0, diff);
+            double random = GetRandomInstance(propertyObject, nameof(CreateRangeFailureValue))
+                .GetDouble(0, diff);
 
             return random < diff / 2
                 ? min - random - 1

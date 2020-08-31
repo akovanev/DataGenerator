@@ -15,7 +15,7 @@ namespace Akov.DataGenerator.Generators
 
         protected override object CreateRangeFailureImpl(PropertyObject propertyObject)
         {
-            return GetRandomChoiceInstance().GetInt(0, 1);
+            return GetRandomInstance(propertyObject, nameof(CreateRangeFailureImpl)).GetInt(0, 1);
         }
     }
 }
