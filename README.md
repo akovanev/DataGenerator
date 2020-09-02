@@ -2,6 +2,7 @@
 
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
+**Important**: versions 1.0 and 1.1 are **not supported**. Version 1.2 contains significant improvements. Please do use it. 
 
 [Data generator](https://akovanev.com/2020/08/26/data-generator/) - a quick introduction.
 
@@ -74,6 +75,5 @@ In case of success the result will be stored to <filename.json>.out.json
 ## Example
 
 [data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Console/data.json)
-
 
 
