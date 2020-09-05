@@ -1,4 +1,4 @@
-﻿namespace Akov.DataGenerator.Failures
+﻿namespace Akov.DataGenerator.Constants
 {
     public enum FailureType
     {

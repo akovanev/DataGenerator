@@ -2,7 +2,7 @@
 using System;
 using Akov.DataGenerator.Scheme;
 using Akov.DataGenerator.Models;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Extensions;
 
 namespace Akov.DataGenerator.Generators
 {

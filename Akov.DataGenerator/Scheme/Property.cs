@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Extensions;
 
 namespace Akov.DataGenerator.Scheme
 {
@@ -7,6 +7,7 @@ namespace Akov.DataGenerator.Scheme
     {
         public string? Type { get; set; }
         public string? Pattern { get; set; }
+        public string? SubTypePattern { get; set; }
         public string? SequenceSeparator { get; set; }
         public string? Name { get; set; }
         public int? MinLength { get; set; } 

@@ -48,6 +48,10 @@ namespace Akov.DataGenerator.Serializers
                     {
                         AppendArray(builder, value.Name, valueObject, isLastItem);
                     }
+                    else if(first.Name == value.Name)
+                    {
+                        AppendArrayOfValues(builder, value.Name, valueObject, isLastItem);
+                    }
                     else
                     {
                         AppendObject(builder, value.Name, valueObject, isLastItem);
@@ -67,6 +71,18 @@ namespace Akov.DataGenerator.Serializers
             for (int i = 0; i < valueList.Count; i++)
             {
                 AppendObject(builder, "", valueList[i].Value as List<NameValueObject>, i == valueList.Count - 1);
+            }
+
+            builder.AppendArrayEnd(isLastItem);
+        }
+
+        internal static void AppendArrayOfValues(StringBuilder builder, string name, List<NameValueObject> valueList, bool isLastItem)
+        {
+            builder.AppendArrayBegin(name);
+
+            for (int i = 0; i < valueList.Count; i++)
+            {
+                builder.AppendPropertyValue(valueList[i].Value,  i == valueList.Count - 1);
             }
 
             builder.AppendArrayEnd(isLastItem);

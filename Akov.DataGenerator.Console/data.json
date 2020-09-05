@@ -59,6 +59,17 @@
           }
         },
         {
+          "name": "test_answers",
+          "type": "array",
+          "pattern": "int",
+          "minValue": 1,
+          "maxValue": 5,
+          "maxLength": 5,
+          "failure": {
+            "nullable": 0.1
+          }
+        },
+        {
           "name": "encoded_solution",
           "type": "string",
           "pattern": "abcdefghijklmnopqrstuvwxyz0123456789",
@@ -131,8 +142,10 @@
         },
         {
           "name": "total_price",
-          "type": "double",
-          "pattern": "0.00",
+          "type": "array",
+          "pattern": "double" ,
+          "subpattern": "0.00",
+          "maxlength": 2, 
           "minValue": 0.0,
           "maxValue": 125.0,
           "failure": {

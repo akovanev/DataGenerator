@@ -1,4 +1,4 @@
-﻿namespace Akov.DataGenerator.Scheme
+﻿namespace Akov.DataGenerator.Constants
 {
     public class TemplateType
     {
