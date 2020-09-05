@@ -22,11 +22,11 @@ namespace Akov.DataGenerator
 
                 DataScheme scheme2 = dg.GetFromType<RootDto>();
                 string jsonData2 = dg.GenerateJson(scheme2);
-                dg.SaveToFile("data2.out.json", jsonData1);
+                dg.SaveToFile("data2.out.json", jsonData2);
 
             }
             catch (Exception e)
-            {
+            { 
                 Console.WriteLine(e.Message);
             }
         }

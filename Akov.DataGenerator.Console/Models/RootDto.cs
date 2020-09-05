@@ -24,7 +24,7 @@ namespace Akov.DataGenerator.Models
         [DgFailure(NullProbability = 0.1)]
         public string? LastName { get; set; }
 
-        [DgIgnore] //supposed to be calculated
+        [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
 
         [DgName("test_variant")]

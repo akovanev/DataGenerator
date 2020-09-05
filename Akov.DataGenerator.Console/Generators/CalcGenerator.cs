@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
@@ -7,19 +8,21 @@ namespace Akov.DataGenerator.Generators
     {
         protected override object CreateImpl(CalcPropertyObject propertyObject)
         {
-            if (propertyObject.DefinitionName == "Student" && propertyObject.Property.Name == "fullname")
+            if (string.Equals(propertyObject.Property.Name, "fullname", StringComparison.OrdinalIgnoreCase))
             {
-                var val1 = propertyObject.Values.Single(v => v.Name == "firstname");
-                var val2 = propertyObject.Values.Single(v => v.Name == "lastname");
+                var val1 = propertyObject.Values
+                    .Single(v => String.Equals(v.Name, "firstname", StringComparison.OrdinalIgnoreCase));
+                var val2 = propertyObject.Values
+                    .Single(v => String.Equals(v.Name, "lastname", StringComparison.OrdinalIgnoreCase));
                 return $"{val1.Value} {val2.Value}";
             }
 
-            throw new System.NotSupportedException("Not expected calculated property");
+            throw new NotSupportedException("Not expected calculated property");
         }
 
         protected override object CreateRangeFailureImpl(CalcPropertyObject propertyObject)
         {
-            throw new System.NotSupportedException("Range failure not supported");
+            throw new NotSupportedException("Range failure not supported");
         }
     }
 }

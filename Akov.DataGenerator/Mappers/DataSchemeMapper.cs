@@ -45,6 +45,18 @@ namespace Akov.DataGenerator.Mappers
                 var ignore = attrs.GetValue<DgIgnoreAttribute>();
                 if(!(ignore is null)) continue;
 
+                var name = attrs.GetValue<DgNameAttribute>();
+                var propertyName = name?.Value ?? prop.Name;
+                if (!(_config is null) && _config.UseCamelCase)
+                    propertyName = propertyName.ToCamelCase();
+
+                var calc = attrs.GetValue<DgCalcAttribute>();
+                if (!(calc is null))
+                {
+                    properties.Add(new Property {Name = propertyName, Type = TemplateType.Calc});
+                    continue;
+                }
+
                 var source = attrs.GetValue<DgSourceAttribute>();
 
                 string templateType = prop.PropertyType.GetPropertyTemplateType();
@@ -90,12 +102,7 @@ namespace Akov.DataGenerator.Mappers
                 var failure = attrs.GetValue<DgFailureAttribute>();
                 var customFailure = attrs.GetValue<DgCustomFailureAttribute>();
                 var separator = attrs.GetValue<DgSequenceSeparatorAttribute>();
-                var name = attrs.GetValue<DgNameAttribute>();
                 var subpattern = attrs.GetValue<DgSubTypePatternAttribute>();
-
-                var propertyName = name?.Value ?? prop.Name;
-                if (!(_config is null) && _config.UseCamelCase)
-                    propertyName = propertyName.ToCamelCase();
 
                 var property = new Property
                 {
