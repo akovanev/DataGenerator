@@ -49,7 +49,7 @@ namespace Akov.DataGenerator.Mappers
 
                 string templateType = prop.PropertyType.GetPropertyTemplateType();
 
-                string? pattern = null;
+                string? pattern = attrs.GetValue<DgPatternAttribute>()?.Value;
                 DgLengthAttribute? length = null;
                 DgSpacesCountAttribute? spaces = null;
                 DgRangeAttribute? range = null;

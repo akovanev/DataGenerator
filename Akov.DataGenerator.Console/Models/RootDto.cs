@@ -46,7 +46,6 @@ namespace Akov.DataGenerator.Models
         [DgCustomFailure("####-####-####")]
         public string? EncodedSolution { get; set; }
 
-        [DgIgnore]
         [DgName("last_updated")]
         [DgPattern("dd/MM/yy")]
         [DgRange(Min = "20/10/19", Max = "01/01/20")]
