@@ -34,6 +34,12 @@ namespace Akov.DataGenerator.Serializers
 
         internal static void AppendProperty(StringBuilder builder, NameValueObject value, bool isLastItem)
         {
+
+            if (value.Name == "next_subject")
+            {
+                int x = 1;
+            }
+
             if (value.Value is List<NameValueObject> valueObject)
             {
                 NameValueObject first = valueObject.FirstOrDefault();
@@ -44,17 +50,19 @@ namespace Akov.DataGenerator.Serializers
                 }
                 else
                 {
-                    if (first.Value is List<NameValueObject>)
+                    bool isArray = first.Name == value.Name;
+
+                    if (!isArray)
+                    {
+                        AppendObject(builder, value.Name, valueObject, isLastItem);
+                    }
+                    else if (first.Value is List<NameValueObject>)
                     {
                         AppendArray(builder, value.Name, valueObject, isLastItem);
                     }
-                    else if(first.Name == value.Name)
-                    {
-                        AppendArrayOfValues(builder, value.Name, valueObject, isLastItem);
-                    }
                     else
                     {
-                        AppendObject(builder, value.Name, valueObject, isLastItem);
+                        AppendArrayOfValues(builder, value.Name, valueObject, isLastItem);
                     }
                 }
             }
