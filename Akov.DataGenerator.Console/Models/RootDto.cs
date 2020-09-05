@@ -6,6 +6,7 @@ namespace Akov.DataGenerator.Models
 {
     class RootDto
     {
+        [DgCalc]
         public int? Count { get; set; }
 
         [DgLength(Max = 5)]
