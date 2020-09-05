@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
-using Akov.DataGenerator.Attributes;
-using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.Models;
-using Akov.DataGenerator.Processors;
-using Akov.DataGenerator.Serializers;
+using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator
 {
@@ -14,25 +10,25 @@ namespace Akov.DataGenerator
     {
         public static void Main(string[] args)
         {
-            if (args is null || !args.Any())
+            try
             {
-                Console.WriteLine("Please input name of the data file");
-                return;
+                var dg = new DG(
+                    new ExtendedGeneratorFactory(),
+                    new DataSchemeMapperConfig {UseCamelCase = true});
+
+                DataScheme scheme1 = dg.GetFromFile("data.json");
+                string jsonData1 = dg.GenerateJson(scheme1);
+                dg.SaveToFile("data.out.json", jsonData1);
+
+                DataScheme scheme2 = dg.GetFromType<RootDto>();
+                string jsonData2 = dg.GenerateJson(scheme2);
+                dg.SaveToFile("data2.out.json", jsonData1);
+
             }
-
-            var mapper = new DataSchemeMapper();
-            var scheme = mapper.MapFrom<Root>();
-            var dataProcessor = new DataProcessor(scheme, new ExtendedGeneratorFactory());
-
-            var data = dataProcessor.CreateData();
-
-            var dataAsJson = JsonValueObjectSerializer.Serialize(data);
-            var ioHelper = new IOHelper();
-            ioHelper.SaveData("data.json.out.json", dataAsJson);
-
-            //var dg = new DG(new ExtendedGeneratorFactory());
-
-            //Console.WriteLine(dg.Execute(args[0]));
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

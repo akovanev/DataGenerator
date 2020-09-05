@@ -12,4 +12,10 @@ namespace Akov.DataGenerator.Attributes
 
         public string Value { get; }
     }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DgSubTypePatternAttribute : DgPatternAttribute
+    {
+        public DgSubTypePatternAttribute(string value) : base(value) { }
+    }
 }

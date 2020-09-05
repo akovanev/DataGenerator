@@ -11,6 +11,13 @@ namespace Akov.DataGenerator.Mappers
 {
     public class DataSchemeMapper
     {
+        private readonly DataSchemeMapperConfig? _config;
+
+        public DataSchemeMapper(DataSchemeMapperConfig? config = null)
+        {
+            _config = config;
+        }
+
         public DataScheme MapFrom<T>()
         {
             Type type = typeof(T);
@@ -83,11 +90,19 @@ namespace Akov.DataGenerator.Mappers
                 var failure = attrs.GetValue<DgFailureAttribute>();
                 var customFailure = attrs.GetValue<DgCustomFailureAttribute>();
                 var separator = attrs.GetValue<DgSequenceSeparatorAttribute>();
+                var name = attrs.GetValue<DgNameAttribute>();
+                var subpattern = attrs.GetValue<DgSubTypePatternAttribute>();
+
+                var propertyName = name?.Value ?? prop.Name;
+                if (!(_config is null) && _config.UseCamelCase)
+                    propertyName = propertyName.ToCamelCase();
+
                 var property = new Property
                 {
-                    Name = prop.Name,
+                    Name = propertyName,
                     Type = templateType,
                     Pattern = pattern,
+                    SubTypePattern = subpattern?.Value,
                     MinLength = length?.Min,
                     MaxLength = length?.Max,
                     MinSpaceCount = spaces?.Min,
@@ -97,9 +112,9 @@ namespace Akov.DataGenerator.Mappers
                     Failure = failure != null
                         ? new Failure
                         {
-                            Nullable = failure.NullProbability,
-                            Custom = failure.CustomProbability,
-                            Range = failure.OutOfRangeProbability
+                            Nullable = failure.NullProbability > 0 ? failure.NullProbability : (double?)null,
+                            Custom = failure.CustomProbability > 0 ? failure.CustomProbability : (double?)null,
+                            Range = failure.OutOfRangeProbability > 0 ? failure.OutOfRangeProbability : (double?)null
                         }
                         : null,
                     CustomFailure = customFailure?.Value,
