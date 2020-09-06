@@ -5,6 +5,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 {
+    /// <summary>
+    /// The Subject response model.
+    /// </summary>
     public class Subject : Result
     {
         [JsonProperty("encoded_description")]
@@ -16,12 +19,15 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         [JsonProperty("total_prices")]
         public List<double>? TotalPrices { get; set; }
-    
+
+        /// <summary>
+        /// Handles errors while JsonConvert parsing (deserializing).
+        /// </summary>
         [OnError]
         internal void OnError(StreamingContext context, ErrorContext errorContext)
         {
+            //Allows to proceed without throwing an exception.
             errorContext.Handled = true;
         }
-
     }
 }

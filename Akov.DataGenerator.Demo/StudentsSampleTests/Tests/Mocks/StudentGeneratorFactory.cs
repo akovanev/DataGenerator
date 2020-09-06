@@ -7,6 +7,9 @@ using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 {
+    /// <summary>
+    /// Extends the GeneratorFactory with the StudentCalcGenerator.
+    /// </summary>
     public class StudentGeneratorFactory : GeneratorFactory
     {
         public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
@@ -17,6 +20,10 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
         }
     }
 
+    /// <summary>
+    /// Creates calculated values for the StudentCollection and the Student class.
+    /// The logic is just a sample that does not match all the best practices.
+    /// </summary>
     public class StudentCalcGenerator : CalcGeneratorBase
     {
         protected override object CreateImpl(CalcPropertyObject propertyObject)
@@ -27,6 +34,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
                     .Single(v => String.Equals(v.Name, "firstname", StringComparison.OrdinalIgnoreCase));
                 var val2 = propertyObject.Values
                     .Single(v => String.Equals(v.Name, "lastname", StringComparison.OrdinalIgnoreCase));
+               
                 return $"{val1.Value} {val2.Value}";
             }
 

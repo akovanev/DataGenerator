@@ -2,6 +2,10 @@
 
 namespace Akov.DataGenerator.Attributes
 {
+    /// <summary>
+    /// Represents the name for the property in the generated data.
+    /// If it is missed, then the class property name will be taken.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class DgNameAttribute : Attribute
     {
@@ -9,7 +13,6 @@ namespace Akov.DataGenerator.Attributes
         {
             Value = value;
         }
-
         public string Value { get; }
     }
 }

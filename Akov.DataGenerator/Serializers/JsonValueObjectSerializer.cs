@@ -34,12 +34,6 @@ namespace Akov.DataGenerator.Serializers
 
         internal static void AppendProperty(StringBuilder builder, NameValueObject value, bool isLastItem)
         {
-
-            if (value.Name == "next_subject")
-            {
-                int x = 1;
-            }
-
             if (value.Value is List<NameValueObject> valueObject)
             {
                 NameValueObject first = valueObject.FirstOrDefault();

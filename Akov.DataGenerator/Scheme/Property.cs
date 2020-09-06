@@ -3,6 +3,9 @@ using Akov.DataGenerator.Extensions;
 
 namespace Akov.DataGenerator.Scheme
 {
+    /// <summary>
+    /// The object property attributes.
+    /// </summary>
     public class Property
     {
         public string? Type { get; set; }
@@ -27,7 +30,7 @@ namespace Akov.DataGenerator.Scheme
         public double? Range { get; set; }
     }
 
-    public static class PropertyExtensions
+    internal static class PropertyExtensions
     {
         public static void ThrowIfAnyGeneralError(this IEnumerable<Property> properties)
         {

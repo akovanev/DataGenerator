@@ -7,6 +7,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 {
+    /// <summary>
+    /// The Student response model.
+    /// </summary>
     public class Student : Result
     {
         public Guid Id { get; set; }
@@ -33,23 +36,30 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public Subject? Subject { get; set; }
 
+        /// <summary>
+        /// The object is valid only if all inner objects are parsed correctly.
+        /// </summary>
         public override bool IsValid => base.IsValid &&
             (Subject is null || Subject.IsValid) &&
             (Subjects is null || Subjects.All(s => s.IsValid));
 
+        /// <summary>
+        /// Handles errors while JsonConvert parsing (deserializing).
+        /// </summary>
         [OnError]
         internal void OnError(StreamingContext context, ErrorContext errorContext)
         {
-            if ("last_updated" != GetErrorKeyProperty(errorContext.Path))
-            {
-                AddError(errorContext);
-            }
-            else
+            if ("last_updated" == GetErrorKeyProperty(errorContext.Path))
             {
                 LastUpdated = DateTime.Today;
                 AddWarning(errorContext);
             }
-            
+            else
+            {
+                AddError(errorContext);
+            }
+
+            //Allows to proceed without throwing an exception.
             errorContext.Handled = true;
         }
     }

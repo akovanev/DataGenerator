@@ -5,13 +5,18 @@ using Newtonsoft.Json.Serialization;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 {
+    /// <summary>
+    /// The base class for response models or dtos.
+    /// Adds logic defining whether the object was parsed correctly from http response.
+    /// Contains several protected methods tightening it with JsonConvert class, which is okay for this sample.
+    /// </summary>
     public abstract class Result
     {
-        public Dictionary<string, string> ParsingErrors { get; set; } = new Dictionary<string, string>();
-        public Dictionary<string, string> ParsingWarnings { get; set; } = new Dictionary<string, string>();
-
         public virtual bool IsValid => ParsingErrors.Count == 0;
         public virtual bool HasWarnings => ParsingWarnings.Count > 0;
+
+        public Dictionary<string, string> ParsingErrors { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> ParsingWarnings { get; set; } = new Dictionary<string, string>();
 
         protected virtual void AddError(ErrorContext errorContext)
         {

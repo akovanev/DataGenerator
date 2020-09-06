@@ -8,6 +8,9 @@ using Akov.DataGenerator.Demo.StudentsSample.Responses;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Services
 {
+    /// <summary>
+    /// The service simulating retrieving the student list.
+    /// </summary>
     public class StudentService
     {
         private readonly ApiClient _apiClient;
@@ -26,11 +29,14 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Services
 
             Log(result.Students);
 
+            //Only valid student objects are to return.
             return result.Students
                 .Where(s => s.IsValid)
                 .ToList();
         }
 
+        //Logs errors and warnings from the student list.
+        //The idea is to show on which level could be handled invalid objects.
         internal void Log(IEnumerable<Student> students)
         {
             foreach (var student in students)
@@ -44,10 +50,10 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Services
 
         internal void LogDictionary(Dictionary<string, string> dictionary)
         {
-            Debug.WriteLine(
-                string.Join(
-                    ",", 
-                    dictionary.SelectMany(x => x.Value)));
+            foreach (var item in dictionary)
+            {
+                Debug.WriteLine(item.Value);
+            }
         }
     }
 }

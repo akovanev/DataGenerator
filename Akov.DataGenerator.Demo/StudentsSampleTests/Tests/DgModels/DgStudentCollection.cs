@@ -3,6 +3,9 @@ using Akov.DataGenerator.Attributes;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
+    /// <summary>
+    /// Represents the data generation process for the StudentCollection response model.
+    /// </summary>
     public class DgStudentCollection
     {
         public const int Length = 100;

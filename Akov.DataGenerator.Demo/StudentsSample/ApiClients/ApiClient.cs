@@ -3,11 +3,13 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Newtonsoft.Json;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.ApiClients
 {
+    /// <summary>
+    /// The wrapper for HttpClient GetAsync method
+    /// </summary>
     public class ApiClient
     {
         private readonly HttpClient _httpClient;

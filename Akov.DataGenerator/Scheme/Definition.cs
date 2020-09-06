@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Akov.DataGenerator.Scheme
 {
+    /// <summary>
+    /// Represents some custom object and its properties.
+    /// </summary>
     public class Definition
     {
         public Definition() {}

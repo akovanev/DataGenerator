@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
+    /// <summary>
+    /// Represents the data generation process for the Student response model.
+    /// </summary>
     public class DgStudent
     {
         [DgFailure(NullProbability = 0.2)]
