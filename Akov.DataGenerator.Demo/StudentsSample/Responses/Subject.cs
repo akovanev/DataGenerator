@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 {
@@ -12,7 +14,14 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public bool IsPassed { get; set; }
 
-        [JsonProperty("total_price")]
+        [JsonProperty("total_prices")]
         public List<double>? TotalPrices { get; set; }
+    
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            errorContext.Handled = true;
+        }
+
     }
 }

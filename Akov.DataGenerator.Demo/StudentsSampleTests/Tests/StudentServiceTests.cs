@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Akov.DataGenerator.Demo.StudentsSample.Services;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
@@ -20,10 +21,19 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests
         [Fact]
         public async Task GetAll_RandomStudentList()
         {
-            var result = (await _studentService.GetAll()).ToList();
+            var students = (await _studentService.GetAll()).ToList();
+            const string lastUpdatedJsonName = "last_updated";
 
-            Assert.NotNull(result);
-            Assert.True(result.All(s => s.IsValid));
+            Assert.NotNull(students);
+            Assert.True(students.All(s => s.IsValid));
+            Assert.True(students.All(s => !s.ParsingErrors.ContainsKey(lastUpdatedJsonName)));
+
+            var studentsWithNotParsedDate = students
+                .Where(s => s.HasWarnings && s.ParsingWarnings.ContainsKey(lastUpdatedJsonName))
+                .ToList();
+
+            DateTime expectedDate = DateTime.Today;
+            Assert.True(studentsWithNotParsedDate.All(x => x.LastUpdated == expectedDate));
         }
     }
 }

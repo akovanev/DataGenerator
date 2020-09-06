@@ -8,7 +8,8 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
     public class DgStudent
     {
-        public Guid? Id { get; set; }
+        [DgFailure(NullProbability = 0.2)]
+        public Guid Id { get; set; }
 
         [DgSource("firstnames.txt")]
         [DgFailure(NullProbability = 0.1)]
@@ -48,7 +49,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgPattern("dd/MM/yy")]
         [DgRange(Min = "20/10/19", Max = "01/01/20")]
         [DgFailure(
-            NullProbability = 0.1,
+            NullProbability = 0.2,
             CustomProbability = 0.2,
             OutOfRangeProbability = 0.1)]
         public DateTime? LastUpdated { get; set; }

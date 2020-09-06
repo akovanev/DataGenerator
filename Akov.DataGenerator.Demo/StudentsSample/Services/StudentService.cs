@@ -22,28 +22,32 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Services
             var result = await _apiClient.GetAsync<StudentCollection>(
                 "https://example.com/api/students");
 
-            if (result is null) return null;
+            if (result?.Students is null) return null;
 
-            var students = result.Students
+            Log(result.Students);
+
+            return result.Students
                 .Where(s => s.IsValid)
                 .ToList();
-
-            var studentsWithErrors = result.Students
-                .Except(students)
-                .ToList();
-
-            if(studentsWithErrors.Any())
-                LogErrors(studentsWithErrors);
-
-            return students;
         }
 
-        internal void LogErrors(IEnumerable<Student> students)
+        internal void Log(IEnumerable<Student> students)
         {
             foreach (var student in students)
             {
-                Debug.WriteLine(student.ParsingErrors.ToString());
+                if(!student.IsValid)
+                    LogDictionary(student.ParsingErrors);
+                if (student.HasWarnings)
+                    LogDictionary(student.ParsingWarnings);
             }
+        }
+
+        internal void LogDictionary(Dictionary<string, string> dictionary)
+        {
+            Debug.WriteLine(
+                string.Join(
+                    ",", 
+                    dictionary.SelectMany(x => x.Value)));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
@@ -17,16 +18,12 @@ namespace Akov.DataGenerator.Demo.StudentsSample.ApiClients
             _httpClient = httpClient;
             _parsingSettings = new JsonSerializerSettings
             {
-                Error = (sender, args) =>
-                {
-                    var result = args.CurrentObject as Result;
-                    result?.ParsingErrors.AppendLine(args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
-                }
+                DateFormatString = "dd/MM/yy",
+                Culture = new CultureInfo("en-US"),
             };
         }
 
-        public async Task<T?> GetAsync<T>(string url) where T : Result
+        public async Task<T?> GetAsync<T>(string url) where T : class
         {
             try
             {

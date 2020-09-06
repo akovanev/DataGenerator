@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 {
     public class Student : Result
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
         public string? FirstName { get; set; }
 
@@ -24,10 +27,30 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
         public string? EncodedSolution { get; set; }
 
         [JsonProperty("last_updated")]
-        public DateTime? LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; }
 
         public List<Subject>? Subjects { get; set; }
 
         public Subject? Subject { get; set; }
+
+        public override bool IsValid => base.IsValid &&
+            (Subject is null || Subject.IsValid) &&
+            (Subjects is null || Subjects.All(s => s.IsValid));
+
+        [OnError]
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
+            if ("last_updated" != GetErrorKeyProperty(errorContext.Path))
+            {
+                AddError(errorContext);
+            }
+            else
+            {
+                LastUpdated = DateTime.Today;
+                AddWarning(errorContext);
+            }
+            
+            errorContext.Handled = true;
+        }
     }
 }
