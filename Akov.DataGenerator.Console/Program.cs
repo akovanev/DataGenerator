@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Linq;
 using Akov.DataGenerator.Generators;
-using Akov.DataGenerator.Mappers;
-using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator
@@ -10,20 +9,20 @@ namespace Akov.DataGenerator
     {
         public static void Main(string[] args)
         {
+            if (args is null || !args.Any())
+            {
+                Console.WriteLine("Parameter for input json file is missing");
+                return;
+            }
+
             try
             {
-                var dg = new DG(
-                    new ExtendedGeneratorFactory(),
-                    new DataSchemeMapperConfig {UseCamelCase = true});
-
-                DataScheme scheme1 = dg.GetFromFile("data.json");
-                string jsonData1 = dg.GenerateJson(scheme1);
-                dg.SaveToFile("data.out.json", jsonData1);
-
-                DataScheme scheme2 = dg.GetFromType<RootDto>();
-                string jsonData2 = dg.GenerateJson(scheme2);
-                dg.SaveToFile("data2.out.json", jsonData2);
-
+                var dg = new DG(new ExtendedGeneratorFactory());
+                DataScheme scheme = dg.GetFromFile(args[0]);
+                string jsonData = dg.GenerateJson(scheme);
+                dg.SaveToFile($"{args[0]}.out.json", jsonData);
+                
+                Console.WriteLine("Success");
             }
             catch (Exception e)
             { 
