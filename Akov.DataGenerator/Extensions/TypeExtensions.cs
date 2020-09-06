@@ -30,7 +30,7 @@ namespace Akov.DataGenerator.Extensions
             }
         }
 
-        public static string GetPropertyTemplateType(this Type type)
+        public static string? GetPropertyTemplateType(this Type type)
         {
             Type? underlyingType = Nullable.GetUnderlyingType(type);
 
@@ -49,7 +49,7 @@ namespace Akov.DataGenerator.Extensions
                 ? templateTypeDictionary[type]
                 : type.IsClass
                     ? TemplateType.Object
-                    : throw new NotSupportedException($"Type {type.Name} is not supported");
+                    : null;
         }
 
         public static string GetArrayPatternTemplateType(this Type type)
