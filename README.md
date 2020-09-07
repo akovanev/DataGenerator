@@ -24,11 +24,13 @@
 ## DataScheme
 
 `root` points to the entry definition.
+
 `definitions` determines objects. 
 
 ### Definition
 
 `name` stands for the object name.
+
 `properties` the object properties.
 
 #### Properties
