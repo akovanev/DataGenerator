@@ -53,7 +53,7 @@ Complex types:
 * `file` the file of values that will be transformed to the `set` primitive type.
 * `calc` the calculated property. Having it means that a custom generator, specifying the property behaviour, and derived from the `CalcGeneratorBase` should be added to the `GeneratorFactory`.
  
-`pattern` or 
+`pattern` 
 * for `string` defines all possible characters, e.g. "abcdefghABCFEDGH". Spaces will be added additionally.
 * for `set` defines all possible values separated by comma by default.
 * for `double`, `guid`, `datetime` specifies the output format, e.g. "0.00", "yyyy-MM-dd" etc.
