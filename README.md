@@ -2,7 +2,12 @@
 
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
-**Important**: versions 1.0 and 1.1 are **not supported**. Version 1.2 contains significant improvements. Please do use it. 
+**Important**: 
+* Versions **1.0** and **1.1** are not supported and **not recommended** to use. 
+* Version **1.2** arrays of primitive types are not supported. Fixed in **1.3**.
+* Version **1.3** mapping type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
+
+## Author's blog
 
 [Data generator](https://akovanev.com/2020/08/26/data-generator/) - a quick introduction.
 
@@ -10,49 +15,64 @@
 
 [Calculated properties with Data generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
 
-## Execution
+## Assemblies description
 
-```
-> DataGenerator <filename.json>
-```
+`Akov.DataGenerator` the library itself. The nuget package is available via the link above.
+`Akov.DataGenerator.Demo` demonstrates how to mock an http client with generated data, and then use it in tests.
 
-In case of success the result will be stored to <filename.json>.out.json
+## DataScheme
 
-## Input configuration
+`root` points to the entry definition.
+`definitions` determines objects. 
 
-`root` points to the main entry object in definitions.
+### Definition
 
-`definitions` defines objects and arrays.
+`name` stands for the object name.
+`properties` the object properties.
 
-### Properties
-
-`name` the property name.
+#### Properties
 
 `type` the property type. 
-* `string` string.
-* `set` one of the list of values.
-* `file` file of values.
-* `guid` guid.
-* `bool` True or False.
-* `int` integer.
-* `double` double.
-* `datetime` datatime.
-* `object` object from definition.
-* `array` array from definition.
 
-`pattern` 
+Primitive types:
+* `string` the string.
+* `set` one of the list of values.
+* `guid` the guid.
+* `bool` True or False.
+* `int` the integer.
+* `double`the double.
+* `datetime` the datatime.
+
+Complex types:
+
+* `object` the object from definition.
+* `array` the array.
+* `file` the file of values that will be transformed to the `set` primitive type.
+* `calc` the calculated property. Having it means that a custom generator, specifying the property behaviour, and derived from the `CalcGeneratorBase` should be added to the `GeneratorFactory`.
+ 
+### Attributes
+
+`pattern` or 
 * for `string` defines all possible characters, e.g. "abcdefghABCFEDGH". Spaces will be added additionally.
 * for `set` defines all possible values separated by comma by default.
+* for `double`, `guid`, `datetime` specifies the output format, e.g. "0.00", "yyyy-MM-dd" etc.
+* for `object` points to the definition name.
+* for `array` points to the definition name if it represents the object type, and to a primitive type otherwise.
 * for `file` specifies the path to an existing file. The data are separated by comma by default. 
-* for `double` specifies the output format, e.g. "0.00".
-* for `datetime` specifies the output format, e.g. "yyyy-MM-dd".
-* for `array` and `object` points to the definition item name.
 
-`sequenceSeparator` the separator for `set` and within a file. 
+`subpattern` is a primitive type pattern used only within arrays of primitive types.
+```
+"name": "prices",
+"type": "array", // <- should be array
+"pattern": "double" , // <- the pattern keyword specifies the type of array
+"subpattern": "0.00", // <- the pattern for the double primitive type
+```
+
+`sequenceSeparator` the separator for the `set` and `file`.
 
 `minLength` the minimum output data length for `string`.
 
-`maxLength` the maximum output data length for `string`, size for `array`.
+`maxLength` the maximum output data length for `string`, the size for `array`.
 
 `minSpaceCount` the minimum count of spaces in the `string`.
 
@@ -62,18 +82,141 @@ In case of success the result will be stored to <filename.json>.out.json
 
 `maxValue` the maximum value for `int`, `double` and `datetime`.
 
-`failure` stands for inconsitent data appearing with the specified probability. 
-
+`failure` means inconsistent data appears with the specified probability.
 * `nullable` the probability that *null* appears.
-
 * `custom` the probability that the invalid value appears.
+* `range` the probability that the value will be out of range. For `string` that means that the string length will be out of the specified interval.
 
-* `range` the probability that the value will be out of range. For `string` it currently means that the string length will be out of the specified interval.
- 
-`customFailure` specifies the value that will appear for the `custom` failure.
+`customFailure` specifies the value that will appear for the `custom` failure case.
 
-## Example
+### Example of an input json
 
-[data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Console/data.json)
+[data.json](https://github.com/akovanev/DataGenerator/blob/master/data.json)
 
+## Akov.DataGenerator.Attributes
 
+Determine how data should be generated based on an existing class in code.
+
+`DgCalc` considered the property to be calculated.
+
+`DgCustomFailure` specifies the value that will appear for the `custom` failure case.
+
+`DgFailure` specifies probabilities of the different failure types.
+
+`DgIgnore` ignores the property while data generation.
+
+`DgLength` specifies the length of the string. The `Max` value is also used for the array size.
+
+`DgName` specifies the name for the property while generation. Makes sense if it should be different from the class property name.
+
+`DgPattern` specifies the pattern. Unlike the generation process from a json, there is no need to have an additional subpattern attribute for primitive arrays. As the type of array will be determined by the class property type.
+
+`DgRange` specifies the range of values for the property.
+
+`DgSequenceSeparator` specifies the output separator if the property type is enum, and the input one if the pattern points to a file of values.
+
+`DgSource` specifies the file of values for the property. **Not** supported for objects, arrays and enums.
+
+`DgSpaceCount` specifies the count of spaces in the string.
+
+## Code examples
+
+#### A custom generator
+
+```
+public class StudentCalcGenerator : CalcGeneratorBase
+{
+    protected override object CreateImpl(CalcPropertyObject propertyObject)
+    {
+        if (string.Equals(propertyObject.Property.Name, "fullname", StringComparison.OrdinalIgnoreCase))
+        {
+            var val1 = propertyObject.Values
+                .Single(v => String.Equals(v.Name, "firstname", StringComparison.OrdinalIgnoreCase));
+            var val2 = propertyObject.Values
+                .Single(v => String.Equals(v.Name, "lastname", StringComparison.OrdinalIgnoreCase));
+           
+            return $"{val1.Value} {val2.Value}";
+        }
+
+        throw new NotSupportedException($"Unexpected calculated property {propertyObject.Property.Name}");
+    }
+
+    //
+    protected override object CreateRangeFailureImpl(CalcPropertyObject propertyObject)
+    {
+        throw new NotSupportedException($"Range failure not supported for {propertyObject.Property.Name}");
+    }
+}
+```
+
+#### Extending the existing generator factory
+
+```
+public class StudentGeneratorFactory : GeneratorFactory
+{
+    public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+    {
+        Dictionary<string, GeneratorBase> generators = base.GetGeneratorDictionary();
+        generators.Add(TemplateType.Calc, new StudentCalcGenerator());
+        return generators;
+    }
+}
+
+var dg = new DG(new StudentGeneratorFactory());
+```
+
+#### A class representing the data generation
+
+```
+public class DgStudent
+{
+    [DgFailure(NullProbability = 0.2)]
+    public Guid Id { get; set; }
+
+    [DgSource("firstnames.txt")]
+    [DgFailure(NullProbability = 0.1)]
+    public string? FirstName { get; set; }
+
+    [DgSource("lastnames.txt")]
+    [DgFailure(NullProbability = 0.1)]
+    public string? LastName { get; set; }
+
+    [DgCalc] //supposed to be calculated
+    public string? FullName { get; set; }
+
+    [DgName("test_variant")] //Variant represents enum here
+    public Variant Variant { get; set; }
+
+    [DgName("test_answers")]
+    [DgRange(Min = 1, Max = 5)]
+    [DgLength(Max = 5)]
+    public int[]? TestAnswers { get; set; }
+
+    [DgName("encoded_solution")]
+    [DgPattern("abcdefghijklmnopqrstuvwxyz0123456789")]
+    [DgLength(Min = 15, Max = 50)]
+    [DgSpacesCount(Min = 1, Max = 3)]
+    [DgFailure(
+        NullProbability = 0.1,
+        CustomProbability = 0.1,
+        OutOfRangeProbability = 0.05)]
+    [DgCustomFailure("####-####-####")]
+    public string? EncodedSolution { get; set; }
+
+    [DgName("last_updated")]
+    [DgPattern("dd/MM/yy")]
+    [DgRange(Min = "20/10/19", Max = "01/01/20")]
+    [DgFailure(
+        NullProbability = 0.2,
+        CustomProbability = 0.2,
+        OutOfRangeProbability = 0.1)]
+    public DateTime? LastUpdated { get; set; }
+
+    //DgSubject represents a similar class
+    public DgSubject? Subject { get; set; }
+
+    //Collections are equal to arrays in the data generation process
+    public List<DgSubject>? Subjects { get; set; }
+}
+
+```

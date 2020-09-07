@@ -45,6 +45,15 @@ namespace Akov.DataGenerator.Serializers
             builder.Append(InsertEnd("", isLastItem));
         }
 
+        internal static void AppendPropertyValue(this StringBuilder builder, object? value, bool isLastItem)
+        {
+            builder.Append(value is null
+                ? "null"
+                : $"\"{value}\"");
+
+            builder.Append(InsertEnd("", isLastItem));
+        }
+
         private static string InsertEnd(string end, bool isLastItem)
         {
             return !isLastItem

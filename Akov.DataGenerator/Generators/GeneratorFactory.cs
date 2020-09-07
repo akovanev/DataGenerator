@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Akov.DataGenerator.Scheme;
+using Akov.DataGenerator.Constants;
 
 namespace Akov.DataGenerator.Generators
 {

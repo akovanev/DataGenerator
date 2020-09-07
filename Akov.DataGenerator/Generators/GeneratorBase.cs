@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Akov.DataGenerator.Failures;
 using Akov.DataGenerator.Scheme;
 using Akov.DataGenerator.Models;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Constants;
+using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Factories;
+using Akov.DataGenerator.Failures;
 
 namespace Akov.DataGenerator.Generators
 {
@@ -50,7 +51,10 @@ namespace Akov.DataGenerator.Generators
 
             if(failure is null) return FailureType.None;
 
-            List<FailureObject> failureObjectList = failure.ToFailureObjectList();
+            List<FailureObject> failureObjectList = FailureObject.CreateList(
+                failure.Custom,
+                failure.Nullable,
+                failure.Range);
 
             Random random = RandomFactory.GetOrCreate(
                 propertyObject.DefinitionName,

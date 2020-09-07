@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Akov.DataGenerator.Common;
+using Akov.DataGenerator.Constants;
+using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Factories;
 using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Generators;
@@ -69,7 +70,7 @@ namespace Akov.DataGenerator.Processors
             CalcPropertyObject propertyObject = 
                 _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
 
-            return CreateFromPropertyObject(propertyObject);
+            return CreateValue(propertyObject);
         }
 
         private NameValueObject CreateFromPropertyObject(PropertyObject propertyObject)
@@ -81,10 +82,24 @@ namespace Akov.DataGenerator.Processors
             if (propertyObject.Property.Type == TemplateType.Array)
             {
                 int count = propertyObject.Property.MaxLength ?? DefaultArrayCount;
-
+                
                 var arrayOfValues = new List<NameValueObject>();
-                for (int i = 0; i < count; i++)
-                    arrayOfValues.Add(CreateFromObjectTemplate(propertyObject));
+
+                if (propertyObject.Property.Pattern!.IsInExistingTemplates())
+                {
+                    var newPropertyObject = PropertyObject.CreateWithTypeAndPattern(
+                        propertyObject,
+                        propertyObject.Property.Pattern!,
+                        propertyObject.Property.SubTypePattern);
+
+                    for (int i = 0; i < count; i++)
+                        arrayOfValues.Add(CreateValue(newPropertyObject));
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                        arrayOfValues.Add(CreateFromObjectTemplate(propertyObject));
+                }
 
                 return new NameValueObject(propertyObject.Property.Name, arrayOfValues);
             }
