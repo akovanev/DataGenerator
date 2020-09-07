@@ -9,15 +9,16 @@
 
 ## Author's blog
 
-[Data generator](https://akovanev.com/2020/08/26/data-generator/) - a quick introduction.
+[Data Generator](https://akovanev.com/2020/08/26/data-generator/) - a quick introduction.
 
-[Custom data generator](https://akovanev.com/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
+[Custom Data Generator](https://akovanev.com/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
 
-[Calculated properties with Data generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
+[Calculated Properties with Data Generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
 
 ## Assemblies description
 
 `Akov.DataGenerator` the library itself. The nuget package is available via the link above.
+
 `Akov.DataGenerator.Demo` demonstrates how to mock an http client with generated data, and then use it in tests.
 
 ## DataScheme
