@@ -91,7 +91,7 @@ Complex types:
 
 ### Example of an input json
 
-[data.json](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Console/data.json)
+[data.json](https://github.com/akovanev/DataGenerator/blob/master/data.json)
 
 ## Akov.DataGenerator.Attributes
 
