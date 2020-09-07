@@ -9,11 +9,11 @@
 
 ## Author's blog
 
-[Data Generator](https://akovanev.com/2020/08/26/data-generator/) - a quick introduction.
+[Data Generator](https://akovanev.com/blogs/2020/08/26/data-generator/) - a quick introduction.
 
-[Custom Data Generator](https://akovanev.com/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
+[Custom Data Generator](https://akovanev.com/blogs/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
 
-[Calculated Properties with Data Generator](https://akovanev.com/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
+[Calculated Properties with Data Generator](https://akovanev.com/blogs/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
 
 ## Assemblies description
 
