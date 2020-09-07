@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Akov.DataGenerator": {
-      "commandName": "Project",
-      "commandLineArgs": "data.json"
-    }
-  }
-}

@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Akov.DataGenerator.Common
 { 
+    /// <summary>
+    /// The wrapper on the StreamReader and StreamWriter.
+    /// </summary>
     public class IOHelper
     {
         public DataScheme GetScheme(string filename)

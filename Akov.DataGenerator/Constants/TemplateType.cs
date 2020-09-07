@@ -1,5 +1,8 @@
-﻿namespace Akov.DataGenerator.Scheme
+﻿namespace Akov.DataGenerator.Constants
 {
+    /// <summary>
+    /// The supported types.
+    /// </summary>
     public class TemplateType
     {
         public const string String = "string";
@@ -9,6 +12,7 @@
         public const string Int = "int";
         public const string Double = "double";
         public const string DateTime = "datetime";
+
         public const string Array = "array";
         public const string Object = "object";
         public const string File = "file";
