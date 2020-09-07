@@ -30,11 +30,10 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests
             //Expects only valid data returned.
             Assert.True(students.All(s => s.IsValid));
 
-            //Due to the Requirements the failure during casting to the LastUpdated is not considered to be an error.
+            //Due to the requirements the failure during casting to the LastUpdated is not considered to be an error.
+            //But considered to be a warning.
             const string lastUpdatedJsonName = "last_updated";
-            Assert.True(students.All(s => !s.ParsingErrors.ContainsKey(lastUpdatedJsonName)));
             
-            //Bur considered to be a warning.
             var studentsWithNotParsedDate = students
                 .Where(s => s.HasWarnings && s.ParsingWarnings.ContainsKey(lastUpdatedJsonName))
                 .ToList();
