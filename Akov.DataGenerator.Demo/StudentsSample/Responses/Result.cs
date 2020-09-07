@@ -8,7 +8,7 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
     /// <summary>
     /// The base class for response models or dtos.
     /// Adds logic defining whether the object was parsed correctly from http response.
-    /// Contains several protected methods tightening it with JsonConvert class, which is okay for this sample.
+    /// Contains several protected methods tightening it with JsonConvert class, which is okay for this example.
     /// </summary>
     public abstract class Result
     {

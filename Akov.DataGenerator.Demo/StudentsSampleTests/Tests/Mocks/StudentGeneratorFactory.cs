@@ -22,7 +22,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 
     /// <summary>
     /// Creates calculated values for the StudentCollection and the Student class.
-    /// The logic is just a sample that does not match all the best practices.
+    /// The logic is just an example that does not match all the best practices.
     /// </summary>
     public class StudentCalcGenerator : CalcGeneratorBase
     {

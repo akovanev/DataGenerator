@@ -26,7 +26,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
                     new StudentGeneratorFactory(),
                     new DataSchemeMapperConfig { UseCamelCase = true });
 
-                //Creates DataSchemt based on DgStudentCollection attributes.
+                //Creates DataScheme based on DgStudentCollection attributes.
                 DataScheme scheme = dg.GetFromType<DgStudentCollection>();
                 
                 //Generates json random data.

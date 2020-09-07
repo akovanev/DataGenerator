@@ -36,7 +36,7 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Services
         }
 
         //Logs errors and warnings from the student list.
-        //The idea is to show on which level could be handled invalid objects.
+        //The idea is to show on which level invalid objects may be handled.
         internal void Log(IEnumerable<Student> students)
         {
             foreach (var student in students)
