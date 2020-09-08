@@ -19,6 +19,8 @@ Generates data randomly. The input must contain the definition for objects and p
 
 [Data Generator Attributes](https://akovanev.com/blogs/2020/09/07/data-generator-attributes) - using the program approach.
 
+[Integration Testing with Data Generator](https://akovanev.com/blogs/2020/09/08/integration-testing-with-data-generator) - shows how to mock and test solutions with the generated data.
+
 ## Assemblies description
 
 `Akov.DataGenerator` the library itself. The nuget package is available via the link above.
