@@ -1,11 +1,13 @@
 # DataGenerator
 
+Generates data randomly. The input must contain the definition for objects and properties, so the `DataProcessor` will know the expectations. Either a special json, which will be described below, or any class using the `Akov.DataGenerator.Attributes` namespace may be considered to be the input. The output will be in the json format.
+
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
 **Important**: 
 * Versions **1.0** and **1.1** are not supported and **not recommended** to use. 
 * Version **1.2** arrays of primitive types are not supported. Fixed in **1.3**.
-* Version **1.3** mapping type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
+* Version **1.3** mapping of type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
 
 ## Author's blog
 
@@ -14,6 +16,8 @@
 [Custom Data Generator](https://akovanev.com/blogs/2020/08/27/custom-data-generator/) - creating a custom generator based on the library.
 
 [Calculated Properties with Data Generator](https://akovanev.com/blogs/2020/08/31/calculated-properties-with-data-generator/) - calculated properties and files as custom data sources.
+
+[Data Generator Attributes](https://akovanev.com/blogs/2020/09/07/data-generator-attributes) - using the program approach.
 
 ## Assemblies description
 
