@@ -8,6 +8,7 @@ Generates data randomly. The input must contain the definition for objects and p
 * Versions **1.0** and **1.1** are not supported and **not recommended** to use. 
 * Version **1.2** arrays of primitive types are not supported. Fixed in **1.3**.
 * Version **1.3** mapping of type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
+* Version **1.3.1** min array size support added, range validation for `DgLength`, `DgSpacesCount`, `DgFailure` added on attributes level.
 
 ## Author's blog
 
@@ -77,9 +78,9 @@ Complex types:
 
 `sequenceSeparator` the separator for the `set` and `file`.
 
-`minLength` the minimum output data length for `string`.
+`minLength` the minimum output data length for `string`, the min size for `array`.
 
-`maxLength` the maximum output data length for `string`, the size for `array`.
+`maxLength` the maximum output data length for `string`, the max size for `array`.
 
 `minSpaceCount` the minimum count of spaces in the `string`.
 
@@ -128,7 +129,7 @@ Determine how data should be generated based on an existing class in code.
 
 ## Code examples
 
-#### A custom generator
+#### A custom generator for a calculated property
 
 ```
 public class StudentCalcGenerator : CalcGeneratorBase
@@ -148,7 +149,6 @@ public class StudentCalcGenerator : CalcGeneratorBase
         throw new NotSupportedException($"Unexpected calculated property {propertyObject.Property.Name}");
     }
 
-    //
     protected override object CreateRangeFailureImpl(CalcPropertyObject propertyObject)
     {
         throw new NotSupportedException($"Range failure not supported for {propertyObject.Property.Name}");
