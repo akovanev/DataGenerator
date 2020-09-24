@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
     <Authors>Oleksandr Kovanev</Authors>
-    <Description>Generates random test data based on predefined attribute values for a certain class / or by reading definitions from json.</Description>
+    <Description>Generates random test data based on predefined attribute values on a certain class / or by reading definitions from json.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/akovanev/DataGenerator/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -15,7 +15,7 @@
     <PackageIcon>dg.png</PackageIcon>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

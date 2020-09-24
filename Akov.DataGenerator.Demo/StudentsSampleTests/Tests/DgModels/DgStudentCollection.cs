@@ -13,7 +13,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgCalc]
         public int? Count { get; set; }
 
-        [DgLength(Max = Length)]
+        [DgLength(Min = Length, Max = Length)]
         public List<DgStudent>? Students { get; set; }
     }
 }

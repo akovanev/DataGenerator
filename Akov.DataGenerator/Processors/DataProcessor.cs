@@ -12,10 +12,10 @@ namespace Akov.DataGenerator.Processors
 {
     public class DataProcessor : IDataPcocessor
     {
-        private const int DefaultArrayCount = 10;
         private readonly DataScheme _scheme;
         private readonly IGeneratorFactory _generatorFactory;
         private readonly PropertyObjectFactory _propertyObjectFactory;
+        private readonly RandomFactory _randomFactory;
 
         public DataProcessor(DataScheme scheme, IGeneratorFactory generatorFactory)
         {
@@ -26,6 +26,7 @@ namespace Akov.DataGenerator.Processors
             _scheme = scheme;
             _generatorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
             _propertyObjectFactory = new PropertyObjectFactory();
+            _randomFactory = new RandomFactory();
         }
 
         public NameValueObject CreateData()
@@ -81,8 +82,8 @@ namespace Akov.DataGenerator.Processors
             }
             if (propertyObject.Property.Type == TemplateType.Array)
             {
-                int count = propertyObject.Property.MaxLength ?? DefaultArrayCount;
-                
+                int count = _randomFactory.GetArraySize(propertyObject);
+
                 var arrayOfValues = new List<NameValueObject>();
 
                 if (propertyObject.Property.Pattern!.IsInExistingTemplates())

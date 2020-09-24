@@ -26,10 +26,16 @@ namespace Akov.DataGenerator.Extensions
                 throw new ArgumentException($"Collection is empty. {message}");
         }
 
-        public static void ThrowIfNotTrue(this bool exprResult, string message)
+        public static void ThrowIfNegative(this int value, string message)
         {
-            if(!exprResult)
-                throw new NotSupportedException(message);
+            if (value < 0)
+                throw new ArgumentException(message);
+        }
+
+        public static void ThrowIfNotInRange(this double value, double min, double max, string message)
+        {
+            if (value < min || value > max)
+                throw new ArgumentException(message);
         }
     }
 }
