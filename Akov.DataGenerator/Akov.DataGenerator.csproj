@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="dg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="dg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

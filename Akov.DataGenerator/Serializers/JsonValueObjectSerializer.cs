@@ -36,7 +36,7 @@ namespace Akov.DataGenerator.Serializers
         {
             if (value.Value is List<NameValueObject> valueObject)
             {
-                NameValueObject first = valueObject.FirstOrDefault();
+                var first = valueObject.FirstOrDefault();
 
                 if (first is null)
                 {

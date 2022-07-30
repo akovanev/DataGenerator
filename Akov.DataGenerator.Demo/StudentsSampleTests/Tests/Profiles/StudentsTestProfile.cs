@@ -34,7 +34,6 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")
                 .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(10, 20)
             .Property(s => s.Attempts).Range(1, 10)
-            .Property(s => s.IsPassed)
             .Property(s => s.TotalPrices).HasJsonName("total_prices").SubTypePattern("0.00")
             .Range(0, 125.0).Length(2).Failure(0.15, 0.2, 0.05, "####");
     }

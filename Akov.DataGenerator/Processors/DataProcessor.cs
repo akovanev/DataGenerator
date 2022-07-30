@@ -39,11 +39,11 @@ namespace Akov.DataGenerator.Processors
         {
             definition.Properties!.ThrowIfAnyGeneralError();
 
-            List<Property> properties = definition.Properties
+            List<Property> properties = definition.Properties!
                 .Where(p => p.Type != TemplateType.Calc)
                 .ToList();
 
-            List<Property> calcProperties = definition.Properties
+            List<Property> calcProperties = definition.Properties!
                 .Except(properties)
                 .ToList();
 
