@@ -11,120 +11,30 @@ public class StudentsTestProfile : DgProfileBase
     public StudentsTestProfile()
     {
         ForType<StudentCollection>()
-            .ForProperty(c => c.Count)
-                .WithValue(new Property {Type = TemplateType.Calc})
-            .ForProperty(c => c.Students)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.Array,
-                    Pattern = nameof(Student),
-                    MinLength = 100,
-                    MaxLength = 100
-                });
-        
+            .Property(c => c.Count).IsCalc()
+            .Property(c => c.Students).Length(100, 100);
+                
         ForType<Student>()
-            .ForProperty(s => s.Id)
-                .WithValue(new Property {Type = TemplateType.Guid})
-                .WithFailure(new Failure {Nullable = 0.2})
-            .ForProperty(s => s.FirstName)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.File,
-                    Pattern = "firstnames.txt"
-                })
-               .WithFailure(new Failure {Nullable = 0.1})
-            .ForProperty(s => s.LastName)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.File,
-                    Pattern = "lastnames.txt"
-                })
-                .WithFailure(new Failure {Nullable = 0.1})
-            .ForProperty(s => s.FullName)
-                .WithValue(new Property {Type =TemplateType.Calc})
-            .ForProperty(s => s.Variant)
-                .WithValue(new Property
-                {
-                    Name = "test_variant",
-                    Type = TemplateType.Set,
-                    Pattern = string.Join(",", Enum.GetNames<Variant>())
-                })
-            .ForProperty(s => s.TestAnswers)
-                .WithValue(new Property
-                {
-                    Name = "test_answers",
-                    Type = TemplateType.Array,
-                    Pattern = TemplateType.Int,
-                    MinValue = 1,
-                    MaxValue = 5,
-                    MaxLength = 5
-                })
-            .ForProperty(s => s.EncodedSolution)
-                .WithValue(new Property
-                {
-                    Name = "encoded_solution",
-                    Type = TemplateType.String,
-                    Pattern = "abcdefghijklmnopqrstuvwxyz0123456789",
-                    MinLength = 15,
-                    MaxLength = 50,
-                    MinSpaceCount = 1,
-                    MaxSpaceCount = 3
-                })
-                .WithFailure(new Failure {Nullable = 0.1, Custom = 0.1, Range = 0.05}, "####-####-####")
-            .ForProperty(s => s.LastUpdated)
-                .WithValue(new Property
-                {
-                    Name = "last_updated",
-                    Type = TemplateType.DateTime,
-                    Pattern = "dd/MM/yy",
-                    MinValue = "20/10/19",
-                    MaxValue = "01/01/20"
-                })
-                .WithFailure(new Failure {Nullable = 0.2, Custom = 0.2, Range = 0.1})
-            .ForProperty(s => s.Subject)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.Object,
-                    Pattern = nameof(Subject)
-                })
-            .ForProperty(s => s.Subjects)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.Array,
-                    Pattern = nameof(Subject),
-                    MaxLength = 4
-                });
+            .Property(s => s.Id).Failure(nullable: 0.2)
+            .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
+            .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
+            .Property(s => s.FullName).IsCalc()
+            .Property(s => s.Variant).HasJsonName("test_variant")
+            .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)
+            .Property(s => s.EncodedSolution).HasJsonName("encoded_solution")
+                .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(15, 50).Spaces(1,3)
+                .Failure(0.1, 0.1, 0.05, "####-####-####" )
+            .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
+                .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
+            .Property(s => s.Subject)
+            .Property(s => s.Subjects).Length(4);
 
         ForType<Subject>()
-            .ForProperty(s => s.EncodedDescription)
-                .WithValue(new Property
-                {
-                    Name = "encoded_description",
-                    Type = TemplateType.String,
-                    Pattern = "abcdefghijklmnopqrstuvwxyz0123456789",
-                    MinLength = 10,
-                    MaxLength = 20
-                })
-            .ForProperty(s => s.Attempts)
-                .WithValue(new Property
-                {
-                    Type = TemplateType.Int,
-                    MinValue = 1,
-                    MaxValue = 10
-                })
-            .ForProperty(s => s.IsPassed)
-                .WithValue(new Property{Type = TemplateType.Bool})
-            .ForProperty(s => s.TotalPrices)
-                .WithValue(new Property
-                {
-                    Name = "total_prices",
-                    Type = TemplateType.Array,
-                    Pattern = TemplateType.Double,
-                    SubTypePattern = "0.00",
-                    MinValue = 0,
-                    MaxValue = 125.0,
-                    MinLength = 2
-                })
-                .WithFailure(new Failure {Nullable = 0.15, Custom = 0.2, Range = 0.05}, "####");
+            .Property(s => s.EncodedDescription).HasJsonName("encoded_description")
+                .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(10, 20)
+            .Property(s => s.Attempts).Range(1, 10)
+            .Property(s => s.IsPassed)
+            .Property(s => s.TotalPrices).HasJsonName("total_prices").SubTypePattern("0.00")
+            .Range(0, 125.0).Length(2).Failure(0.15, 0.2, 0.05, "####");
     }
 }

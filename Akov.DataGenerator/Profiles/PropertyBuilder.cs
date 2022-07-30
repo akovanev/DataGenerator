@@ -16,32 +16,80 @@ public class PropertyBuilder<TType>
         _parent = parent;
     }
 
-    public PropertyBuilder<TType> WithValue(Property property)
+    public PropertyBuilder<TType> IsCalc()
     {
-        if (!string.IsNullOrEmpty(property.Name))
-        {
-            _property.Name = property.Name;
-        }
-        _property.Type = property.Type;
-        _property.Pattern = property.Pattern;
-        _property.SubTypePattern = property.SubTypePattern;
-        _property.SequenceSeparator = property.SequenceSeparator;
-        _property.MinLength = property.MinLength;
-        _property.MaxLength = property.MaxLength;
-        _property.MinSpaceCount = property.MinSpaceCount;
-        _property.MaxSpaceCount = property.MaxSpaceCount;
-        _property.MinValue = property.MinValue;
-        _property.MaxValue = property.MinValue;
+        _property.Type = TemplateType.Calc;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> Pattern(string? pattern)
+    {
+        _property.Pattern = pattern;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> SubTypePattern(string? pattern)
+    {
+        _property.SubTypePattern = pattern;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> Length(int? min, int? max)
+    {
+        _property.MinLength = min;
+        return Length(max);
+    }
+    
+    public PropertyBuilder<TType> Length(int? max)
+    {
+        _property.MaxLength = max;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> Spaces(int? min, int? max)
+    {
+        _property.MinSpaceCount = min;
+        return Spaces(max);
+    }
+    
+    public PropertyBuilder<TType> Spaces(int? max)
+    {
+        _property.MaxSpaceCount = max;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> Range(object? min, object? max)
+    {
+        _property.MinValue = min;
+        return Range(max);
+    }
+    
+    public PropertyBuilder<TType> Range(object? max)
+    {
+        _property.MaxValue = max;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> FromFile(string? filename)
+    {
+        _property.Type = TemplateType.File;
+        _property.Pattern = filename;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> HasJsonName(string? name)
+    {
+        _property.Name = name;
         return this;
     }
 
-    public PropertyBuilder<TType> WithFailure(Failure failure, string? customFailure = null)
+    public PropertyBuilder<TType> Failure(double? nullable = null, double? custom = null, double? range = null, string? customFailure = null)
     {
-        _property.Failure = failure;
+        _property.Failure = new Failure {Nullable = nullable, Custom = custom, Range = range};
         _property.CustomFailure = customFailure;
         return this;
     }
     
-    public PropertyBuilder<TType> ForProperty<TProp>(Expression<Func<TType, TProp>> expression)
-        => _parent.ForProperty(expression);
+    public PropertyBuilder<TType> Property<TProp>(Expression<Func<TType, TProp>> expression)
+        => _parent.Property(expression);
 }
