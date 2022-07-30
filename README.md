@@ -1,6 +1,6 @@
 # DataGenerator
 
-Generates data randomly. The input must contain the definition for objects and properties, so the `DataProcessor` will know the expectations. Either a special json, which will be described below, or any class using the `Akov.DataGenerator.Attributes` namespace may be considered to be the input. The output will be in the json format.
+Generates data randomly. The input must contain the definition for objects and properties, so the `DataProcessor` will know the expectations. Either a special json, which will be described below, or any class using the `Akov.DataGenerator.Attributes` namespace may be considered to be the input. The output will be in the json format. Fluent support as an alternative to attributes added since version 1.4.0.
 
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
@@ -9,6 +9,7 @@ Generates data randomly. The input must contain the definition for objects and p
 * Version **1.2** arrays of primitive types are not supported. Fixed in **1.3**.
 * Version **1.3** mapping of type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
 * Version **1.3.1** min array size support added, range validation for `DgLength`, `DgSpacesCount`, `DgFailure` added on attributes level.
+* Version **1.4.0** fluent support added.
 
 ## Author's blog
 
@@ -21,6 +22,8 @@ Generates data randomly. The input must contain the definition for objects and p
 [Data Generator Attributes](https://akovanev.com/blogs/2020/09/07/data-generator-attributes) - using the program approach.
 
 [Integration Testing with Data Generator](https://akovanev.com/blogs/2020/09/08/integration-testing-with-data-generator) - shows how to mock and test solutions with the generated data.
+
+[Fluent support profile example](https://github.com/akovanev/DataGenerator/blob/feature/1.4/Akov.DataGenerator.Demo/StudentsSampleTests/Tests/Profiles/StudentsTestProfile.cs) - an alternative to using attributes.
 
 ## Assemblies description
 
@@ -126,6 +129,18 @@ Determine how data should be generated based on an existing class in code.
 `DgSource` specifies the file of values for the property. **Not** supported for objects, arrays and enums.
 
 `DgSpaceCount` specifies the count of spaces in the string.
+
+## Fluent profiles
+
+A profile should derive from `DgProfileBase`.
+
+`ForType()` - registers a type in the profile. All the subtypes should be registered as well.
+
+`Ignore(Expression)` - excludes a property from data generation.
+
+`Property(Expression)` - points to a property for which the generation rules should be setup. If a property is not ignored and skipped in the profile, then the defaults will be applied to it.
+
+[PropertyBuilder](https://github.com/akovanev/DataGenerator/blob/feature/1.4/Akov.DataGenerator/Profiles/PropertyBuilder.cs) - contains the list of methods which work similar to the attribute approach.
 
 ## Code examples
 
