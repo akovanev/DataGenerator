@@ -17,7 +17,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests
         private readonly DgProfileBase _profile = new StudentsTestProfile();
         
         [Theory]
-       // [InlineData(MockHttpClientFactory.GenerationType.UseAttributes)]
+        [InlineData(MockHttpClientFactory.GenerationType.UseAttributes)]
         [InlineData(MockHttpClientFactory.GenerationType.UseProfile)]
         public async Task GetAll_RandomStudentList(MockHttpClientFactory.GenerationType type)
         {

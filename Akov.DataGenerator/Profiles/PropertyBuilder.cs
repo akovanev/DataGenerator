@@ -15,22 +15,30 @@ public class PropertyBuilder<TType>
         _property = property;
         _parent = parent;
     }
+    
+    public PropertyBuilder<TType> Failure(double? nullable = null, double? custom = null, double? range = null, string? customFailure = null)
+    {
+        _property.Failure = new Failure {Nullable = nullable, Custom = custom, Range = range};
+        _property.CustomFailure = customFailure;
+        return this;
+    }
 
+    public PropertyBuilder<TType> FromFile(string? filename)
+    {
+        _property.Type = TemplateType.File;
+        _property.Pattern = filename;
+        return this;
+    }
+    
+    public PropertyBuilder<TType> HasJsonName(string? name)
+    {
+        _property.Name = name;
+        return this;
+    }
+    
     public PropertyBuilder<TType> IsCalc()
     {
         _property.Type = TemplateType.Calc;
-        return this;
-    }
-    
-    public PropertyBuilder<TType> Pattern(string? pattern)
-    {
-        _property.Pattern = pattern;
-        return this;
-    }
-    
-    public PropertyBuilder<TType> SubTypePattern(string? pattern)
-    {
-        _property.SubTypePattern = pattern;
         return this;
     }
     
@@ -46,17 +54,14 @@ public class PropertyBuilder<TType>
         return this;
     }
     
-    public PropertyBuilder<TType> Spaces(int? min, int? max)
+    public PropertyBuilder<TType> Pattern(string? pattern)
     {
-        _property.MinSpaceCount = min;
-        return Spaces(max);
-    }
-    
-    public PropertyBuilder<TType> Spaces(int? max)
-    {
-        _property.MaxSpaceCount = max;
+        _property.Pattern = pattern;
         return this;
     }
+    
+    public PropertyBuilder<TType> Property<TProp>(Expression<Func<TType, TProp>> expression)
+        => _parent.Property(expression);
     
     public PropertyBuilder<TType> Range(object? min, object? max)
     {
@@ -70,26 +75,21 @@ public class PropertyBuilder<TType>
         return this;
     }
     
-    public PropertyBuilder<TType> FromFile(string? filename)
+    public PropertyBuilder<TType> Spaces(int? min, int? max)
     {
-        _property.Type = TemplateType.File;
-        _property.Pattern = filename;
+        _property.MinSpaceCount = min;
+        return Spaces(max);
+    }
+    
+    public PropertyBuilder<TType> Spaces(int? max)
+    {
+        _property.MaxSpaceCount = max;
         return this;
     }
     
-    public PropertyBuilder<TType> HasJsonName(string? name)
+    public PropertyBuilder<TType> SubTypePattern(string? pattern)
     {
-        _property.Name = name;
+        _property.SubTypePattern = pattern;
         return this;
     }
-
-    public PropertyBuilder<TType> Failure(double? nullable = null, double? custom = null, double? range = null, string? customFailure = null)
-    {
-        _property.Failure = new Failure {Nullable = nullable, Custom = custom, Range = range};
-        _property.CustomFailure = customFailure;
-        return this;
-    }
-    
-    public PropertyBuilder<TType> Property<TProp>(Expression<Func<TType, TProp>> expression)
-        => _parent.Property(expression);
 }
