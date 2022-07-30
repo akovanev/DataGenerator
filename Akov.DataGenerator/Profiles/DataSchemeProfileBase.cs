@@ -12,7 +12,8 @@ public abstract class DgProfileBase
 
     protected DataSchemeTypeBuilder<T> ForType<T>()
     {
-        var typeBuilder = new DataSchemeTypeBuilder<T>();
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var typeBuilder = new DataSchemeTypeBuilder<T>(properties);
         _typePropertiesCollections.Add(typeof(T), typeBuilder);
         return typeBuilder;
     }

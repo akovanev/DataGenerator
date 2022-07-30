@@ -15,6 +15,8 @@ public class StudentsTestProfile : DgProfileBase
             .Property(c => c.Students).Length(100, 100);
                 
         ForType<Student>()
+            .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
+            .Ignore(s => s.ParsingErrors).Ignore(s => s.ParsingWarnings)
             .Property(s => s.Id).Failure(nullable: 0.2)
             .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
             .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
@@ -26,7 +28,6 @@ public class StudentsTestProfile : DgProfileBase
                 .Failure(0.1, 0.1, 0.05, "####-####-####" )
             .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
                 .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
-            .Property(s => s.Subject)
             .Property(s => s.Subjects).Length(4);
 
         ForType<Subject>()
