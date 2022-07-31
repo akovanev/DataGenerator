@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Authors>Oleksandr Kovanev</Authors>
-    <Description>Generates random test data based on predefined attribute values on a certain class / or by reading definitions from json.</Description>
+    <Description>Generates random test data.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/akovanev/DataGenerator/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -15,7 +15,8 @@
     <PackageIcon>dg.png</PackageIcon>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.3.1</Version>
+    <Version>1.4.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,12 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="dg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="bin\Debug\netcoreapp3.1\dg.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
+    <None Include="dg.png" Pack="true" PackagePath="">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

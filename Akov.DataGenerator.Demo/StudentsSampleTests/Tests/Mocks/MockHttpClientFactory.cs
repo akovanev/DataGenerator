@@ -3,8 +3,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Mappers;
+using Akov.DataGenerator.Profiles;
 using Akov.DataGenerator.Scheme;
 using Moq;
 using Moq.Protected;
@@ -18,16 +20,21 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
     {
         private readonly Lazy<HttpClient> _studentServiceHttpClient;
 
-        public MockHttpClientFactory()
+        public MockHttpClientFactory(GenerationType generationType, DgProfileBase? profile = null)
         {
+            if (generationType is GenerationType.UseProfile && profile is null)
+                throw new InvalidOperationException("Profile should be defined");
+            
             _studentServiceHttpClient = new Lazy<HttpClient>(() =>
             {
                 var dg = new DG(
                     new StudentGeneratorFactory(),
                     new DataSchemeMapperConfig { UseCamelCase = true });
 
-                //Creates DataScheme based on DgStudentCollection attributes.
-                DataScheme scheme = dg.GetFromType<DgStudentCollection>();
+                //Creates DataScheme based on DgStudentCollection attributes or profiles.
+                DataScheme scheme = generationType is GenerationType.UseAttributes
+                    ? dg.GetFromType<DgStudentCollection>()
+                    : profile!.GetDataScheme<StudentCollection>();
                 
                 //Generates json random data.
                 string jsonData = dg.GenerateJson(scheme);
@@ -53,5 +60,11 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 
         public HttpClient GetStudentServiceClient()
             => _studentServiceHttpClient.Value;
+        
+        public enum GenerationType
+        {
+            UseAttributes,
+            UseProfile
+        }
     }
 }

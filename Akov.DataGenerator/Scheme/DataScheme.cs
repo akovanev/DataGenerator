@@ -24,9 +24,9 @@ namespace Akov.DataGenerator.Scheme
 
         internal Definition GetDefinition(string pattern)
         {
-            Definition definition = Definitions.SingleOrDefault(def => def.Name == pattern);
+            var definition = Definitions?.SingleOrDefault(def => def.Name == pattern);
             definition.ThrowIfNull($"Definition with the name {pattern} not found");
-            definition.Properties.ThrowIfNullOrEmpty($"Definition with the name {pattern} must have at least one property");
+            definition!.Properties.ThrowIfNullOrEmpty($"Definition with the name {pattern} must have at least one property");
 
             return definition;
         }
