@@ -10,6 +10,20 @@ Generates data randomly. The input must contain the definition for objects and p
 * Version **1.3** mapping of type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
 * Version **1.3.1** min array size support added, range validation for `DgLength`, `DgSpacesCount`, `DgFailure` added on attributes level.
 * Version **1.4.0** fluent support added.
+```
+ForType<Student>()
+    .Ignore(s => s.IsValid)
+    .Property(s => s.Id).Failure(nullable: 0.2)
+    .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
+    .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
+    .Property(s => s.FullName).IsCalc()
+    .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)
+    .Property(s => s.EncodedSolution).HasJsonName("encoded_solution")
+        .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(15, 50).Spaces(1,3)
+        .Failure(0.1, 0.1, 0.05, "####-####-####" )
+    .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
+        .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
+```
 
 ## Author's blog
 
@@ -141,6 +155,8 @@ A profile should derive from `DgProfileBase`.
 `Property(Expression)` - points to a property for which the generation rules should be setup. If a property is not ignored and skipped in the profile, then the defaults will be applied to it.
 
 [PropertyBuilder](https://github.com/akovanev/DataGenerator/blob/feature/1.4/Akov.DataGenerator/Profiles/PropertyBuilder.cs) - contains the list of methods which work similar to the attribute approach.
+
+
 
 ## Code examples
 
