@@ -9,7 +9,7 @@ namespace Akov.DataGenerator.Factories
 {
     internal class PropertyObjectFactory
     {
-        private readonly IOHelper _ioHelper = new IOHelper();
+        private readonly IOHelper _ioHelper = new ();
 
         public PropertyObject CreatePropertyObject(
             string definitionName, 

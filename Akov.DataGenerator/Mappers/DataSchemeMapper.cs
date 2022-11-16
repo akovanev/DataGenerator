@@ -34,7 +34,7 @@ namespace Akov.DataGenerator.Mappers
             return new DataScheme(type.Name, definitions);
         }
 
-        private List<Property>  PopulateProperties(PropertyInfo[] props)
+        private List<Property> PopulateProperties(PropertyInfo[] props)
         {
             var properties = new List<Property>();
 
@@ -43,15 +43,15 @@ namespace Akov.DataGenerator.Mappers
                 var attrs = prop.GetCustomAttributes().ToList();
 
                 var ignore = attrs.GetValue<DgIgnoreAttribute>();
-                if(!(ignore is null)) continue;
+                if(ignore is not null) continue;
 
                 var name = attrs.GetValue<DgNameAttribute>();
                 var propertyName = name?.Value ?? prop.Name;
-                if (!(_config is null) && _config.UseCamelCase)
+                if (_config is not null && _config.UseCamelCase)
                     propertyName = propertyName.ToCamelCase();
 
                 var calc = attrs.GetValue<DgCalcAttribute>();
-                if (!(calc is null))
+                if (calc is not null)
                 {
                     properties.Add(new Property {Name = propertyName, Type = TemplateType.Calc});
                     continue;
@@ -66,7 +66,7 @@ namespace Akov.DataGenerator.Mappers
                 DgSpacesCountAttribute? spaces = null;
                 DgRangeAttribute? range = null;
 
-                if (!(source is null))
+                if (source is not null)
                 {
                     if(templateType == TemplateType.Array || 
                      templateType == TemplateType.Object ||

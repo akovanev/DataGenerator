@@ -3,8 +3,10 @@ using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.Processors;
+using Akov.DataGenerator.Profiles;
 using Akov.DataGenerator.Scheme;
 using Akov.DataGenerator.Serializers;
+using Newtonsoft.Json;
 
 namespace Akov.DataGenerator
 {
@@ -15,11 +17,12 @@ namespace Akov.DataGenerator
         private readonly Lazy<DataSchemeMapper> _mapper;
 
         public DG(IGeneratorFactory? generatorFactory = null,
-            DataSchemeMapperConfig? config = null)
+            DataSchemeMapperConfig? mapperConfig = null,
+            FileReadConfig? fileReadConfig = null)
         {
             _generatorFactory = generatorFactory ?? new GeneratorFactory();
-            _ioHelper = new Lazy<IOHelper>(() => new IOHelper());
-            _mapper = new Lazy<DataSchemeMapper>(() => new DataSchemeMapper(config));
+            _ioHelper = new Lazy<IOHelper>(() => new IOHelper(fileReadConfig));
+            _mapper = new Lazy<DataSchemeMapper>(() => new DataSchemeMapper(mapperConfig));
         }
 
         public DataScheme GetFromFile(string filename)
@@ -36,6 +39,12 @@ namespace Akov.DataGenerator
         
             return JsonValueObjectSerializer.Serialize(data);
         }
+
+        public T GenerateObject<T>(DataScheme scheme)
+            => JsonConvert.DeserializeObject<T>(GenerateJson(scheme));
+
+        public T GenerateObject<T>(DgProfileBase profile)
+            => GenerateObject<T>(profile.GetDataScheme<T>());
 
         public void SaveToFile(string filename, string json)
             => _ioHelper.Value.SaveData(filename, json);

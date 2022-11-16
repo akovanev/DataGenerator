@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Mappers;
@@ -29,7 +30,8 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
             {
                 var dg = new DG(
                     new StudentGeneratorFactory(),
-                    new DataSchemeMapperConfig { UseCamelCase = true });
+                    new DataSchemeMapperConfig { UseCamelCase = true },
+                    new FileReadConfig { UseCache = true });
 
                 //Creates DataScheme based on DgStudentCollection attributes or profiles.
                 DataScheme scheme = generationType is GenerationType.UseAttributes

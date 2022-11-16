@@ -34,7 +34,7 @@ namespace Akov.DataGenerator.Extensions
         {
             Type? underlyingType = Nullable.GetUnderlyingType(type);
 
-            if (!(underlyingType is null))
+            if (underlyingType is not null)
                 type = underlyingType;
 
             if (type.IsEnum)
@@ -100,7 +100,7 @@ namespace Akov.DataGenerator.Extensions
                 elementType = type.GetGenericArguments()[0];
             }
 
-            if (!(elementType is null))
+            if (elementType is not null)
             {
                 return !elementType.IsEnum
                     ? elementType

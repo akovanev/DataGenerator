@@ -15,7 +15,7 @@
     <PackageIcon>dg.png</PackageIcon>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
