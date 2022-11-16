@@ -1,16 +1,20 @@
 # DataGenerator
 
-Generates data randomly. The input must contain the definition for objects and properties, so the `DataProcessor` will know the expectations. Either a special json, which will be described below, or any class using the `Akov.DataGenerator.Attributes` namespace may be considered to be the input. The output will be in the json format. Fluent support as an alternative to attributes added since version 1.4.0.
+Generates data randomly based on json file, class attributes or fluent profiles (since 1.4). 
+
+Key features:
+* Calculated properties with custom rules.
+* Random failures.
 
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
-**Important**: 
+**Changelog**: 
 * Versions **1.0** and **1.1** are not supported and **not recommended** to use. 
 * Version **1.2** arrays of primitive types are not supported. Fixed in **1.3**.
 * Version **1.3** mapping of type `T` onto `DataScheme` based on attributes from `Akov.DataGenerator.Attributes` added. 
 * Version **1.3.1** min array size support added, range validation for `DgLength`, `DgSpacesCount`, `DgFailure` added on attributes level.
 * Version **1.4.0** fluent support added.
-```
+```csharp
 ForType<Student>()
     .Ignore(s => s.IsValid)
     .Property(s => s.Id).Failure(nullable: 0.2)
@@ -25,7 +29,14 @@ ForType<Student>()
         .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
 ```
 
+* Version **1.4.1** object generation interface still based on json generation added.
+```csharp
+var students = dg.GenerateObject<StudentCollection>(new StudentsTestProfile());
+```
+
 ## Author's blog
+
+Articles temporarily available on https://github.com/akovanev/kovanev.github.io/tree/master/_posts
 
 [Data Generator](https://akovanev.com/blogs/2020/08/26/data-generator/) - a quick introduction.
 
@@ -162,7 +173,7 @@ A profile should derive from `DgProfileBase`.
 
 #### A custom generator for a calculated property
 
-```
+```csharp
 public class StudentCalcGenerator : CalcGeneratorBase
 {
     protected override object CreateImpl(CalcPropertyObject propertyObject)
@@ -189,7 +200,7 @@ public class StudentCalcGenerator : CalcGeneratorBase
 
 #### Extending the existing generator factory
 
-```
+```csharp
 public class StudentGeneratorFactory : GeneratorFactory
 {
     public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
@@ -205,7 +216,7 @@ var dg = new DG(new StudentGeneratorFactory());
 
 #### A class representing the data generation
 
-```
+```csharp
 public class DgStudent
 {
     [DgFailure(NullProbability = 0.2)]
