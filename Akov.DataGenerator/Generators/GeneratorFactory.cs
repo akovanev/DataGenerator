@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Akov.DataGenerator.Constants;
+using Akov.DataGenerator.Profiles;
 
 namespace Akov.DataGenerator.Generators
 {
     public class GeneratorFactory : IGeneratorFactory
     {
+        private readonly IReadOnlyCollection<AssignGeneratorBase> _assignGenerators;
+
+        public GeneratorFactory(DgProfileBase? profile = null)
+        {
+            _assignGenerators = profile?.GetAssignGenerators() 
+                                ?? new ReadOnlyCollection<AssignGeneratorBase>(Enumerable.Empty<AssignGeneratorBase>().ToList());
+        }
+        
         public GeneratorBase Get(string type)
         {
             var generatorDictionary = GetGeneratorDictionary();
@@ -15,8 +26,8 @@ namespace Akov.DataGenerator.Generators
                 : throw new NotSupportedException($"Generator for {type} is not implemented yet");
         }
 
-        public virtual Dictionary<string, GeneratorBase> GetGeneratorDictionary()
-            =>  new Dictionary<string, GeneratorBase>
+        protected virtual Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+            =>  new()
             {
                 {TemplateType.String, new StringGenerator()},
                 {TemplateType.Set, new SetGenerator()},
@@ -27,5 +38,8 @@ namespace Akov.DataGenerator.Generators
                 {TemplateType.Double, new DoubleGenerator()},
                 {TemplateType.DateTime, new DatetimeGenerator()},
             };
+
+        AssignGeneratorBase IGeneratorFactory.GetAssign(string id)
+            => _assignGenerators.Single(a => string.Equals(a.Id,id, StringComparison.OrdinalIgnoreCase));
     }
 }

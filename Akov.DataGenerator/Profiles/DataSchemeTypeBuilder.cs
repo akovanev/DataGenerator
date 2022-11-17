@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Extensions;
+using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Profiles;
@@ -18,6 +19,8 @@ public class DataSchemeTypeBuilder<TType> : IPropertiesCollection
     
     public List<Property> Properties { get; }
     
+    internal AssignGenerator<TType> AssignGenerator { get; } = new();
+    
     public PropertyBuilder<TType> Property<TProp>(Expression<Func<TType, TProp>> expression)
     {
         string propertyName = ((MemberExpression) expression.Body).Member.Name;
@@ -30,6 +33,11 @@ public class DataSchemeTypeBuilder<TType> : IPropertiesCollection
         string propertyName = ((MemberExpression) expression.Body).Member.Name;
         Properties.Remove(Properties.Single(p => p.Name == propertyName));
         return this;
+    }
+    
+    internal void Assign(string propertyName, Expression<Func<TType, object>> expression)
+    {
+        AssignGenerator.AddProperty(propertyName, expression);
     }
     
     private static Property GetBy(PropertyInfo propertyInfo)

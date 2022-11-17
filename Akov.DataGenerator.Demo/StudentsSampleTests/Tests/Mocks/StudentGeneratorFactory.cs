@@ -4,6 +4,7 @@ using System.Linq;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Profiles;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 {
@@ -12,7 +13,11 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
     /// </summary>
     public class StudentGeneratorFactory : GeneratorFactory
     {
-        public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+        public StudentGeneratorFactory(DgProfileBase? profile = null) : base(profile)
+        {
+        }
+        
+        protected override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
         {
             Dictionary<string, GeneratorBase> generators = base.GetGeneratorDictionary();
             generators.Add(TemplateType.Calc, new StudentCalcGenerator());

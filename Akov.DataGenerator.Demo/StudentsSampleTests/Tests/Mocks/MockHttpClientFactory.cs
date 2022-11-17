@@ -29,7 +29,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
             _studentServiceHttpClient = new Lazy<HttpClient>(() =>
             {
                 var dg = new DG(
-                    new StudentGeneratorFactory(),
+                    new StudentGeneratorFactory(profile),
                     new DataSchemeMapperConfig { UseCamelCase = true },
                     new FileReadConfig { UseCache = true });
 

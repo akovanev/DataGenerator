@@ -40,11 +40,17 @@ namespace Akov.DataGenerator.Processors
             definition.Properties!.ThrowIfAnyGeneralError();
 
             List<Property> properties = definition.Properties!
-                .Where(p => p.Type != TemplateType.Calc)
+                .Where(p => p.Type != TemplateType.Calc &&
+                            p.Type != TemplateType.Assign)
                 .ToList();
 
             List<Property> calcProperties = definition.Properties!
+                .Where(p => p.Type == TemplateType.Calc)
+                .ToList();
+            
+            List<Property> assignProperties = definition.Properties!
                 .Except(properties)
+                .Except(calcProperties)
                 .ToList();
 
             List<NameValueObject> values = properties
@@ -53,6 +59,10 @@ namespace Akov.DataGenerator.Processors
 
             values.AddRange(calcProperties
                 .Select(p => CreateFromCalculatedProperty(definition.Name!, p, values))
+                .ToList());
+            
+            values.AddRange(assignProperties
+                .Select(p => CreateFromAssignedProperty(definition.Name!, p, values))
                 .ToList());
 
             var propertiesByOrder = definition.Properties!.Select(p => p.Name!).ToList();
@@ -72,6 +82,15 @@ namespace Akov.DataGenerator.Processors
                 _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
 
             return CreateValue(propertyObject);
+        }
+        
+        private NameValueObject CreateFromAssignedProperty(
+            string definitionName, Property property, List<NameValueObject> values)
+        {
+            CalcPropertyObject propertyObject = 
+                _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
+
+            return AssignValue(definitionName, propertyObject);
         }
 
         private NameValueObject CreateFromPropertyObject(PropertyObject propertyObject)
@@ -132,6 +151,13 @@ namespace Akov.DataGenerator.Processors
         private NameValueObject CreateValue(PropertyObject propertyObject)
         {
             var generator = _generatorFactory.Get(propertyObject.Property.Type!);
+            object? value = generator.Create(propertyObject);
+            return new NameValueObject(propertyObject.Property.Name, value);
+        }
+
+        private NameValueObject AssignValue(string id, CalcPropertyObject propertyObject)
+        {
+            AssignGeneratorBase generator = _generatorFactory.GetAssign(id);
             object? value = generator.Create(propertyObject);
             return new NameValueObject(propertyObject.Property.Name, value);
         }

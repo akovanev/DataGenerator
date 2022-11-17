@@ -17,5 +17,8 @@
         public const string Object = "object";
         public const string File = "file";
         public const string Calc = "calc";
+        
+        // Profile only
+        public const string Assign = "assign";
     }
 }

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using Akov.DataGenerator.Extensions;
+using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Profiles;
@@ -9,12 +12,15 @@ namespace Akov.DataGenerator.Profiles;
 public abstract class DgProfileBase
 {
     private readonly Dictionary<Type, IPropertiesCollection> _typePropertiesCollections = new();
-
+    private readonly Dictionary<Type, AssignGeneratorBase> _assignGeneratorsCollection = new();
+    
     protected DataSchemeTypeBuilder<T> ForType<T>()
     {
-        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        Type type = typeof(T);
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var typeBuilder = new DataSchemeTypeBuilder<T>(properties);
-        _typePropertiesCollections.Add(typeof(T), typeBuilder);
+        _typePropertiesCollections.Add(type, typeBuilder);
+        _assignGeneratorsCollection.Add(type, typeBuilder.AssignGenerator);
         return typeBuilder;
     }
 
@@ -36,4 +42,7 @@ public abstract class DgProfileBase
 
         return new DataScheme(type.Name, definitions);
     }
+
+    internal IReadOnlyCollection<AssignGeneratorBase> GetAssignGenerators()
+        => new ReadOnlyCollection<AssignGeneratorBase>(_assignGeneratorsCollection.Values.ToList());
 }
