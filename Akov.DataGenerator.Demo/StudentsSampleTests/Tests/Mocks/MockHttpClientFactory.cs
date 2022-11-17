@@ -29,18 +29,15 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
             _studentServiceHttpClient = new Lazy<HttpClient>(() =>
             {
                 var dg = new DG(
-                    new StudentGeneratorFactory(profile),
+                    new StudentGeneratorFactory(),
                     new DataSchemeMapperConfig { UseCamelCase = true },
                     new FileReadConfig { UseCache = true });
 
-                //Creates DataScheme based on DgStudentCollection attributes or profiles.
-                DataScheme scheme = generationType is GenerationType.UseAttributes
-                    ? dg.GetFromType<DgStudentCollection>()
-                    : profile!.GetDataScheme<StudentCollection>();
+                //Creates json based on DgStudentCollection attributes or profiles.
+                string jsonData = generationType is GenerationType.UseAttributes
+                    ? dg.GenerateJson(dg.GetFromType<DgStudentCollection>())
+                    : dg.GenerateJson<StudentCollection>(profile!);
                 
-                //Generates json random data.
-                string jsonData = dg.GenerateJson(scheme);
-
                 var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
                 handlerMock.Protected()
                     .Setup<Task<HttpResponseMessage>>(

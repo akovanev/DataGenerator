@@ -10,7 +10,7 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processors
 {
-    public class DataProcessor : IDataPcocessor
+    public class DataProcessor : IDataProcessor
     {
         private readonly DataScheme _scheme;
         private readonly IGeneratorFactory _generatorFactory;
@@ -34,21 +34,32 @@ namespace Akov.DataGenerator.Processors
             Definition definition = _scheme.GetDefinition(_scheme.Root!);
             return new NameValueObject(null, CreateFromDefinition(definition));
         }
+        
+        protected CalcPropertyObject CreateCalcPropertyObject(string definitionName, Property property, List<NameValueObject> values)
+            => _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
+        
+        protected virtual NameValueObject CreateFromCustomProperty(string definitionName, Property property, List<NameValueObject> values)
+            => throw new NotSupportedException("Support was not found for custom properties");
+        
+        protected virtual bool IsBasicProperty(Property property)
+            => property.Type != TemplateType.Calc;
 
+        private bool IsCalcProperty(Property property)
+            => property.Type == TemplateType.Calc;
+        
         private List<NameValueObject> CreateFromDefinition(Definition definition)
         {
             definition.Properties!.ThrowIfAnyGeneralError();
 
             List<Property> properties = definition.Properties!
-                .Where(p => p.Type != TemplateType.Calc &&
-                            p.Type != TemplateType.Assign)
+                .Where(IsBasicProperty)
                 .ToList();
 
             List<Property> calcProperties = definition.Properties!
-                .Where(p => p.Type == TemplateType.Calc)
+                .Where(IsCalcProperty)
                 .ToList();
             
-            List<Property> assignProperties = definition.Properties!
+            List<Property> customProperties = definition.Properties!
                 .Except(properties)
                 .Except(calcProperties)
                 .ToList();
@@ -61,8 +72,8 @@ namespace Akov.DataGenerator.Processors
                 .Select(p => CreateFromCalculatedProperty(definition.Name!, p, values))
                 .ToList());
             
-            values.AddRange(assignProperties
-                .Select(p => CreateFromAssignedProperty(definition.Name!, p, values))
+            values.AddRange(customProperties
+                .Select(p => CreateFromCustomProperty(definition.Name!, p, values))
                 .ToList());
 
             var propertiesByOrder = definition.Properties!.Select(p => p.Name!).ToList();
@@ -78,19 +89,8 @@ namespace Akov.DataGenerator.Processors
         private NameValueObject CreateFromCalculatedProperty(
             string definitionName, Property property, List<NameValueObject> values)
         {
-            CalcPropertyObject propertyObject = 
-                _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
-
+            CalcPropertyObject propertyObject = CreateCalcPropertyObject(definitionName, property, values);
             return CreateValue(propertyObject);
-        }
-        
-        private NameValueObject CreateFromAssignedProperty(
-            string definitionName, Property property, List<NameValueObject> values)
-        {
-            CalcPropertyObject propertyObject = 
-                _propertyObjectFactory.CreateCalcPropertyObject(definitionName, property, values);
-
-            return AssignValue(definitionName, propertyObject);
         }
 
         private NameValueObject CreateFromPropertyObject(PropertyObject propertyObject)
@@ -151,13 +151,6 @@ namespace Akov.DataGenerator.Processors
         private NameValueObject CreateValue(PropertyObject propertyObject)
         {
             var generator = _generatorFactory.Get(propertyObject.Property.Type!);
-            object? value = generator.Create(propertyObject);
-            return new NameValueObject(propertyObject.Property.Name, value);
-        }
-
-        private NameValueObject AssignValue(string id, CalcPropertyObject propertyObject)
-        {
-            AssignGeneratorBase generator = _generatorFactory.GetAssign(id);
             object? value = generator.Create(propertyObject);
             return new NameValueObject(propertyObject.Property.Name, value);
         }

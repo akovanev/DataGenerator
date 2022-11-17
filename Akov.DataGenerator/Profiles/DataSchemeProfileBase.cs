@@ -24,7 +24,7 @@ public abstract class DgProfileBase
         return typeBuilder;
     }
 
-    public DataScheme GetDataScheme<T>()
+    internal DataScheme GetDataScheme<T>()
     {
         Type type = typeof(T);
         

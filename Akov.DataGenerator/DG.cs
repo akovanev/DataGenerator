@@ -31,22 +31,25 @@ namespace Akov.DataGenerator
         public DataScheme GetFromType<T>()
             => _mapper.Value.MapFrom<T>();
 
-        public string GenerateJson(DataScheme scheme)
-        {
-            var dataProcessor = new DataProcessor(scheme, _generatorFactory);
+        public string GenerateJson<T>(DgProfileBase profile)
+            => GenerateJson(new TypeDataProcessor<T>(profile, _generatorFactory));
 
-            var data = dataProcessor.CreateData();
-        
-            return JsonValueObjectSerializer.Serialize(data);
-        }
+        public string GenerateJson(DataScheme scheme)
+            => GenerateJson(new DataProcessor(scheme, _generatorFactory));
 
         public T GenerateObject<T>(DataScheme scheme)
             => JsonConvert.DeserializeObject<T>(GenerateJson(scheme));
 
         public T GenerateObject<T>(DgProfileBase profile)
-            => GenerateObject<T>(profile.GetDataScheme<T>());
+            => JsonConvert.DeserializeObject<T>(GenerateJson<T>(profile));
 
         public void SaveToFile(string filename, string json)
             => _ioHelper.Value.SaveData(filename, json);
+        
+        private static string GenerateJson(IDataProcessor dataProcessor)
+        {
+            var data = dataProcessor.CreateData();
+            return JsonValueObjectSerializer.Serialize(data);
+        }
     }
 }
