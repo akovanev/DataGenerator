@@ -1,6 +1,6 @@
 ﻿using System;
-using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Extensions;
+using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
 {

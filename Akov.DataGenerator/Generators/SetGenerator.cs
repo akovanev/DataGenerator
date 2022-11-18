@@ -1,7 +1,7 @@
-﻿using Akov.DataGenerator.Scheme;
-using Akov.DataGenerator.Models;
-using Akov.DataGenerator.Constants;
+﻿using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Extensions;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Generators
 {

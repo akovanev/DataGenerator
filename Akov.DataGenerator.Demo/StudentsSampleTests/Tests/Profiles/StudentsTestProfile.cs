@@ -20,7 +20,7 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.Id).Failure(nullable: 0.2)
             .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
             .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
-            .Property(s => s.FullName).IsCalc()
+            .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
             .Property(s => s.Variant).HasJsonName("test_variant")
             .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)
             .Property(s => s.EncodedSolution).HasJsonName("encoded_solution")

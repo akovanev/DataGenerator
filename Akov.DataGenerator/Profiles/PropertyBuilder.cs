@@ -41,7 +41,14 @@ public class PropertyBuilder<TType>
         _property.Type = TemplateType.Calc;
         return this;
     }
-    
+
+    public PropertyBuilder<TType> Assign(Expression<Func<TType, object>> expression)
+    {
+        _property.Type = TemplateType.Assign;
+        _parent.Assign(_property.Name!, expression);
+        return this;
+    }
+
     public PropertyBuilder<TType> Length(int? min, int? max)
     {
         _property.MinLength = min;

@@ -2,7 +2,7 @@
 
 namespace Akov.DataGenerator.Processors
 {
-    public interface IDataPcocessor
+    public interface IDataProcessor
     {
         NameValueObject CreateData();
     }

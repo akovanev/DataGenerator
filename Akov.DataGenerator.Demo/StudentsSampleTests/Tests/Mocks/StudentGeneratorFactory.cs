@@ -12,7 +12,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
     /// </summary>
     public class StudentGeneratorFactory : GeneratorFactory
     {
-        public override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+        protected override Dictionary<string, GeneratorBase> GetGeneratorDictionary()
         {
             Dictionary<string, GeneratorBase> generators = base.GetGeneratorDictionary();
             generators.Add(TemplateType.Calc, new StudentCalcGenerator());

@@ -15,8 +15,8 @@ namespace Akov.DataGenerator.Generators
                 : throw new NotSupportedException($"Generator for {type} is not implemented yet");
         }
 
-        public virtual Dictionary<string, GeneratorBase> GetGeneratorDictionary()
-            =>  new Dictionary<string, GeneratorBase>
+        protected virtual Dictionary<string, GeneratorBase> GetGeneratorDictionary()
+            =>  new()
             {
                 {TemplateType.String, new StringGenerator()},
                 {TemplateType.Set, new SetGenerator()},

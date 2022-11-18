@@ -11,11 +11,11 @@
     <RepositoryUrl>https://github.com/akovanev/DataGenerator.git</RepositoryUrl>
     <Copyright>Oleksandr Kovanev</Copyright>
     <Company />
-    <PackageTags>Data;Generator;Fake</PackageTags>
+    <PackageTags>Data Generator;Fake;Fluent;Calculated Properties;Random Failure</PackageTags>
     <PackageIcon>dg.png</PackageIcon>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.4.1</Version>
+    <Version>1.5.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
