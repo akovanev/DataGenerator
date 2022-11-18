@@ -18,15 +18,6 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 
 `DG`, at this moment, is quite far from being optimal in terms of performance as well as in code experience, test coverage or documentation. But if you see that there could be nice features added, feel free to create a github issue.  
 
-
-**Changelog**: 
-* Versions **1.0 - 1.2** are not supported. 
-* Version **1.3** mapping of type `T` based on attributes from `Akov.DataGenerator.Attributes` added. 
-* Version **1.3.1** min array size support added, range validation for `DgLength`, `DgSpacesCount`, `DgFailure` added on attributes level.
-* Version **1.4.0** fluent support added.
-* Version **1.4.1** object generation interface added.
-* Version **1.5.0** assigning of calculated properties added to fluent support.
-
 ## Author's blog
 
 Articles temporarily available on https://github.com/akovanev/kovanev.github.io/tree/master/_posts
