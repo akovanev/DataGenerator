@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Akov.DataGenerator.Scheme;
-using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Factories;
 using Akov.DataGenerator.Failures;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Generators
 {

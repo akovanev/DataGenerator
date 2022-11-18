@@ -4,8 +4,8 @@ using System.Linq;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Factories;
-using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Generators;
+using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processors

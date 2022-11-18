@@ -29,7 +29,7 @@ internal class AssignGenerator<T>: AssignGeneratorBase
         
         var expression = _assignProperties[propertyObject.Property.Name];
         var compiledLambda = expression.Compile();
-        return compiledLambda.DynamicInvoke(propertyObject.Cast<T>());
+        return compiledLambda.DynamicInvoke(propertyObject.Cast<T>())!;
     }
     
     protected override object CreateRangeFailureImpl(CalcPropertyObject propertyObject)

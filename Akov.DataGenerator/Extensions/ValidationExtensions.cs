@@ -18,11 +18,11 @@ namespace Akov.DataGenerator.Extensions
                 throw new ArgumentNullException(message);
         }
 
-        public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T>? source, string message)
+        public static void ThrowIfNullOrEmpty<T>(this List<T>? source, string message)
         {
             source.ThrowIfNull(message);
             
-            if(!source.Any())
+            if(!source!.Any())
                 throw new ArgumentException($"Collection is empty. {message}");
         }
 

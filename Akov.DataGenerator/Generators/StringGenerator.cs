@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System;
-using Akov.DataGenerator.Scheme;
-using Akov.DataGenerator.Models;
+﻿using System;
+using System.Linq;
 using Akov.DataGenerator.Extensions;
+using Akov.DataGenerator.Models;
+using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Generators
 {

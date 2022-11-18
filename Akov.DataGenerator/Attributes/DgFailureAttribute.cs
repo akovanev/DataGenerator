@@ -1,5 +1,5 @@
-﻿using Akov.DataGenerator.Extensions;
-using System;
+﻿using System;
+using Akov.DataGenerator.Extensions;
 
 namespace Akov.DataGenerator.Attributes
 {
