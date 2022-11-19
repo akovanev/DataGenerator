@@ -23,7 +23,7 @@ Originally this library was created in order to prepare json mocked data for tes
 
 After that I didn't work with `DG` for almost two years. During this time a couple of nice tools, helping out with fake data, appeared. Some time ago, I was working on the other issue, where data couldn't be too random again. I realized, that `DG` may get its second chance and got back to updating it with new features, primarily focusing on building a more convenient setup, based on the fluent syntax.
 
-`DG`, at this moment, is quite far from being optimal in terms of performance as well as in code experience, test coverage or documentation. But if you see that there could be nice features added, feel free to create a github issue. 
+`DG`, at this moment, is quite far from being optimal in terms of performance as well as in code experience, test coverage or documentation. But if you see that there could be nice features added, feel free to create a github issue or discussion. 
 
 **Example**
 ```csharp
