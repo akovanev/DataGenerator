@@ -103,6 +103,9 @@ namespace Akov.DataGenerator.Mappers
                 var customFailure = attrs.GetValue<DgCustomFailureAttribute>();
                 var separator = attrs.GetValue<DgSequenceSeparatorAttribute>();
                 var subpattern = attrs.GetValue<DgSubTypePatternAttribute>();
+                var customGenerator = attrs.GetValue<DgGeneratorAttribute>();
+                if (customGenerator is not null)
+                    templateType = customGenerator.Name;
 
                 var property = new Property
                 {
@@ -116,7 +119,7 @@ namespace Akov.DataGenerator.Mappers
                     MaxSpaceCount = spaces?.Max,
                     MinValue = range?.Min,
                     MaxValue = range?.Max,
-                    Failure = failure != null
+                    Failure = failure is not null
                         ? new Failure
                         {
                             Nullable = failure.NullProbability > 0 ? failure.NullProbability : (double?)null,

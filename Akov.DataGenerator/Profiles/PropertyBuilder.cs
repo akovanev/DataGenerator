@@ -48,6 +48,12 @@ public class PropertyBuilder<TType>
         _parent.Assign(_property.Name!, expression);
         return this;
     }
+    
+    public PropertyBuilder<TType> UseGenerator(string name)
+    {
+        _property.Type = name;
+        return this;
+    }
 
     public PropertyBuilder<TType> Length(int? min, int? max)
     {

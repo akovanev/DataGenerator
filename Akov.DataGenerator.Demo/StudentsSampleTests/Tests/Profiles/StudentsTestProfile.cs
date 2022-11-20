@@ -1,6 +1,7 @@
 ﻿using System;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
+using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Profiles;
 using Akov.DataGenerator.Scheme;
 
@@ -21,6 +22,7 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
             .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
             .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
+            .Property(s => s.Year).UseGenerator(StudentGeneratorFactory.UintGenerator).Range(5)
             .Property(s => s.Variant).HasJsonName("test_variant")
             .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)
             .Property(s => s.EncodedSolution).HasJsonName("encoded_solution")

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Akov.DataGenerator.Attributes;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
+using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
@@ -23,6 +24,10 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 
         [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
+        
+        [DgGenerator(StudentGeneratorFactory.UintGenerator)]
+        [DgRange(Max = 5)]
+        public int Year { get; set; }
 
         [DgName("test_variant")]
         public Variant Variant { get; set; }
