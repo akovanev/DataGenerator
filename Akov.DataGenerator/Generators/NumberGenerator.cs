@@ -16,7 +16,7 @@ namespace Akov.DataGenerator.Generators
             double min = property.MinValue is not null
                 ? Convert.ToDouble(property.MinValue) 
                 : minDefault;
-             double max = property.MaxValue is not null
+            double max = property.MaxValue is not null
                 ? Convert.ToDouble(property.MaxValue) 
                 : maxDefault;
 
@@ -32,7 +32,7 @@ namespace Akov.DataGenerator.Generators
             double min = property.MinValue is not null
                 ? Convert.ToDouble(property.MinValue)
                 : minDefault;
-             double max = property.MaxValue is not null
+            double max = property.MaxValue is not null
                 ? Convert.ToDouble(property.MaxValue)
                 : maxDefault;
 

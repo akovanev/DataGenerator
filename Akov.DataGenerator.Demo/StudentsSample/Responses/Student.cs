@@ -39,6 +39,8 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
         public Subject? Subject { get; set; }
         
         public Decimal Discount { get; set; }
+        
+        public byte[]? Signature { get; set; }
 
         /// <summary>
         /// The object is valid only if all inner objects are parsed correctly.

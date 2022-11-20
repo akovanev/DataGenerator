@@ -64,5 +64,9 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgPattern("##.##")]
         [DgRange(Min = 9.50, Max = 99.50)]
         public Decimal Discount { get; set; }
+        
+        [DgLength(Min = 4, Max = 16)]
+        [DgFailure(NullProbability = 0.1)]
+        public byte[]? Signature { get; set; }
     }
 }

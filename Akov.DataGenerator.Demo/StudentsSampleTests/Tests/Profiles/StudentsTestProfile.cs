@@ -31,7 +31,8 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
                 .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
             .Property(s => s.Subjects).Length(4)
-            .Property(s => s.Discount).Pattern("##.##").Range(9.50, 99.50);
+            .Property(s => s.Discount).Pattern("##.##").Range(9.50, 99.50)
+            .Property(s => s.Signature).Length(4, 16).Failure(nullable: 0.1);
 
         ForType<Subject>()
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")

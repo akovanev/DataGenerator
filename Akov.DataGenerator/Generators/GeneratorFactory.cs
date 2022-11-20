@@ -19,6 +19,7 @@ namespace Akov.DataGenerator.Generators
             =>  new()
             {
                 {TemplateType.String, new StringGenerator()},
+                {TemplateType.ByteArray, new ByteArrayGenerator()},
                 {TemplateType.Set, new SetGenerator()},
                 {TemplateType.File, new SetGenerator()},
                 {TemplateType.Guid, new GuidGenerator()},

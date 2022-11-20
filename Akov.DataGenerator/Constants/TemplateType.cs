@@ -6,6 +6,7 @@
     public class TemplateType
     {
         public const string String = "string";
+        public const string ByteArray = "bytearray";
         public const string Set = "set";
         public const string Guid = "guid";
         public const string Bool = "bool";
