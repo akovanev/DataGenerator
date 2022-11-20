@@ -8,9 +8,22 @@ Generates data randomly based on
 * Fluent mapping profiles (since version 1.4). 
 
 **Key features**:
-* Calculated properties with custom rules.
+* Calculated properties.
+```csharp
+.Property(c => c.Count).IsCalc() // Custom calc generator will define the logic rules
+```
+* Assigned properties.
+```csharp
+.Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}") // FirstName and LastName are random here
+```
 * Random failures.
-
+```csharp
+.Property(s => s.Signature).Length(4, 16)
+    .Failure(
+        nullable: 0.1, // 10% for null value
+        custom: 0.1,   // 10% for bad value
+        range: 0.05);  // 5% for out of range. Here that means lenght < 4 or > 16 
+```
 
 
 **Links**
