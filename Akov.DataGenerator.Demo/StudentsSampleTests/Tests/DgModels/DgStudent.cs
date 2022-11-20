@@ -60,5 +60,9 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         public List<DgSubject>? Subjects { get; set; }
 
         public DgSubject? Subject { get; set; }
+        
+        [DgPattern("##.##")]
+        [DgRange(Min = 9.50, Max = 99.50)]
+        public Decimal Discount { get; set; }
     }
 }

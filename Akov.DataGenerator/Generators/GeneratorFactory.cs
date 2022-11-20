@@ -25,6 +25,7 @@ namespace Akov.DataGenerator.Generators
                 {TemplateType.Bool, new BooleanGenerator()},
                 {TemplateType.Int, new IntGenerator()},
                 {TemplateType.Double, new DoubleGenerator()},
+                {TemplateType.Decimal, new DecimalGenerator()},
                 {TemplateType.DateTime, new DatetimeGenerator()},
             };
     }

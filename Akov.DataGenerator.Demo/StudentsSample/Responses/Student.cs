@@ -37,6 +37,8 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
         public List<Subject>? Subjects { get; set; }
 
         public Subject? Subject { get; set; }
+        
+        public Decimal Discount { get; set; }
 
         /// <summary>
         /// The object is valid only if all inner objects are parsed correctly.

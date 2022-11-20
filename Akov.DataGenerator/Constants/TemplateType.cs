@@ -11,6 +11,7 @@
         public const string Bool = "bool";
         public const string Int = "int";
         public const string Double = "double";
+        public const string Decimal = "decimal";
         public const string DateTime = "datetime";
 
         public const string Array = "array";

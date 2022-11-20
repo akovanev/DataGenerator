@@ -121,6 +121,7 @@ namespace Akov.DataGenerator.Extensions
                 {typeof(Boolean), TemplateType.Bool},
                 {typeof(Int32), TemplateType.Int},
                 {typeof(Double), TemplateType.Double},
+                {typeof(Decimal), TemplateType.Decimal},
                 {typeof(DateTime), TemplateType.DateTime}
             };
     }

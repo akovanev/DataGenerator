@@ -30,13 +30,14 @@ public class StudentsTestProfile : DgProfileBase
                 .Failure(0.1, 0.1, 0.05, "####-####-####" )
             .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
                 .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
-            .Property(s => s.Subjects).Length(4);
+            .Property(s => s.Subjects).Length(4)
+            .Property(s => s.Discount).Pattern("##.##").Range(9.50, 99.50);
 
         ForType<Subject>()
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")
                 .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(10, 20)
             .Property(s => s.Attempts).Range(1, 10)
             .Property(s => s.TotalPrices).HasJsonName("total_prices").SubTypePattern("0.00")
-            .Range(0, 125.0).Length(2).Failure(0.15, 0.2, 0.05, "####");
+                .Range(0, 125.0).Length(2).Failure(0.15, 0.2, 0.05, "####");
     }
 }
