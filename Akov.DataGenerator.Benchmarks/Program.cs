@@ -3,6 +3,7 @@
 using Akov.DataGenerator;
 using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
+using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Profiles;
 using BenchmarkDotNet.Attributes;

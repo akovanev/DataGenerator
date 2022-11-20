@@ -21,7 +21,7 @@ namespace Akov.DataGenerator.Extensions
 
             var innerTypes = props
                 .Select(p => GetPropertyType(p.PropertyType))
-                .Where(p => p != null && !propsDictionary.ContainsKey(p))
+                .Where(p => p is not null && !propsDictionary.ContainsKey(p))
                 .ToList();
 
             foreach (var t in innerTypes)
@@ -111,10 +111,10 @@ namespace Akov.DataGenerator.Extensions
         }
 
         private static bool IsEnumerableExceptString(this Type type)
-            => type != typeof(String) && type.GetInterface(nameof(IEnumerable)) != null;
+            => type != typeof(String) && type.GetInterface(nameof(IEnumerable)) is not null;
 
         private static Dictionary<Type, string> GetTemplateTypeDictionary()
-            => new Dictionary<Type, string>
+            => new()
             {
                 {typeof(String), TemplateType.String},
                 {typeof(Guid), TemplateType.Guid},

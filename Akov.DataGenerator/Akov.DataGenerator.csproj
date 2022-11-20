@@ -15,7 +15,7 @@
     <PackageIcon>dg.png</PackageIcon>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.5.1</Version>
+    <Version>1.5.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
