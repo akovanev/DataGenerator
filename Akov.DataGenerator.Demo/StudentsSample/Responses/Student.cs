@@ -20,6 +20,8 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public string? FullName { get; set; }
         
+        public string? Phone { get; set; }
+        
         public int Year { get; set; }
 
         [JsonProperty("test_variant")]
@@ -37,6 +39,10 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
         public List<Subject>? Subjects { get; set; }
 
         public Subject? Subject { get; set; }
+        
+        public Decimal Discount { get; set; }
+        
+        public byte[]? Signature { get; set; }
 
         /// <summary>
         /// The object is valid only if all inner objects are parsed correctly.

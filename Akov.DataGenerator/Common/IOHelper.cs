@@ -19,12 +19,6 @@ namespace Akov.DataGenerator.Common
             _useCache = config?.UseCache ?? false;
         }
 
-        public DataScheme GetScheme(string filename)
-        {
-            string input = GetFileContent(filename);
-            return JsonConvert.DeserializeObject<DataScheme>(input);
-        }
-
         public string GetFileContent(string filename)
         {
             if (_useCache && _cachedContent.ContainsKey(filename))

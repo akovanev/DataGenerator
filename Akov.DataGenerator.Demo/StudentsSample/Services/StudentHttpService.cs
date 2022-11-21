@@ -11,11 +11,11 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Services
     /// <summary>
     /// The service simulating retrieving the student list.
     /// </summary>
-    public class StudentService
+    public class StudentHttpService
     {
         private readonly ApiClient _apiClient;
 
-        public StudentService(HttpClient httpClient)
+        public StudentHttpService(HttpClient httpClient)
         {
             _apiClient = new ApiClient(httpClient);
         }

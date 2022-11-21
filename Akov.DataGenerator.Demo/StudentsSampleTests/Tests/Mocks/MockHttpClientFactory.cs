@@ -9,7 +9,6 @@ using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.Profiles;
-using Akov.DataGenerator.Scheme;
 using Moq;
 using Moq.Protected;
 
@@ -60,11 +59,5 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 
         public HttpClient GetStudentServiceClient()
             => _studentServiceHttpClient.Value;
-        
-        public enum GenerationType
-        {
-            UseAttributes,
-            UseProfile
-        }
     }
 }

@@ -39,8 +39,13 @@ namespace Akov.DataGenerator.Extensions
 
             if (type.IsEnum)
                 return TemplateType.Set;
+            
+            if (type.IsArray)
+                return type.GetElementType() == typeof(byte) 
+                    ? TemplateType.ByteArray
+                    : TemplateType.Array;
 
-            if (type.IsArray || type.IsEnumerableExceptString())
+            if (type.IsEnumerableExceptString())
                 return TemplateType.Array;
 
             var templateTypeDictionary = GetTemplateTypeDictionary();
@@ -121,6 +126,7 @@ namespace Akov.DataGenerator.Extensions
                 {typeof(Boolean), TemplateType.Bool},
                 {typeof(Int32), TemplateType.Int},
                 {typeof(Double), TemplateType.Double},
+                {typeof(Decimal), TemplateType.Decimal},
                 {typeof(DateTime), TemplateType.DateTime}
             };
     }

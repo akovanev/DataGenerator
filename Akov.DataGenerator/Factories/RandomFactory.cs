@@ -1,21 +1,18 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using Akov.DataGenerator.Common;
 
 namespace Akov.DataGenerator.Factories
 {
     internal class RandomFactory
     {
-        private static readonly Random SeedRandom = new Random();
-        private static readonly Dictionary<string, Random> Randoms = new Dictionary<string, Random>();
+        private readonly ConcurrentDictionary<string, Random> _randoms = new();
 
         public Random GetOrCreate(string definitionName, string propertyName, string step)
         {
             string key = $"{definitionName}.{propertyName}_{step}";
-            if (!Randoms.ContainsKey(key))
-            {
-                Randoms.Add(key, new Random(SeedRandom.Next()));
-            }
-            return Randoms[key];
+            _randoms.TryAdd(key, ThreadSafeRandom.Instance);
+            return _randoms[key];
         }
     }
 }

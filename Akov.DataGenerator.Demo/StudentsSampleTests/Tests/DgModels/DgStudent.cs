@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Akov.DataGenerator.Attributes;
+using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
+using Akov.DataGenerator.Generators;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
@@ -25,6 +27,11 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
         
+        [DgGenerator(TemplateType.Phone)]
+        [DgPattern("+45 ## ## ## ##;+420 ### ### ###")]
+        [DgFailure(NullProbability = 0.05)]
+        public string? Phone { get; set; }
+        
         [DgGenerator(StudentGeneratorFactory.UintGenerator)]
         [DgRange(Max = 5)]
         public int Year { get; set; }
@@ -38,7 +45,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         public int[]? TestAnswers { get; set; }
 
         [DgName("encoded_solution")]
-        [DgPattern("abcdefghijklmnopqrstuvwxyz0123456789")]
+        [DgPattern(StringGenerator.AbcNum)]
         [DgLength(Min = 15, Max = 50)]
         [DgSpacesCount(Min = 1, Max = 3)]
         [DgFailure(
@@ -60,5 +67,13 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         public List<DgSubject>? Subjects { get; set; }
 
         public DgSubject? Subject { get; set; }
+        
+        [DgPattern("##.##")]
+        [DgRange(Min = 9.50, Max = 99.50)]
+        public Decimal Discount { get; set; }
+        
+        [DgLength(Min = 4, Max = 16)]
+        [DgFailure(NullProbability = 0.1)]
+        public byte[]? Signature { get; set; }
     }
 }

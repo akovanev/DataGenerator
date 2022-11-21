@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators
@@ -24,5 +26,17 @@ namespace Akov.DataGenerator.Generators
 
             return CreateRangeFailureImpl(calcPropertyObject);
         }
+    }
+    
+    public static class CalcGeneratorExtensions
+    {
+        public static bool Owns(this CalcPropertyObject propertyObject, string propertyName,  params Type[] definitions)
+            => string.Equals(propertyObject.Property.Name, propertyName, StringComparison.OrdinalIgnoreCase) &&
+              (!definitions.Any() || definitions.Select(d => d.Name).Contains(propertyObject.DefinitionName, StringComparer.OrdinalIgnoreCase));
+        
+        public static object? ValueOf(this CalcPropertyObject propertyObject, string propertyName)
+            => propertyObject.Values
+                .Single(v => String.Equals(v.Name, propertyName, StringComparison.OrdinalIgnoreCase))
+                .Value;
     }
 }

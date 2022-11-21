@@ -19,13 +19,16 @@ namespace Akov.DataGenerator.Generators
             =>  new()
             {
                 {TemplateType.String, new StringGenerator()},
+                {TemplateType.ByteArray, new ByteArrayGenerator()},
                 {TemplateType.Set, new SetGenerator()},
                 {TemplateType.File, new SetGenerator()},
                 {TemplateType.Guid, new GuidGenerator()},
                 {TemplateType.Bool, new BooleanGenerator()},
                 {TemplateType.Int, new IntGenerator()},
                 {TemplateType.Double, new DoubleGenerator()},
+                {TemplateType.Decimal, new DecimalGenerator()},
                 {TemplateType.DateTime, new DatetimeGenerator()},
+                {TemplateType.Phone, new PhoneGenerator()}
             };
     }
 }
