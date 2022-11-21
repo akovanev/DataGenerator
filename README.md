@@ -38,28 +38,51 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 
 `DG`, at this moment, is quite far from being optimal in terms of performance as well as in code experience, test coverage or documentation. But if you see that there could be nice features added, feel free to create a github [issue](https://github.com/akovanev/DataGenerator/issues) or [discussion](https://github.com/akovanev/DataGenerator/discussions). 
 
+**Generators**
+* `BooleanGenerator`
+* `ByteArrayGenerator`
+* `DatetimeGenerator`
+* `DecimalGenerator`
+* `DoubleGenerator`
+* `GuidGenerator`
+* `IntGenerator`
+* `PhoneGenerator`
+* `SetGenerator`
+* `StringGenerator`
+
+**Special generators**
+* `AssignGenerator`
+* `CalcGeneratorBase`
+
 **Example**
 ```csharp
 // In StudentsTestProfile profile constructor
 ForType<Student>()
     .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
-    .Ignore(s => s.ParsingErrors).Ignore(s => s.ParsingWarnings)
     .Property(s => s.Id).Failure(nullable: 0.2)
     .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
     .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
     .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
+    .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
+        .Pattern("+45 ## ## ## ##;+420 ### ### ###")
+        .Failure(nullable: 0.05)
     .Property(s => s.Year).UseGenerator("MyUintGenerator").Range(5)
     .Property(s => s.Variant).HasJsonName("test_variant")
     .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)
     .Property(s => s.EncodedSolution).HasJsonName("encoded_solution")
-        .Pattern("abcdefghijklmnopqrstuvwxyz0123456789").Length(15, 50).Spaces(1,3)
+        .Pattern(StringGenerator.AbcNum).Length(15, 50).Spaces(1,3)
         .Failure(0.1, 0.1, 0.05, "####-####-####" )
     .Property(s => s.LastUpdated).HasJsonName("last_updated").Pattern("dd/MM/yy")
         .Range("20/10/19","01/01/20").Failure(0.2, 0.2, 0.1)
     .Property(s => s.Subjects).Length(4);
 
 // Execute 
-var dg = new DG(new StudentGeneratorFactory(), new DataSchemeMapperConfig { UseCamelCase = true });
+var dg = new DG(new StudentGeneratorFactory(), new DataSchemeMapperConfig { UseCamelCase = true }); 
+
+// Json
 string jsonData = dg.GenerateJson<StudentCollection>(new StudentsTestProfile());
+//or objects
+IEnumerable<Student> students = dg.GenerateObjectCollection<Student>(new StudentsTestProfile(), 100); 
+
 ```
 
