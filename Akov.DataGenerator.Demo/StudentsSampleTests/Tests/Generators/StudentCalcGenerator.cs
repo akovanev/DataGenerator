@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Akov.DataGenerator.Demo.StudentsSample.Responses;
+using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Models;
 
@@ -14,23 +16,13 @@ public class StudentCalcGenerator : CalcGeneratorBase
 {
     protected override object CreateImpl(CalcPropertyObject propertyObject)
     {
-        if (string.Equals(propertyObject.Property.Name, "fullname", StringComparison.OrdinalIgnoreCase))
+        if (propertyObject.Owns(nameof(Student.FullName), typeof(DgStudent)))
         {
-            var val1 = propertyObject.Values
-                .Single(v => String.Equals(v.Name, "firstname", StringComparison.OrdinalIgnoreCase));
-            var val2 = propertyObject.Values
-                .Single(v => String.Equals(v.Name, "lastname", StringComparison.OrdinalIgnoreCase));
-               
-            return $"{val1.Value} {val2.Value}";
+            return $"{propertyObject.ValueOf(nameof(Student.FirstName))} {propertyObject.ValueOf(nameof(Student.LastName))}";
         }
-
-        if (string.Equals(propertyObject.Property.Name, "count", StringComparison.OrdinalIgnoreCase))
+        if(propertyObject.Owns(nameof(StudentCollection.Count), typeof(DgStudentCollection), typeof(StudentCollection)))
         {
-            var val1 = propertyObject.Values
-                .Single(v => String.Equals(v.Name, "students", StringComparison.OrdinalIgnoreCase))
-                .Value as List<NameValueObject>;
-
-            return val1!.Count;
+            return (propertyObject.ValueOf(nameof(StudentCollection.Students)) as List<NameValueObject>)!.Count;
         }
 
         throw new NotSupportedException("Not expected calculated property");
