@@ -28,6 +28,7 @@ namespace Akov.DataGenerator.Generators
                 {TemplateType.Double, new DoubleGenerator()},
                 {TemplateType.Decimal, new DecimalGenerator()},
                 {TemplateType.DateTime, new DatetimeGenerator()},
+                {TemplateType.Phone, new PhoneGenerator()}
             };
     }
 }

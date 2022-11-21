@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Akov.DataGenerator.Attributes;
+using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 
@@ -24,6 +25,11 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 
         [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
+        
+        [DgGenerator(GeneratorType.Phone)]
+        [DgPattern("+45 ## ## ## ##;+420 ### ### ###")]
+        [DgFailure(NullProbability = 0.05)]
+        public string? Phone { get; set; }
         
         [DgGenerator(StudentGeneratorFactory.UintGenerator)]
         [DgRange(Max = 5)]

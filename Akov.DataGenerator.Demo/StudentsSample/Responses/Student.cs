@@ -20,6 +20,8 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public string? FullName { get; set; }
         
+        public string? Phone { get; set; }
+        
         public int Year { get; set; }
 
         [JsonProperty("test_variant")]
