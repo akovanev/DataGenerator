@@ -59,11 +59,5 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks
 
         public HttpClient GetStudentServiceClient()
             => _studentServiceHttpClient.Value;
-        
-        public enum GenerationType
-        {
-            UseAttributes,
-            UseProfile
-        }
     }
 }

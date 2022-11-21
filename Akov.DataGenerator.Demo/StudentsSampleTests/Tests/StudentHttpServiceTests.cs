@@ -10,19 +10,19 @@ using Xunit;
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests
 {
     /// <summary>
-    /// The test class for the StudentService.
+    /// The test class for the StudentHttpService.
     /// </summary>
-    public class StudentServiceTests
+    public class StudentHttpServiceTests
     {
         private readonly DgProfileBase _profile = new StudentsTestProfile();
         
         [Theory]
-        [InlineData(MockHttpClientFactory.GenerationType.UseAttributes)]
-        [InlineData(MockHttpClientFactory.GenerationType.UseProfile)]
-        public async Task GetAll_RandomStudentList(MockHttpClientFactory.GenerationType type)
+        [InlineData(GenerationType.UseAttributes)]
+        [InlineData(GenerationType.UseProfile)]
+        public async Task GetAll_RandomStudentList(GenerationType type)
         {
             var httpClient = new MockHttpClientFactory(type, _profile).GetStudentServiceClient();
-            var studentService = new StudentService(httpClient);
+            var studentService = new StudentHttpService(httpClient);
             
             var students = (await studentService.GetAll()).ToList();
 
