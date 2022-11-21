@@ -28,7 +28,10 @@ namespace Akov.DataGenerator
         }
 
         public DataScheme GetFromFile(string filename)
-            => _ioHelper.Value.GetScheme(filename);
+        {
+            string fileContent = _ioHelper.Value.GetFileContent(filename);
+            return JsonConvert.DeserializeObject<DataScheme>(fileContent);
+        }
 
         public DataScheme GetFromType<T>()
             => _mapper.Value.MapFrom<T>();

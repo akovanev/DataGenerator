@@ -7,7 +7,6 @@ using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Profiles;
 using Akov.DataGenerator.Mappers;
-using Akov.DataGenerator.Profiles;
 using Moq;
 using Xunit;
 
