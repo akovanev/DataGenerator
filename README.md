@@ -24,7 +24,7 @@ Generates data randomly. Give it a &#11088; if you find it useful.
 
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
-* [Integration tests demo](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Demo/StudentsSampleTests/Tests/StudentServiceTests.cs)
+* [Integration tests demo](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Demo/StudentsSampleTests/Tests/StudentHttpServiceTests.cs)
 
 **History**
 
