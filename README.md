@@ -2,10 +2,7 @@
 
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
-Generates data randomly based on
-* Json file.
-* Class attributes (since version 1.3).
-* Fluent mapping profiles (since version 1.4). 
+Generates data randomly. Give it a &#11088; if you find it useful.
 
 **Key features**:
 * Calculated properties.
@@ -24,7 +21,6 @@ Generates data randomly based on
         custom: 0.1,   // 10% for bad value
         range: 0.05);  // 5% for out of range. Here that means lenght < 4 or > 16 
 ```
-
 
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
