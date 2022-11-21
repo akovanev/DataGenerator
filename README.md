@@ -47,7 +47,7 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 * `GuidGenerator`
 * `IntGenerator`
 * `PhoneGenerator`
-* `SetGenerator`
+* `SetGenerator` _list of values and enums_
 * `StringGenerator`
 
 **Special generators**
