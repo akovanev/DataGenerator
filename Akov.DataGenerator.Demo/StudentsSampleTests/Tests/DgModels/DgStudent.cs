@@ -27,7 +27,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
         
-        [DgGenerator(GeneratorType.Phone)]
+        [DgGenerator(TemplateType.Phone)]
         [DgPattern("+45 ## ## ## ##;+420 ### ### ###")]
         [DgFailure(NullProbability = 0.05)]
         public string? Phone { get; set; }

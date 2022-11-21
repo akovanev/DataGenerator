@@ -23,7 +23,7 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
             .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
             .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
-            .Property(s => s.Phone).UseGenerator(GeneratorType.Phone)
+            .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
                 .Pattern("+45 ## ## ## ##;+420 ### ### ###")
                 .Failure(nullable: 0.05)
             .Property(s => s.Year).UseGenerator(StudentGeneratorFactory.UintGenerator).Range(5)
