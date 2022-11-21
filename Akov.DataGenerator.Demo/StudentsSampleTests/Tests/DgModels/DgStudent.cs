@@ -4,6 +4,7 @@ using Akov.DataGenerator.Attributes;
 using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
+using Akov.DataGenerator.Generators;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 {
@@ -44,7 +45,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         public int[]? TestAnswers { get; set; }
 
         [DgName("encoded_solution")]
-        [DgPattern("abcdefghijklmnopqrstuvwxyz0123456789")]
+        [DgPattern(StringGenerator.AbcNum)]
         [DgLength(Min = 15, Max = 50)]
         [DgSpacesCount(Min = 1, Max = 3)]
         [DgFailure(

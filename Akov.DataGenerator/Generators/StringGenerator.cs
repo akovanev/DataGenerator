@@ -8,7 +8,14 @@ namespace Akov.DataGenerator.Generators
 {
     public class StringGenerator : GeneratorBase
     {
-        private const string DefaultPattern = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string Abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string AbcLower = "abcdefghijklmnopqrstuvwxyz";
+        public const string AbcUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string AbcNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const string AbcLowerNum = "abcdefghijklmnopqrstuvwxyz0123456789";
+        public const string AbcUpperNum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const string Num = "0123456789";
+        
         private const int DefaultMinLength = 10;
         private const int DefaultMaxLength = 20;
         private const int DefaultMinSpaceCount = 0;
@@ -26,7 +33,7 @@ namespace Akov.DataGenerator.Generators
             int length = random.GetInt(minLength, maxLength);
             int spaces = random.GetInt(minSpaceCount, maxSpaceCount);
             string pattern = string.IsNullOrWhiteSpace(property.Pattern)
-                ? DefaultPattern
+                ? Abc
                 : property.Pattern;
             return CreateString(propertyObject, pattern, length, spaces);
         }
@@ -44,7 +51,7 @@ namespace Akov.DataGenerator.Generators
                 : random.GetInt(maxLength + 1, maxLength * 2);
 
             string pattern = string.IsNullOrWhiteSpace(property.Pattern)
-                ? DefaultPattern
+                ? Abc
                 : property.Pattern;
 
             return CreateString(propertyObject, pattern, length, DefaultMinSpaceCount);
