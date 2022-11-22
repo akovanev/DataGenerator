@@ -20,7 +20,10 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public string? FullName { get; set; }
         
+        public string? Company { get; set; }
         public string? Phone { get; set; }
+        
+        public string? Country { get; set; }
         
         public int Year { get; set; }
 

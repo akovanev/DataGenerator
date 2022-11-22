@@ -22,7 +22,7 @@ Generates data randomly. Give it a &#11088; if you find it useful.
         range: 0.05);  // 5% for out of range. Here that means lenght < 4 or > 16 
 ```
 
-* Predefined list of firstnames and lastnames.
+* Predefined list of firstnames, lastnames, companies, countries.
 
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
@@ -61,9 +61,11 @@ ForType<Student>()
     .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
     .Property(s => s.LastName).FromResource(ResourceType.LastNames).Failure(nullable: 0.1)
     .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
+    .Property(s => s.Company).FromResource(ResourceType.Companies).Failure(nullable: 0.1)
     .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
         .Pattern("+45 ## ## ## ##;+420 ### ### ###")
         .Failure(nullable: 0.05)
+    .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15)
     .Property(s => s.Year).UseGenerator("MyUintGenerator").Range(5)
     .Property(s => s.Variant).HasJsonName("test_variant")
     .Property(s => s.TestAnswers).HasJsonName("test_answers").Length(5).Range(1, 5)

@@ -37,6 +37,10 @@
     <EmbeddedResource Include="Resources\firstnames.txt" />
     <None Remove="Resources\lastnames.txt" />
     <EmbeddedResource Include="Resources\lastnames.txt" />
+    <None Remove="Resources\companies.txt" />
+    <EmbeddedResource Include="Resources\companies.txt" />
+    <None Remove="Resources\countries.txt" />
+    <EmbeddedResource Include="Resources\countries.txt" />
   </ItemGroup>
 
 </Project>
