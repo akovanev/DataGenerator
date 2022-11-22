@@ -22,6 +22,8 @@ Generates data randomly. Give it a &#11088; if you find it useful.
         range: 0.05);  // 5% for out of range. Here that means lenght < 4 or > 16 
 ```
 
+* Predefined list of firstnames and lastnames.
+
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
 * [Integration tests demo](https://github.com/akovanev/DataGenerator/blob/master/Akov.DataGenerator.Demo/StudentsSampleTests/Tests/StudentHttpServiceTests.cs)
@@ -57,7 +59,7 @@ ForType<Student>()
     .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
     .Property(s => s.Id).Failure(nullable: 0.2)
     .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
-    .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
+    .Property(s => s.LastName).FromResource(ResourceType.LastNames).Failure(nullable: 0.1)
     .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
     .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
         .Pattern("+45 ## ## ## ##;+420 ### ### ###")
