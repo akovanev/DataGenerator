@@ -22,6 +22,7 @@ namespace Akov.DataGenerator.Generators
                 {TemplateType.ByteArray, new ByteArrayGenerator()},
                 {TemplateType.Set, new SetGenerator()},
                 {TemplateType.File, new SetGenerator()},
+                {TemplateType.Resource, new SetGenerator()},
                 {TemplateType.Guid, new GuidGenerator()},
                 {TemplateType.Bool, new BooleanGenerator()},
                 {TemplateType.Int, new IntGenerator()},

@@ -73,8 +73,10 @@ namespace Akov.DataGenerator.Mappers
                      prop.PropertyType.IsEnum)
                         throw new NotSupportedException($"{nameof(DgSourceAttribute)} " +
                                                         $"may be applied only to primitive types except enums");
-                    
-                    templateType = TemplateType.File;
+
+                    templateType = source.Embedded
+                        ? TemplateType.Resource
+                        : TemplateType.File;
                     pattern = source.Path;
                 }
                 else

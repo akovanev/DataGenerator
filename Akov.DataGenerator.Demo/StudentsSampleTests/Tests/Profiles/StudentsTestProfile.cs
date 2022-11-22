@@ -21,7 +21,7 @@ public class StudentsTestProfile : DgProfileBase
             .Ignore(s => s.ParsingErrors).Ignore(s => s.ParsingWarnings)
             .Property(s => s.Id).Failure(nullable: 0.2)
             .Property(s => s.FirstName).FromFile("firstnames.txt").Failure(nullable: 0.1)
-            .Property(s => s.LastName).FromFile("lastnames.txt").Failure(nullable: 0.1)
+            .Property(s => s.LastName).FromResource(ResourceType.LastNames).Failure(nullable: 0.1)
             .Property(s => s.FullName).Assign(s => $"{s.FirstName} {s.LastName}")
             .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
                 .Pattern("+45 ## ## ## ##;+420 ### ### ###")

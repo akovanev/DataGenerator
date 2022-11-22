@@ -19,6 +19,7 @@
         public const string Array = "array";
         public const string Object = "object";
         public const string File = "file";
+        public const string Resource = "resource";
         public const string Calc = "calc";
         
         // Profile only

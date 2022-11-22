@@ -20,7 +20,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgFailure(NullProbability = 0.1)]
         public string? FirstName { get; set; }
 
-        [DgSource("lastnames.txt")]
+        [DgSource(ResourceType.LastNames, true)]
         [DgFailure(NullProbability = 0.1)]
         public string? LastName { get; set; }
 

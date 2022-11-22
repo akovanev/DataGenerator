@@ -32,4 +32,11 @@
     <None Include="../README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\firstnames.txt" />
+    <EmbeddedResource Include="Resources\firstnames.txt" />
+    <None Remove="Resources\lastnames.txt" />
+    <EmbeddedResource Include="Resources\lastnames.txt" />
+  </ItemGroup>
+
 </Project>
