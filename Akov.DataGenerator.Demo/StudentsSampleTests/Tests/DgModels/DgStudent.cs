@@ -20,21 +20,18 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
         [DgFailure(NullProbability = 0.1)]
         public string? FirstName { get; set; }
 
-        [DgSource("lastnames.txt")]
+        [DgSource(ResourceType.LastNames, true)]
         [DgFailure(NullProbability = 0.1)]
         public string? LastName { get; set; }
 
         [DgCalc] //supposed to be calculated
         public string? FullName { get; set; }
         
-        [DgGenerator(TemplateType.Phone)]
-        [DgPattern("+45 ## ## ## ##;+420 ### ### ###")]
-        [DgFailure(NullProbability = 0.05)]
-        public string? Phone { get; set; }
-        
         [DgGenerator(StudentGeneratorFactory.UintGenerator)]
         [DgRange(Max = 5)]
         public int Year { get; set; }
+        
+        public DgAddress? CompanyAddress { get; set; }
 
         [DgName("test_variant")]
         public Variant Variant { get; set; }
@@ -66,8 +63,6 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels
 
         public List<DgSubject>? Subjects { get; set; }
 
-        public DgSubject? Subject { get; set; }
-        
         [DgPattern("##.##")]
         [DgRange(Min = 9.50, Max = 99.50)]
         public Decimal Discount { get; set; }

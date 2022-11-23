@@ -30,6 +30,20 @@ public class PropertyBuilder<TType>
         return this;
     }
     
+    public PropertyBuilder<TType> FromList(string[] values)
+    {
+        _property.Type = TemplateType.Set;
+        _property.Pattern = string.Join(",", values);
+        return this;
+    }
+   
+    public PropertyBuilder<TType> FromResource(string resourceName)
+    {
+        _property.Type = TemplateType.Resource;
+        _property.Pattern = resourceName;
+        return this;
+    }
+    
     public PropertyBuilder<TType> HasJsonName(string? name)
     {
         _property.Name = name;

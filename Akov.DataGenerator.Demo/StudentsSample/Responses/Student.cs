@@ -20,9 +20,9 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public string? FullName { get; set; }
         
-        public string? Phone { get; set; }
-        
         public int Year { get; set; }
+        
+        public Address? CompanyAddress { get; set; }
 
         [JsonProperty("test_variant")]
         public Variant Variant { get; set; }
@@ -38,8 +38,6 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
 
         public List<Subject>? Subjects { get; set; }
 
-        public Subject? Subject { get; set; }
-        
         public Decimal Discount { get; set; }
         
         public byte[]? Signature { get; set; }
@@ -48,7 +46,7 @@ namespace Akov.DataGenerator.Demo.StudentsSample.Responses
         /// The object is valid only if all inner objects are parsed correctly.
         /// </summary>
         public override bool IsValid => base.IsValid &&
-            (Subject is null || Subject.IsValid) &&
+            (CompanyAddress is null || CompanyAddress.IsValid) &&
             (Subjects is null || Subjects.All(s => s.IsValid));
 
         /// <summary>

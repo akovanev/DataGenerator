@@ -8,10 +8,13 @@ namespace Akov.DataGenerator.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public class DgSourceAttribute : Attribute
     {
-        public DgSourceAttribute(string path)
+        public DgSourceAttribute(string path, bool embedded = false)
         {
             Path = path;
+            Embedded = embedded;
         }
         public string Path { get; }
+        
+        public bool Embedded { get; }
     }
 }

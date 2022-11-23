@@ -12,8 +12,9 @@ namespace Akov.DataGenerator.Generators
         protected override object CreateImpl(PropertyObject propertyObject)
         {
             Property property = propertyObject.Property;
-            
-            string? pattern = property.Type! == TemplateType.File
+
+            string? pattern = property.Type! == TemplateType.File ||
+                              property.Type == TemplateType.Resource
                 ? propertyObject.PredefinedValues as string
                 : property.Pattern;
             
