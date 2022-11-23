@@ -45,6 +45,7 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 * `DatetimeGenerator`
 * `DecimalGenerator`
 * `DoubleGenerator`
+* `EmailGenerator`
 * `GuidGenerator`
 * `IntGenerator`
 * `PhoneGenerator`
@@ -81,6 +82,7 @@ ForType<Address>()
     .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
         .Pattern("+45 ## ## ## ##;+420 ### ### ###")
         .Failure(nullable: 0.05)
+    .Property(s => s.Email).UseGenerator(TemplateType.Email).Failure(nullable: 0.1)
     .Property(s => s.AddressLine).FromResource(ResourceType.Addresses).Failure(nullable: 0.25)
     .Property(s => s.City).FromResource(ResourceType.Cities).Failure(nullable: 0.1)
     .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15);

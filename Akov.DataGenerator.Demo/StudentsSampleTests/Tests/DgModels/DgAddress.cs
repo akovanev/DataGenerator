@@ -17,6 +17,10 @@ public class DgAddress
     [DgFailure(NullProbability = 0.05)]
     public string? Phone { get; set; }
     
+    [DgGenerator(TemplateType.Email)]
+    [DgFailure(NullProbability = 0.1)]
+    public string? Email { get; set; }
+    
     [DgSource(ResourceType.Addresses, true)]
     [DgFailure(NullProbability = 0.2)]
     public string? AddressLine { get; set; } 
