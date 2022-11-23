@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.6.1</Version>
+    <Version>1.6.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
@@ -45,6 +45,8 @@
     <EmbeddedResource Include="Resources\addresses.txt" />
     <None Remove="Resources\cities.txt" />
     <EmbeddedResource Include="Resources\cities.txt" />
+    <None Remove="Resources\emails.txt" />
+    <EmbeddedResource Include="Resources\emails.txt" />
   </ItemGroup>
 
 </Project>

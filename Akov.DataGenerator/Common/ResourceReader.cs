@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Akov.DataGenerator.Common;
 
 public class ResourceReader
 {
-    private readonly Dictionary<string, string> _cachedContent = new();
+    private readonly ConcurrentDictionary<string, string> _cachedContent = new();
     
     public string? ReadEmbeddedResource(string? resourceName)
     {
@@ -35,7 +36,7 @@ public class ResourceReader
         
         using var streamReader = new StreamReader(resourceStream);
         content = streamReader.ReadToEnd();
-        _cachedContent.Add(resourceName, content);
+        _cachedContent.TryAdd(resourceName, content);
         
         return content;
     }

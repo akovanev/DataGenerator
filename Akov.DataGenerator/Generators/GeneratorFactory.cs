@@ -29,6 +29,7 @@ public class GeneratorFactory : IGeneratorFactory
             {TemplateType.Double, new DoubleGenerator()},
             {TemplateType.Decimal, new DecimalGenerator()},
             {TemplateType.DateTime, new DatetimeGenerator()},
-            {TemplateType.Phone, new PhoneGenerator()}
+            {TemplateType.Phone, new PhoneGenerator()},
+            {TemplateType.Email, new EmailGenerator()}
         };
 }
