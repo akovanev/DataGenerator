@@ -22,7 +22,7 @@ Generates data randomly. Give it a &#11088; if you find it useful.
         range: 0.05);  // 5% for out of range. Here that means lenght < 4 or > 16 
 ```
 
-* Predefined list of firstnames, lastnames, companies, countries.
+* Predefined list of firstnames, lastnames, companies, addresses, cities, countries.
 
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
