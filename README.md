@@ -23,6 +23,9 @@ Generates data randomly. Give it a &#11088; if you find it useful.
 ```
 
 * Predefined list of firstnames, lastnames, companies, addresses, cities, countries.
+```csharp
+.Property(s => s.Company).FromResource(ResourceType.Companies)
+```
 
 **Links**
 * [`Project documentation`](https://github.com/akovanev/DataGenerator/wiki)
