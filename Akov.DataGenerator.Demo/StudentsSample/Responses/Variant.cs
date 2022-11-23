@@ -1,11 +1,10 @@
-﻿namespace Akov.DataGenerator.Demo.StudentsSample.Responses
+﻿namespace Akov.DataGenerator.Demo.StudentsSample.Responses;
+
+public enum Variant
 {
-    public enum Variant
-    {
-        A,
-        B,
-        C,
-        D,
-        E
-    }
+    A,
+    B,
+    C,
+    D,
+    E
 }

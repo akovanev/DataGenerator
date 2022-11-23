@@ -7,136 +7,135 @@ using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Scheme;
 
-namespace Akov.DataGenerator.Mappers
+namespace Akov.DataGenerator.Mappers;
+
+public class DataSchemeMapper
 {
-    public class DataSchemeMapper
+    private readonly DataSchemeMapperConfig? _config;
+
+    public DataSchemeMapper(DataSchemeMapperConfig? config = null)
     {
-        private readonly DataSchemeMapperConfig? _config;
+        _config = config;
+    }
 
-        public DataSchemeMapper(DataSchemeMapperConfig? config = null)
+    public DataScheme MapFrom<T>()
+    {
+        Type type = typeof(T);
+
+        var propsDictionary = new Dictionary<Type, PropertyInfo[]>();
+        type.AddToPropsDictionary(propsDictionary);
+
+        var definitions = new List<Definition>();
+        foreach (var (key, value) in propsDictionary)
         {
-            _config = config;
+            definitions.Add(new Definition(key.Name, PopulateProperties(value)));
         }
 
-        public DataScheme MapFrom<T>()
+        return new DataScheme(type.Name, definitions);
+    }
+
+    private List<Property> PopulateProperties(PropertyInfo[] props)
+    {
+        var properties = new List<Property>();
+
+        foreach (PropertyInfo prop in props)
         {
-            Type type = typeof(T);
+            var attrs = prop.GetCustomAttributes().ToList();
 
-            var propsDictionary = new Dictionary<Type, PropertyInfo[]>();
-            type.AddToPropsDictionary(propsDictionary);
+            var ignore = attrs.GetValue<DgIgnoreAttribute>();
+            if(ignore is not null) continue;
 
-            var definitions = new List<Definition>();
-            foreach (var (key, value) in propsDictionary)
+            var name = attrs.GetValue<DgNameAttribute>();
+            var propertyName = name?.Value ?? prop.Name;
+            if (_config is not null && _config.UseCamelCase)
+                propertyName = propertyName.ToCamelCase();
+
+            var calc = attrs.GetValue<DgCalcAttribute>();
+            if (calc is not null)
             {
-                definitions.Add(new Definition(key.Name, PopulateProperties(value)));
+                properties.Add(new Property {Name = propertyName, Type = TemplateType.Calc});
+                continue;
             }
 
-            return new DataScheme(type.Name, definitions);
-        }
+            var source = attrs.GetValue<DgSourceAttribute>();
 
-        private List<Property> PopulateProperties(PropertyInfo[] props)
-        {
-            var properties = new List<Property>();
+            string? templateType = prop.PropertyType.GetPropertyTemplateType();
 
-            foreach (PropertyInfo prop in props)
+            string? pattern = attrs.GetValue<DgPatternAttribute>()?.Value;
+            DgLengthAttribute? length = null;
+            DgSpacesCountAttribute? spaces = null;
+            DgRangeAttribute? range = null;
+
+            if (source is not null)
             {
-                var attrs = prop.GetCustomAttributes().ToList();
+                if(templateType == TemplateType.Array || 
+                   templateType == TemplateType.Object ||
+                   prop.PropertyType.IsEnum)
+                    throw new NotSupportedException($"{nameof(DgSourceAttribute)} " +
+                                                    $"may be applied only to primitive types except enums");
 
-                var ignore = attrs.GetValue<DgIgnoreAttribute>();
-                if(ignore is not null) continue;
-
-                var name = attrs.GetValue<DgNameAttribute>();
-                var propertyName = name?.Value ?? prop.Name;
-                if (_config is not null && _config.UseCamelCase)
-                    propertyName = propertyName.ToCamelCase();
-
-                var calc = attrs.GetValue<DgCalcAttribute>();
-                if (calc is not null)
+                templateType = source.Embedded
+                    ? TemplateType.Resource
+                    : TemplateType.File;
+                pattern = source.Path;
+            }
+            else
+            {
+                switch (templateType)
                 {
-                    properties.Add(new Property {Name = propertyName, Type = TemplateType.Calc});
-                    continue;
-                }
-
-                var source = attrs.GetValue<DgSourceAttribute>();
-
-                string? templateType = prop.PropertyType.GetPropertyTemplateType();
-
-                string? pattern = attrs.GetValue<DgPatternAttribute>()?.Value;
-                DgLengthAttribute? length = null;
-                DgSpacesCountAttribute? spaces = null;
-                DgRangeAttribute? range = null;
-
-                if (source is not null)
-                {
-                    if(templateType == TemplateType.Array || 
-                     templateType == TemplateType.Object ||
-                     prop.PropertyType.IsEnum)
-                        throw new NotSupportedException($"{nameof(DgSourceAttribute)} " +
-                                                        $"may be applied only to primitive types except enums");
-
-                    templateType = source.Embedded
-                        ? TemplateType.Resource
-                        : TemplateType.File;
-                    pattern = source.Path;
-                }
-                else
-                {
-                    switch (templateType)
+                    case TemplateType.Set:
+                        pattern = string.Join(",", Enum.GetNames(prop.PropertyType));
+                        break;
+                    case TemplateType.Array:
                     {
-                        case TemplateType.Set:
-                            pattern = string.Join(",", Enum.GetNames(prop.PropertyType));
-                            break;
-                        case TemplateType.Array:
-                        {
-                            pattern = prop.PropertyType.GetArrayPatternTemplateType();
-                            break;
-                        }
-                        case TemplateType.Object:
-                            pattern = prop.PropertyType.Name;
-                            break;
+                        pattern = prop.PropertyType.GetArrayPatternTemplateType();
+                        break;
                     }
-
-                    length = attrs.GetValue<DgLengthAttribute>();
-                    spaces = attrs.GetValue<DgSpacesCountAttribute>();
-                    range = attrs.GetValue<DgRangeAttribute>();
+                    case TemplateType.Object:
+                        pattern = prop.PropertyType.Name;
+                        break;
                 }
 
-                var failure = attrs.GetValue<DgFailureAttribute>();
-                var customFailure = attrs.GetValue<DgCustomFailureAttribute>();
-                var separator = attrs.GetValue<DgSequenceSeparatorAttribute>();
-                var subpattern = attrs.GetValue<DgSubTypePatternAttribute>();
-                var customGenerator = attrs.GetValue<DgGeneratorAttribute>();
-                if (customGenerator is not null)
-                    templateType = customGenerator.Name;
-
-                var property = new Property
-                {
-                    Name = propertyName,
-                    Type = templateType,
-                    Pattern = pattern,
-                    SubTypePattern = subpattern?.Value,
-                    MinLength = length?.Min,
-                    MaxLength = length?.Max,
-                    MinSpaceCount = spaces?.Min,
-                    MaxSpaceCount = spaces?.Max,
-                    MinValue = range?.Min,
-                    MaxValue = range?.Max,
-                    Failure = failure is not null
-                        ? new Failure
-                        {
-                            Nullable = failure.NullProbability > 0 ? failure.NullProbability : (double?)null,
-                            Custom = failure.CustomProbability > 0 ? failure.CustomProbability : (double?)null,
-                            Range = failure.OutOfRangeProbability > 0 ? failure.OutOfRangeProbability : (double?)null
-                        }
-                        : null,
-                    CustomFailure = customFailure?.Value,
-                    SequenceSeparator = separator?.Value
-                };
-
-                properties.Add(property);
+                length = attrs.GetValue<DgLengthAttribute>();
+                spaces = attrs.GetValue<DgSpacesCountAttribute>();
+                range = attrs.GetValue<DgRangeAttribute>();
             }
 
-            return properties;
+            var failure = attrs.GetValue<DgFailureAttribute>();
+            var customFailure = attrs.GetValue<DgCustomFailureAttribute>();
+            var separator = attrs.GetValue<DgSequenceSeparatorAttribute>();
+            var subpattern = attrs.GetValue<DgSubTypePatternAttribute>();
+            var customGenerator = attrs.GetValue<DgGeneratorAttribute>();
+            if (customGenerator is not null)
+                templateType = customGenerator.Name;
+
+            var property = new Property
+            {
+                Name = propertyName,
+                Type = templateType,
+                Pattern = pattern,
+                SubTypePattern = subpattern?.Value,
+                MinLength = length?.Min,
+                MaxLength = length?.Max,
+                MinSpaceCount = spaces?.Min,
+                MaxSpaceCount = spaces?.Max,
+                MinValue = range?.Min,
+                MaxValue = range?.Max,
+                Failure = failure is not null
+                    ? new Failure
+                    {
+                        Nullable = failure.NullProbability > 0 ? failure.NullProbability : (double?)null,
+                        Custom = failure.CustomProbability > 0 ? failure.CustomProbability : (double?)null,
+                        Range = failure.OutOfRangeProbability > 0 ? failure.OutOfRangeProbability : (double?)null
+                    }
+                    : null,
+                CustomFailure = customFailure?.Value,
+                SequenceSeparator = separator?.Value
+            };
+
+            properties.Add(property);
         }
+
+        return properties;
     }
 }

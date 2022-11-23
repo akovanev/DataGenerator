@@ -2,13 +2,10 @@
 using System.Linq;
 using Akov.DataGenerator.Constants;
 
-namespace Akov.DataGenerator.Failures
+namespace Akov.DataGenerator.Failures;
+
+internal static class FailureObjectExtensions
 {
-    internal static class FailureObjectExtensions
-    {
-        public static FailureType GetFailureType(this List<FailureObject> list, double value)
-        {
-            return list.First(f => f.RandomRage.In(value)).FailureType;
-        }
-    }
+    public static FailureType GetFailureType(this List<FailureObject> list, double value)
+        => list.First(f => f.RandomRage.In(value)).FailureType;
 }

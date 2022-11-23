@@ -1,10 +1,8 @@
-﻿using System;
-using Akov.DataGenerator.Constants;
+﻿using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Profiles;
-using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Profiles;
 

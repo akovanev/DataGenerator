@@ -4,23 +4,22 @@ using Akov.DataGenerator.Scheme;
 using Akov.DataGenerator.Serializers;
 using Newtonsoft.Json;
 
-namespace Akov.DataGenerator.Models
+namespace Akov.DataGenerator.Models;
+
+public class CalcPropertyObject : PropertyObject
 {
-    public class CalcPropertyObject : PropertyObject
+    public CalcPropertyObject(string definitionName, Property property, IEnumerable<NameValueObject> values) 
+        : base(definitionName, property)
     {
-        public CalcPropertyObject(string definitionName, Property property, IEnumerable<NameValueObject> values) 
-            : base(definitionName, property)
-        {
-            Values = values.ToList();
-        }
+        Values = values.ToList();
+    }
 
-        public List<NameValueObject> Values { get; }
+    public List<NameValueObject> Values { get; }
 
-        public T Cast<T>()
-        {
-            var rootObject = new NameValueObject("", Values);
-            var json = JsonValueObjectSerializer.Serialize(rootObject);
-            return JsonConvert.DeserializeObject<T>(json);
-        }
+    public T Cast<T>()
+    {
+        var rootObject = new NameValueObject("", Values);
+        var json = JsonValueObjectSerializer.Serialize(rootObject);
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }

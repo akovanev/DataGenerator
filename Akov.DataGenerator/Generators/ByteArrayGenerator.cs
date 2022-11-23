@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Models;
 using Akov.DataGenerator.Scheme;
