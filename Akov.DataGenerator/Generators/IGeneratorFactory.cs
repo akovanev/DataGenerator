@@ -1,7 +1,6 @@
-﻿namespace Akov.DataGenerator.Generators
+﻿namespace Akov.DataGenerator.Generators;
+
+public interface IGeneratorFactory
 {
-    public interface IGeneratorFactory
-    {
-        public GeneratorBase Get(string type);
-    }
+    public GeneratorBase Get(string type);
 }
