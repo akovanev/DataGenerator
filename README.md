@@ -42,6 +42,7 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 **Generators**
 * `BooleanGenerator`
 * `ByteArrayGenerator`
+* `CompositeStringGenerator`
 * `DatetimeGenerator`
 * `DecimalGenerator`
 * `DoubleGenerator`
