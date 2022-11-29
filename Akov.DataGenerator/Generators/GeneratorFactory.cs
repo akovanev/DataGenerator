@@ -30,6 +30,7 @@ public class GeneratorFactory : IGeneratorFactory
             {TemplateType.Decimal, new DecimalGenerator()},
             {TemplateType.DateTime, new DatetimeGenerator()},
             {TemplateType.Phone, new PhoneGenerator()},
+            {TemplateType.CompositeString, new CompositeStringGenerator()},
             {TemplateType.Email, new EmailGenerator()}
         };
 }

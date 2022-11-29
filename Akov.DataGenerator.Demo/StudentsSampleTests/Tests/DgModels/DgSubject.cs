@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Akov.DataGenerator.Attributes;
+using Akov.DataGenerator.Constants;
 using Akov.DataGenerator.Generators;
 
 namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
@@ -10,8 +11,8 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 public class DgSubject
 {
     [DgName("encoded_description")]
-    [DgPattern(StringGenerator.AbcLowerNum)]
-    [DgLength(Min = 10, Max = 10)]
+    [DgGenerator(TemplateType.CompositeString)]
+    [DgPattern($"{StringGenerator.AbcUpper}{{2,5}}-{{1}}{StringGenerator.Num}{{3}}")]
     public string? EncodedDescription { get; set; }
 
     [DgRange(Min = 1, Max = 10)]

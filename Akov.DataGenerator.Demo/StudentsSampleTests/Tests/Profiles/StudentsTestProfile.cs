@@ -45,7 +45,8 @@ public class StudentsTestProfile : DgProfileBase
         
         ForType<Subject>()
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")
-                .Pattern(StringGenerator.AbcLowerNum).Length(10, 20)
+                .UseGenerator(TemplateType.CompositeString)
+                .Pattern($"{StringGenerator.AbcUpper}{{2,5}}-{{1}}{StringGenerator.Num}{{3}}")
             .Property(s => s.Attempts).Range(1, 10)
             .Property(s => s.TotalPrices).HasJsonName("total_prices").SubTypePattern("0.00")
                 .Range(0, 125.0).Length(2).Failure(0.15, 0.2, 0.05, "####");
