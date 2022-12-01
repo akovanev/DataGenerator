@@ -1,0 +1,22 @@
+name: Fitness Function Runner
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+jobs:
+
+  testing-fitness-functions:
+    name: Testing Fitness Functions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+
+      - name: Checkout FitnessHub repo
+        uses:  actions/checkout@v3
+        with:
+          repository: akovanev/FitnessHub
+
+      - name: Run fitness functions
+        run: | 
+          docker build  -f "src\FitnessHub.Runner\Dockerfile" -t ff-testing .
+          docker run ff-testing
