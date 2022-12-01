@@ -18,5 +18,5 @@ jobs:
 
       - name: Run fitness functions
         run: | 
-          docker build  -f "src\FitnessHub.Runner\Dockerfile" -t ff-testing .
+          docker build  -f "src/FitnessHub.Runner/Dockerfile" -t ff-testing .
           docker run ff-testing
