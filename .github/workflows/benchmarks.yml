@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.101'  # SDK Version to use. keep in line with examples/benchmarkdotnet/global.json
+          dotnet-version: '7.0.100'  # SDK Version to use. keep in line with examples/benchmarkdotnet/global.json
       - name: Run benchmark
-        run: cd Akov.DataGenerator.Benchmarks && dotnet run --exporters json --filter '*'
+        run: cd Akov.DataGenerator.Benchmarks && dotnet run --configuration Release --exporters json --filter '*'
