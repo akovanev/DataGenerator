@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Akov.DataGenerator.Common;
@@ -32,7 +33,7 @@ public class StudentRepoServiceTests
     [Theory]
     [InlineData(GenerationType.UseAttributes)]
     [InlineData(GenerationType.UseProfile)]
-    public async Task GetAll_RandomStudentList(GenerationType type)
+    public async Task<List<Student>> GetAll_RandomStudentList(GenerationType type)
     {
         // Arrange
         var data = type is GenerationType.UseAttributes
@@ -50,5 +51,7 @@ public class StudentRepoServiceTests
         // Assert
         Assert.NotNull(students);
         Assert.True(students.All(s => s.IsValid));
+
+        return students;
     }
 }

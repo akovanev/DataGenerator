@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Akov.DataGenerator.Demo.StudentsSample.Responses;
 using Akov.DataGenerator.Demo.StudentsSample.Services;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Profiles;
@@ -19,7 +21,7 @@ public class StudentHttpServiceTests
     [Theory]
     [InlineData(GenerationType.UseAttributes)]
     [InlineData(GenerationType.UseProfile)]
-    public async Task GetAll_RandomStudentList(GenerationType type)
+    public async Task<List<Student>> GetAll_RandomStudentList(GenerationType type)
     {
         var httpClient = new MockHttpClientFactory(type, _profile).GetStudentServiceClient();
         var studentService = new StudentHttpService(httpClient);
@@ -42,5 +44,7 @@ public class StudentHttpServiceTests
         //The fallback logic implies setting the today date in the case of failure.
         DateTime expectedDate = DateTime.Today;
         Assert.True(studentsWithNotParsedDate.All(x => x.LastUpdated == expectedDate));
+        
+        return students;
     }
 }
