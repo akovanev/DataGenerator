@@ -9,12 +9,23 @@ permissions:
 
 jobs:
   benchmark:
-    name: Run Benchmark.Net
+    name: Run Benchmarks 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Current Branch
+        uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.100'  # SDK Version to use. keep in line with examples/benchmarkdotnet/global.json
+          dotnet-version: '7.0.100'  
+      - name: Run benchmark
+        run: cd Akov.DataGenerator.Benchmarks && dotnet run --configuration Release --exporters json --filter '*'
+
+      - name: Target Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.100'  
       - name: Run benchmark
         run: cd Akov.DataGenerator.Benchmarks && dotnet run --configuration Release --exporters json --filter '*'
