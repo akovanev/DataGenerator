@@ -23,7 +23,8 @@ public class StudentHttpServiceTests
     [InlineData(GenerationType.UseProfile)]
     public async Task<List<Student>> GetAll_RandomStudentList(GenerationType type)
     {
-        var httpClient = new MockHttpClientFactory(type, _profile).GetStudentServiceClient();
+        using var mockHttpClientFactory = new MockHttpClientFactory(type, _profile);
+        var httpClient = mockHttpClientFactory.GetStudentServiceClient();
         var studentService = new StudentHttpService(httpClient);
             
         var students = (await studentService.GetAll()).ToList();
@@ -45,6 +46,20 @@ public class StudentHttpServiceTests
         DateTime expectedDate = DateTime.Today;
         Assert.True(studentsWithNotParsedDate.All(x => x.LastUpdated == expectedDate));
         
+        // Arrange repeat
+        using var mockHttpClientRepeatFactory = new MockHttpClientFactory(type, _profile, true);
+        var httpClientRepeat = mockHttpClientRepeatFactory.GetStudentServiceClient();
+        studentService = new StudentHttpService(httpClientRepeat);
+            
+        var studentsRepeatRun = (await studentService.GetAll()).ToList();
+        
+        // Assert
+        Assert.NotNull(studentsRepeatRun);
+        Assert.True(studentsRepeatRun.All(s => s.IsValid));
+        
+        Assert.Equal(students.First().FullName, studentsRepeatRun.First().FullName);
+        Assert.Equal(students.Last().FullName, studentsRepeatRun.Last().FullName);
+
         return students;
     }
 }

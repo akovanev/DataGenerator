@@ -6,6 +6,7 @@ using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.Processors;
 using Akov.DataGenerator.Profiles;
+using Akov.DataGenerator.RunBehaviors;
 using Akov.DataGenerator.Scheme;
 using Akov.DataGenerator.Serializers;
 using Newtonsoft.Json;
@@ -17,14 +18,17 @@ public class DG
     private readonly IGeneratorFactory _generatorFactory;
     private readonly Lazy<IOHelper> _ioHelper;
     private readonly Lazy<DataSchemeMapper> _mapper;
+    private readonly IRunBehavior _runBehavior;
 
     public DG(IGeneratorFactory? generatorFactory = null,
         DataSchemeMapperConfig? mapperConfig = null,
-        FileReadConfig? fileReadConfig = null)
+        FileReadConfig? fileReadConfig = null,
+        IRunBehavior? runBehavior = null)
     {
         _generatorFactory = generatorFactory ?? new GeneratorFactory();
         _ioHelper = new Lazy<IOHelper>(() => new IOHelper(fileReadConfig));
         _mapper = new Lazy<DataSchemeMapper>(() => new DataSchemeMapper(mapperConfig));
+        _runBehavior = runBehavior ?? new NullRunBehavior();
     }
 
     public DataScheme GetFromFile(string filename)
@@ -36,41 +40,61 @@ public class DG
     public DataScheme GetFromType<T>()
         => _mapper.Value.MapFrom<T>();
 
-    public string GenerateJson(DataScheme scheme)
-        => GenerateJson(new DataProcessor(scheme, _generatorFactory));
+    public string GenerateJson(DataScheme scheme, bool useLast = false)
+        => GenerateJson(new DataProcessor(scheme, _generatorFactory), scheme.Root, useLast);
 
-    public string GenerateJsonCollection(DataScheme scheme, int count)
-        => GenerateJsonCollection(new DataProcessor(scheme, _generatorFactory), count);
+    public string GenerateJsonCollection(DataScheme scheme, int count, bool useLast = false)
+        => GenerateJsonCollection(new DataProcessor(scheme, _generatorFactory), count, scheme.Root, useLast);
         
-    public string GenerateJson<T>(DgProfileBase profile)
-        => GenerateJson(new TypeDataProcessor<T>(profile, _generatorFactory));
+    public string GenerateJson<T>(DgProfileBase profile, bool useLast = false)
+        => GenerateJson(new TypeDataProcessor<T>(profile, _generatorFactory), typeof(T).Name, useLast);
         
-    public string GenerateJsonCollection<T>(DgProfileBase profile, int count)
-        => GenerateJsonCollection(new TypeDataProcessor<T>(profile, _generatorFactory), count);
+    public string GenerateJsonCollection<T>(DgProfileBase profile, int count, bool useLast = false)
+        => GenerateJsonCollection(new TypeDataProcessor<T>(profile, _generatorFactory), count, typeof(T).Name, useLast);
 
-    public T GenerateObject<T>(DataScheme scheme)
-        => JsonConvert.DeserializeObject<T>(GenerateJson(scheme));
+    public T GenerateObject<T>(DataScheme scheme, bool useLast = false)
+        => JsonConvert.DeserializeObject<T>(GenerateJson(scheme, useLast));
         
-    public IEnumerable<T> GenerateObjectCollection<T>(DataScheme scheme, int count)
-        => JsonConvert.DeserializeObject<IEnumerable<T>>(GenerateJsonCollection(scheme, count));
+    public IEnumerable<T> GenerateObjectCollection<T>(DataScheme scheme, int count, bool useLast = false)
+        => JsonConvert.DeserializeObject<IEnumerable<T>>(GenerateJsonCollection(scheme, count, useLast));
 
-    public T GenerateObject<T>(DgProfileBase profile)
-        => JsonConvert.DeserializeObject<T>(GenerateJson<T>(profile));
+    public T GenerateObject<T>(DgProfileBase profile, bool useLast = false)
+        => JsonConvert.DeserializeObject<T>(GenerateJson<T>(profile, useLast));
         
-    public IEnumerable<T> GenerateObjectCollection<T>(DgProfileBase profile, int count)
-        => JsonConvert.DeserializeObject<IEnumerable<T>>(GenerateJsonCollection<T>(profile, count));
+    public IEnumerable<T> GenerateObjectCollection<T>(DgProfileBase profile, int count, bool useLast = false)
+        => JsonConvert.DeserializeObject<IEnumerable<T>>(GenerateJsonCollection<T>(profile, count, useLast));
 
     public void SaveToFile(string filename, string json)
         => _ioHelper.Value.SaveData(filename, json);
         
-    private static string GenerateJson(IDataProcessor dataProcessor)
+    private string GenerateJson(IDataProcessor dataProcessor, string? scheme, bool useLast)
     {
+        ValidateUseLast(useLast);
+
+        string key = scheme ?? "default";
+
+        if (useLast)
+            return _runBehavior.ReadLast(key);
+        
         var data = dataProcessor.CreateData();
-        return JsonValueObjectSerializer.Serialize(data);
+
+        var result = JsonValueObjectSerializer.Serialize(data);
+        
+        if (_runBehavior is not NullRunBehavior)
+            _runBehavior.SaveResult(key, result);
+        
+        return result;
     }
         
-    private static string GenerateJsonCollection(IDataProcessor dataProcessor, int count)
+    private string GenerateJsonCollection(IDataProcessor dataProcessor, int count, string? scheme, bool useLast)
     {
+        ValidateUseLast(useLast);
+
+        string key = (scheme ?? "default") + "_collection";
+        
+        if (useLast)
+            return _runBehavior.ReadLast(key);
+        
         var dataList = Enumerable.Range(1, count)
             .Select(x =>
             {
@@ -78,6 +102,17 @@ public class DG
                 return JsonValueObjectSerializer.Serialize(data);
             });
             
-        return $"[{string.Join(",", dataList)}]";
+        var result = $"[{string.Join(",", dataList)}]";
+        
+        if (_runBehavior is not NullRunBehavior)
+            _runBehavior.SaveResult(key, result);
+        
+        return result;
+    }
+
+    private void ValidateUseLast(bool useLast)
+    {
+        if (useLast && _runBehavior is NullRunBehavior)
+            throw new ArgumentException($"{nameof(useLast)} flag cannot be used with {nameof(NullRunBehavior)}");
     }
 }

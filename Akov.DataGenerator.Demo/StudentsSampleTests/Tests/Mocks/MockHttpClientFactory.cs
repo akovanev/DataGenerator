@@ -9,6 +9,7 @@ using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.Profiles;
+using Akov.DataGenerator.RunBehaviors;
 using Moq;
 using Moq.Protected;
 
@@ -17,11 +18,12 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Mocks;
 /// <summary>
 /// The factory for mock http clients.
 /// </summary>
-public class MockHttpClientFactory
+public class MockHttpClientFactory : IDisposable
 {
     private readonly Lazy<HttpClient> _studentServiceHttpClient;
+    private readonly IRunBehavior _runBehavior = new StoreToFileRunBehavior();
 
-    public MockHttpClientFactory(GenerationType generationType, DgProfileBase? profile = null)
+    public MockHttpClientFactory(GenerationType generationType, DgProfileBase? profile = null, bool useLast = false)
     {
         if (generationType is GenerationType.UseProfile && profile is null)
             throw new InvalidOperationException("Profile should be defined");
@@ -31,12 +33,13 @@ public class MockHttpClientFactory
             var dg = new DG(
                 new StudentGeneratorFactory(),
                 new DataSchemeMapperConfig { UseCamelCase = true },
-                new FileReadConfig { UseCache = true });
+                new FileReadConfig { UseCache = true },
+                _runBehavior);
 
             //Creates json based on DgStudentCollection attributes or profiles.
             string jsonData = generationType is GenerationType.UseAttributes
-                ? dg.GenerateJson(dg.GetFromType<DgStudentCollection>())
-                : dg.GenerateJson<StudentCollection>(profile!);
+                ? dg.GenerateJson(dg.GetFromType<DgStudentCollection>(), useLast)
+                : dg.GenerateJson<StudentCollection>(profile!, useLast);
                 
             var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             handlerMock.Protected()
@@ -59,4 +62,10 @@ public class MockHttpClientFactory
 
     public HttpClient GetStudentServiceClient()
         => _studentServiceHttpClient.Value;
+
+    public void Dispose()
+    {
+        _runBehavior.ClearResult(nameof(StudentCollection));
+        _runBehavior.ClearResult(nameof(DgStudentCollection));
+    }
 }
