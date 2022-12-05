@@ -17,6 +17,7 @@
         public const string Phone = "phone";
         public const string CompositeString = "composite";
         public const string Email = "email";
+        public const string IpV4 = "ipV4";
 
         public const string Array = "array";
         public const string Object = "object";

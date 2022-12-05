@@ -36,12 +36,13 @@ public class StudentsTestProfile : DgProfileBase
         ForType<Address>()
             .Property(s => s.Company).FromResource(ResourceType.Companies).Failure(nullable: 0.1)
             .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
-                .Pattern("+45 ## ## ## ##;+420 ### ### ###")
-                .Failure(nullable: 0.05)
+            .Pattern("+45 ## ## ## ##;+420 ### ### ###")
+            .Failure(nullable: 0.05)
             .Property(s => s.Email).UseGenerator(TemplateType.Email).Failure(nullable: 0.1)
             .Property(s => s.AddressLine).FromResource(ResourceType.Addresses).Failure(nullable: 0.25)
             .Property(s => s.City).FromResource(ResourceType.Cities).Failure(nullable: 0.1)
-            .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15);
+            .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15)
+            .Property(s => s.IpAddress).UseGenerator(TemplateType.IpV4).Failure(nullable: 0.1);
         
         ForType<Subject>()
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")

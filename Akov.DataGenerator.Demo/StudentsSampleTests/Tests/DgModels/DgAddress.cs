@@ -32,4 +32,8 @@ public class DgAddress
     [DgSource(ResourceType.Countries, true)]
     [DgFailure(NullProbability = 0.15)]
     public string? Country { get; set; } 
+    
+    [DgGenerator(TemplateType.IpV4)]
+    [DgFailure(NullProbability = 0.1)]
+    public string? IpAddress { get; set; }
 }
