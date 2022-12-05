@@ -14,6 +14,8 @@ public class Address : Result
     public string? AddressLine { get; set; }
     public string? City { get; set; }
     public string? Country { get; set; }
+    
+    public string? IpAddress { get; set; }
         
     /// <summary>
     /// Handles errors while JsonConvert parsing (deserializing).

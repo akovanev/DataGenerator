@@ -31,6 +31,7 @@ public class GeneratorFactory : IGeneratorFactory
             {TemplateType.DateTime, new DatetimeGenerator()},
             {TemplateType.Phone, new PhoneGenerator()},
             {TemplateType.CompositeString, new CompositeStringGenerator()},
-            {TemplateType.Email, new EmailGenerator()}
+            {TemplateType.Email, new EmailGenerator()},
+            {TemplateType.IpV4, new IpGenerator()}
         };
 }
