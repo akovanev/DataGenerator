@@ -54,6 +54,7 @@ After that I didn't work with `DG` for almost two years. During this time a coup
 * `EmailGenerator`
 * `GuidGenerator`
 * `IntGenerator`
+* `IpGenerator`
 * `PhoneGenerator`
 * `SetGenerator` _list of values and enums_
 * `StringGenerator`
@@ -91,7 +92,8 @@ ForType<Address>()
     .Property(s => s.Email).UseGenerator(TemplateType.Email).Failure(nullable: 0.1)
     .Property(s => s.AddressLine).FromResource(ResourceType.Addresses).Failure(nullable: 0.25)
     .Property(s => s.City).FromResource(ResourceType.Cities).Failure(nullable: 0.1)
-    .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15);
+    .Property(s => s.Country).FromResource(ResourceType.Countries).Failure(nullable: 0.15)
+    .Property(s => s.IpAddress).UseGenerator(TemplateType.IpV4).Failure(nullable: 0.1);
 
 // Execute 
 var dg = new DG(new StudentGeneratorFactory(), new DataSchemeMapperConfig { UseCamelCase = true }); 
