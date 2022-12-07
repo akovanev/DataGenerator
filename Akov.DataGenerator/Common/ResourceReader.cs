@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Akov.DataGenerator.Extensions;
 
@@ -41,13 +39,11 @@ public class ResourceReader
         return content;
     }
 
-    private static Assembly GetAssembly(string typeName)
+    protected virtual Assembly GetAssembly(string typeName)
     {
-        var type = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .SelectMany(a => a.GetTypes())
-            .Single(t => string.Equals(t.Name, typeName, StringComparison.OrdinalIgnoreCase));
+        if (typeName != nameof(DG))
+            throw new ArgumentException($"{nameof(ResourceReader)} expects {nameof(DG)} type");
         
-        return type.Assembly;
+        return Assembly.GetExecutingAssembly();
     }
 }

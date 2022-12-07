@@ -40,7 +40,7 @@ public abstract class Result
         string errorKey = GetErrorKey(path);
         int arrayIndex = errorKey.IndexOf("[", StringComparison.Ordinal);
         return arrayIndex > 0
-            ? errorKey.Substring(0, arrayIndex)
+            ? errorKey[..arrayIndex]
             : errorKey;
     }
 }
