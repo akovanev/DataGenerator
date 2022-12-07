@@ -6,7 +6,7 @@ namespace Akov.DataGenerator.Scheme;
 /// <summary>
 /// The object property attributes.
 /// </summary>
-public class Property
+public record Property
 {
     public string? Type { get; set; }
     public string? Pattern { get; set; }

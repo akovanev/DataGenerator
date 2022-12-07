@@ -21,9 +21,11 @@ public class PropertyObject
         string newType,
         string? newPattern)
     {
-        var property = propertyObject.Property.Clone();
-        property.Type = newType;
-        property.Pattern = newPattern;
+        var property = propertyObject.Property with
+        {
+            Type = newType,
+            Pattern = newPattern
+        };
         return new PropertyObject(
             propertyObject.DefinitionName,
             property,
