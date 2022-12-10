@@ -5,7 +5,7 @@ on:
     types: [ opened, synchronize, reopened ]
   
 env:
-  SERVICE: data-generator-benchmark
+  SERVICE: akovanev/data-generator-benchmark
   REGISTRY: ghcr.io
 
 jobs:
