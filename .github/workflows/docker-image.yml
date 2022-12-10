@@ -37,6 +37,6 @@ jobs:
 
       - name: Push the docker Image
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ 1.0.0 }}
-          docker tag ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ 1.0.0 }} ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:1.0.0
+          docker tag ${{ env.REGISTRY }}/${{ env.SERVICE }}:1.0.0 ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
