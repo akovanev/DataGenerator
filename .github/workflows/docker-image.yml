@@ -5,6 +5,7 @@ on:
     types: [ opened, synchronize, reopened ]
   
 env:
+  SERVICE: akovanev/data-generator-benchmark
   REGISTRY: ghcr.io
 
 jobs:
@@ -33,3 +34,9 @@ jobs:
 
       - name: Publish
         run: dotnet publish ./Akov.DataGenerator.Benchmarks/Akov.DataGenerator.Benchmarks.csproj -c Release --os linux --arch x64 /t:PublishContainer
+
+      - name: Push the docker Image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ github.sha }}
+          docker tag ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
