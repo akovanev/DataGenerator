@@ -5,7 +5,7 @@ on:
     types: [ opened, synchronize, reopened ]
   
 env:
-  SERVICE: akovanev/data-generator-benchmark
+  SERVICE: data-generator-benchmark
   REGISTRY: ghcr.io
 
 jobs:
@@ -37,6 +37,6 @@ jobs:
 
       - name: Push the docker Image
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ github.sha }}
-          docker tag ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ 1.0.0 }}
+          docker tag ${{ env.REGISTRY }}/${{ env.SERVICE }}:${{ 1.0.0 }} ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
           docker push ${{ env.REGISTRY }}/${{ env.SERVICE }}:latest
