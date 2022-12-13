@@ -12,6 +12,7 @@ namespace Akov.DataGenerator.Generators;
 public class CompositeStringGenerator : StringGenerator
 {
     private const string CompositeRegex = @"(\\[\{\}])+|([^{}]+)";
+    private readonly Regex _regex = new(CompositeRegex, RegexOptions.Compiled);
     private static readonly ConcurrentDictionary<string, Dictionary<string, Tuple<int, int>>> PatternList = new();
     protected override object CreateImpl(PropertyObject propertyObject)
     {
@@ -43,8 +44,7 @@ public class CompositeStringGenerator : StringGenerator
     private Dictionary<string, Tuple<int, int>> GetPatternList(string pattern)
     {
         Dictionary<string, Tuple<int, int>> patternList = new();
-        var regex = new Regex(CompositeRegex);
-        var matches = regex.Matches(pattern!);
+        var matches = _regex.Matches(pattern!);
 
         if (matches.Count % 2 != 0)
             throw new InvalidOperationException("Range(s) is not defined properly for the composite pattern");
