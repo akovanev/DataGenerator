@@ -34,6 +34,8 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.Signature).Length(4, 16).Failure(nullable: 0.1);
 
         ForType<Address>()
+            .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
+            .Ignore(s => s.ParsingErrors).Ignore(s => s.ParsingWarnings)
             .Property(s => s.Company).FromResource(ResourceType.Companies).Failure(nullable: 0.1)
             .Property(s => s.Phone).UseGenerator(TemplateType.Phone)
             .Pattern("+45 ## ## ## ##;+420 ### ### ###")
@@ -45,6 +47,8 @@ public class StudentsTestProfile : DgProfileBase
             .Property(s => s.IpAddress).UseGenerator(TemplateType.IpV4).Failure(nullable: 0.1);
         
         ForType<Subject>()
+            .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
+            .Ignore(s => s.ParsingErrors).Ignore(s => s.ParsingWarnings)
             .Property(s => s.EncodedDescription).HasJsonName("encoded_description")
                 .UseGenerator(TemplateType.CompositeString)
                 .Pattern($"{StringGenerator.AbcUpper}{{2,5}}-{{1}}{StringGenerator.Num}{{3}}")
