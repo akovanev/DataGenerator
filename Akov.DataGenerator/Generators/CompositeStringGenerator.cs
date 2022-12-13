@@ -12,7 +12,7 @@ namespace Akov.DataGenerator.Generators;
 public class CompositeStringGenerator : StringGenerator
 {
     private const string CompositeRegex = @"(\\[\{\}])+|([^{}]+)";
-    private readonly Regex _regex = new(CompositeRegex, RegexOptions.Compiled);
+    private readonly Regex _regex = new(CompositeRegex);
     private static readonly ConcurrentDictionary<string, Dictionary<string, Tuple<int, int>>> PatternList = new();
     protected override object CreateImpl(PropertyObject propertyObject)
     {
