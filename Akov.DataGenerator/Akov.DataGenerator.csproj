@@ -4,7 +4,7 @@
     <TargetFrameworks>net7.0;net6.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
     <Authors>Oleksandr Kovanev</Authors>
-    <Description>Generates random test data. Allows calculated and assigned properties and random failures.</Description>
+    <Description>Generates random test data. Provides calculated and assigned properties, random failures, repeat last run.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/akovanev/DataGenerator/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIconUrl />
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.8.0</Version>
+    <Version>1.8.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
