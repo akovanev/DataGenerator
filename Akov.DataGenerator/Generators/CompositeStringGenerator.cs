@@ -9,10 +9,14 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Generators;
 
-public class CompositeStringGenerator : StringGenerator
+public partial class CompositeStringGenerator : StringGenerator
 {
     private const string CompositeRegex = @"(\\[\{\}])+|([^{}]+)";
+#if NET7_0
+    private readonly Regex _regex = Composite();
+#else
     private readonly Regex _regex = new(CompositeRegex);
+#endif
     private static readonly ConcurrentDictionary<string, Dictionary<string, Tuple<int, int>>> PatternList = new();
     protected override object CreateImpl(PropertyObject propertyObject)
     {
@@ -62,4 +66,9 @@ public class CompositeStringGenerator : StringGenerator
 
         return patternList;
     }
+
+#if NET7_0
+    [GeneratedRegex("(\\\\[\\{\\}])+|([^{}]+)")]
+    private static partial Regex Composite();
+#endif
 }
