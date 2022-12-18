@@ -8,9 +8,16 @@ namespace Akov.DataGenerator.Common;
 
 public class ResourceReader
 {
+    private readonly ConcurrentDictionary<string, string> _cachedContent = new();
+    
     public string? ReadEmbeddedResource(string? resourceName)
     {
         resourceName.ThrowIfNullOrEmpty(nameof(resourceName));
+        
+        if(_cachedContent.TryGetValue(resourceName!, out var content))
+        {
+            return content;
+        }
         
         string[] split = resourceName!.Split(",");
 
@@ -26,7 +33,10 @@ public class ResourceReader
         if (resourceStream is null) return null;
         
         using var streamReader = new StreamReader(resourceStream);
-        return streamReader.ReadToEnd();
+        content = streamReader.ReadToEnd();
+        _cachedContent.TryAdd(resourceName, content);
+        
+        return content;
     }
 
     protected virtual Assembly GetAssembly(string typeName)
