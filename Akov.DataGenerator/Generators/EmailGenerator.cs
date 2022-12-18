@@ -12,7 +12,6 @@ public class EmailGenerator : GeneratorBase
 {
     //Todo: should be redesigned
     private static readonly ResourceReader ResourceReader = new();
-    private static readonly ConcurrentDictionary<string, string[]> Resources = new();
 
     protected override object CreateImpl(PropertyObject propertyObject)
     {
@@ -60,9 +59,44 @@ public class EmailGenerator : GeneratorBase
 
     private string GetValueFromSet(string resource)
     {
-        Resources.TryAdd(resource, ResourceReader.ReadEmbeddedResource(resource)!.Split(","));
-        var values = Resources[resource];
-        int random = new Random().Next(values.Length);
-        return values[random];
+        var values = ResourceReader.ReadEmbeddedResource(resource)!;
+        var (count, _) = GetSplitSizeOrString(values, ",");
+        int random = new Random().Next(count);
+        return GetSplitSizeOrString(values, ",", random).Item2;
+    }
+    
+    private static (int, string) GetSplitSizeOrString(string source, string separator, int substring = -1)
+    {
+        int count = 0;
+        int prev = 0;
+        int i;
+
+        for (i = 0; i < source.Length; i++)
+        {
+            if (source[i] != separator[0]) continue;
+
+            bool isMatch = true;
+
+            for (int j = 1; j < separator.Length; j++)
+            {
+                if (source[i + j] == separator[j]) continue;
+                
+                isMatch = false;
+                break;
+            }
+
+            if (!isMatch) continue;
+
+            if (count == substring)
+                return (count + 1, source.Substring(prev, i - prev));
+
+            if (i + separator.Length == source.Length) break;
+            
+            prev = i + separator.Length;
+            i = prev - 1;
+            count++;
+        }
+
+        return (count + 1, source[prev..]);
     }
 }
