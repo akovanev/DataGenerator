@@ -96,6 +96,7 @@ public class DG
             return _runBehavior.ReadLast(key);
         
         var dataList = Enumerable.Range(1, count)
+            .AsParallel()
             .Select(x =>
             {
                 var data = dataProcessor.CreateData();
