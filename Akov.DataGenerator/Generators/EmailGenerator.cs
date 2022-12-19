@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Constants;
+using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Models;
 
 namespace Akov.DataGenerator.Generators;
@@ -12,7 +13,6 @@ public class EmailGenerator : GeneratorBase
 {
     //Todo: should be redesigned
     private static readonly ResourceReader ResourceReader = new();
-    private static readonly ConcurrentDictionary<string, string[]> Resources = new();
 
     protected override object CreateImpl(PropertyObject propertyObject)
     {
@@ -60,9 +60,9 @@ public class EmailGenerator : GeneratorBase
 
     private string GetValueFromSet(string resource)
     {
-        Resources.TryAdd(resource, ResourceReader.ReadEmbeddedResource(resource)!.Split(","));
-        var values = Resources[resource];
-        int random = new Random().Next(values.Length);
-        return values[random];
+        var values = ResourceReader.ReadEmbeddedResource(resource)!;
+        var (count, _) = values.GetSplitSizeOrString(",");
+        int random = new Random().Next(count);
+        return values.GetSplitSizeOrString(",", random).Item2;
     }
 }

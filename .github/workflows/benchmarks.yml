@@ -12,6 +12,10 @@ jobs:
     name: Run Benchmarks 
     runs-on: ubuntu-latest
     steps:
+      - name: Branches
+        run: |
+          echo "${{ github.head_ref }}"
+          echo "${{ github.base_ref }}"
       - name: Current Branch
         uses: actions/checkout@v3
         with:
