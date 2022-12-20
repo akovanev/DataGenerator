@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Akov.DataGenerator.Common;
 using Akov.DataGenerator.Generators;
 using Akov.DataGenerator.Mappers;
@@ -94,15 +95,15 @@ public class DG
         
         if (useLast)
             return _runBehavior.ReadLast(key);
+
+        var dataList = new List<string>();
+
+        Parallel.For(0, count, i =>
+        {
+            var data = dataProcessor.CreateData();
+            dataList.Add(JsonValueObjectSerializer.Serialize(data));
+        });
         
-        var dataList = Enumerable.Range(1, count)
-            .AsParallel()
-            .Select(x =>
-            {
-                var data = dataProcessor.CreateData();
-                return JsonValueObjectSerializer.Serialize(data);
-            });
-            
         var result = $"[{string.Join(",", dataList)}]";
         
         if (_runBehavior is not NullRunBehavior)
