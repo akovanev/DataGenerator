@@ -48,7 +48,7 @@ internal static class TypeExtensions
         if (type.IsEnumerableExceptString())
             return TemplateType.Array;
 
-        var templateTypeDictionary = GetTemplateTypeDictionary();
+        var templateTypeDictionary = TemplateTypeDictionary;
 
         return templateTypeDictionary.ContainsKey(type)
             ? templateTypeDictionary[type]
@@ -60,7 +60,7 @@ internal static class TypeExtensions
     public static string GetArrayPatternTemplateType(this Type type)
     {
         Type patternType = type.GetArrayPatternType();
-        var templateTypeDictionary = GetTemplateTypeDictionary();
+        var templateTypeDictionary = TemplateTypeDictionary;
 
         return templateTypeDictionary.ContainsKey(patternType)
             ? templateTypeDictionary[patternType]
@@ -69,7 +69,7 @@ internal static class TypeExtensions
 
     public static bool IsInExistingTemplates(this string template)
     {
-        return GetTemplateTypeDictionary().ContainsValue(template);
+        return TemplateTypeDictionary.ContainsValue(template);
     }
 
     private static Type? GetPropertyType(this Type type)
@@ -118,15 +118,14 @@ internal static class TypeExtensions
     private static bool IsEnumerableExceptString(this Type type)
         => type != typeof(String) && type.GetInterface(nameof(IEnumerable)) is not null;
 
-    private static Dictionary<Type, string> GetTemplateTypeDictionary()
-        => new()
-        {
-            {typeof(String), TemplateType.String},
-            {typeof(Guid), TemplateType.Guid},
-            {typeof(Boolean), TemplateType.Bool},
-            {typeof(Int32), TemplateType.Int},
-            {typeof(Double), TemplateType.Double},
-            {typeof(Decimal), TemplateType.Decimal},
-            {typeof(DateTime), TemplateType.DateTime}
-        };
+    private static Dictionary<Type, string> TemplateTypeDictionary { get; } = new()
+    {
+        { typeof(String), TemplateType.String },
+        { typeof(Guid), TemplateType.Guid },
+        { typeof(Boolean), TemplateType.Bool },
+        { typeof(Int32), TemplateType.Int },
+        { typeof(Double), TemplateType.Double },
+        { typeof(Decimal), TemplateType.Decimal },
+        { typeof(DateTime), TemplateType.DateTime }
+    };
 }
