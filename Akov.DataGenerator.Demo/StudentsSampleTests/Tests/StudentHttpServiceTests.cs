@@ -21,13 +21,13 @@ public class StudentHttpServiceTests
     [Theory]
     [InlineData(GenerationType.UseAttributes)]
     [InlineData(GenerationType.UseProfile)]
-    public async Task<IEnumerable<Student>> GetAll_RandomStudentList(GenerationType type)
+    public async Task<List<Student>> GetAll_RandomStudentList(GenerationType type)
     {
         using var mockHttpClientFactory = new MockHttpClientFactory(type, _profile);
         var httpClient = mockHttpClientFactory.GetStudentServiceClient();
         var studentService = new StudentHttpService(httpClient);
             
-        var students = await studentService.GetAll();
+        var students = (await studentService.GetAll()).ToList();
 
         Assert.NotNull(students);
 
