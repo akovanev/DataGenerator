@@ -8,7 +8,7 @@ namespace Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 /// </summary>
 public class DgStudentCollection
 {
-    public const int Length = 100;
+    public const int Length = 1000;
 
     [DgCalc]
     public int? Count { get; set; }
