@@ -12,7 +12,7 @@ public class StudentsTestProfile : DgProfileBase
     {
         ForType<StudentCollection>()
             .Property(c => c.Count).IsCalc()
-            .Property(c => c.Students).Length(100, 100);
+            .Property(c => c.Students).Length(1000, 1000);
                 
         ForType<Student>()
             .Ignore(s => s.HasWarnings).Ignore(s => s.IsValid)
