@@ -11,14 +11,14 @@ public class IntegrationTestsBenchmark
     private readonly StudentRepoServiceTests _repoTest = new();
 
     [Benchmark]
-    public async Task<List<Student>> HttpService_GetAll_RandomStudentList()
+    public Task<IEnumerable<Student>> HttpService_GetAll_RandomStudentList()
     {
-        return await _httpTest.GetAll_RandomStudentList(GenerationType.UseProfile);
+        return _httpTest.GetAll_RandomStudentList(GenerationType.UseProfile);
     }
     
     [Benchmark]
-    public async Task<List<Student>> RepoService_GetAll_RandomStudentList()
+    public Task<IEnumerable<Student>> RepoService_GetAll_RandomStudentList()
     {
-        return await _repoTest.GetAll_RandomStudentList(GenerationType.UseProfile);
+        return _repoTest.GetAll_RandomStudentList(GenerationType.UseProfile);
     }
 }

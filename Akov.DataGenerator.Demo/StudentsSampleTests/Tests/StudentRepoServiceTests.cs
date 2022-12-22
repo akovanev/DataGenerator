@@ -40,7 +40,7 @@ public class StudentRepoServiceTests : IDisposable
     [Theory]
     [InlineData(GenerationType.UseAttributes)]
     [InlineData(GenerationType.UseProfile)]
-    public async Task<List<Student>> GetAll_RandomStudentList(GenerationType type)
+    public async Task<IEnumerable<Student>> GetAll_RandomStudentList(GenerationType type)
     {
         // Arrange
         var data = type is GenerationType.UseAttributes
@@ -53,7 +53,7 @@ public class StudentRepoServiceTests : IDisposable
         var studentService = new StudentRepoService(_studentRepositoryMock.Object);
         
         // Act
-        var students = (await studentService.GetAll()).ToList();
+        var students = await studentService.GetAll();
         
         // Assert
         Assert.NotNull(students);
@@ -70,7 +70,7 @@ public class StudentRepoServiceTests : IDisposable
         studentService = new StudentRepoService(_studentRepositoryMock.Object);
         
         // Act
-        var studentsRepeatRun = (await studentService.GetAll()).ToList();
+        var studentsRepeatRun = await studentService.GetAll();
         
         // Assert
         Assert.NotNull(studentsRepeatRun);
