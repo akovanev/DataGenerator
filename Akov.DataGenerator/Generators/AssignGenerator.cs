@@ -25,7 +25,7 @@ internal class AssignGenerator<T>: AssignGeneratorBase
             throw new ArgumentNullException(nameof(propertyObject.Property.Name));
         
         if (!_assignProperties.ContainsKey(propertyObject.Property.Name))
-            throw new NotSupportedException("Not expected calculated property");
+            throw new InvalidOperationException($"Not expected calculated property {propertyObject.Property.Name}");
         
         var expression = _assignProperties[propertyObject.Property.Name];
         var compiledLambda = expression.Compile();

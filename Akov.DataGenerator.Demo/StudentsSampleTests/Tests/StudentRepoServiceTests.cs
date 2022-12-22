@@ -44,8 +44,8 @@ public class StudentRepoServiceTests : IDisposable
     {
         // Arrange
         var data = type is GenerationType.UseAttributes
-            ? _dg.GenerateObjectCollection<Student>(_dg.GetFromType<DgStudent>(), 100)
-            : _dg.GenerateObjectCollection<Student>(new StudentsTestProfile(), 100);
+            ? _dg.GenerateObjectCollection<Student>(_dg.GetFromType<DgStudent>(), 1000)
+            : _dg.GenerateObjectCollection<Student>(new StudentsTestProfile(), 1000);
 
         _studentRepositoryMock.Setup(x => x.GetAll())
             .ReturnsAsync(data);
