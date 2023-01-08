@@ -8,7 +8,6 @@ using Akov.DataGenerator.Demo.StudentsSample.Services;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.DgModels;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Generators;
 using Akov.DataGenerator.Demo.StudentsSampleTests.Tests.Profiles;
-using Akov.DataGenerator.Extensions;
 using Akov.DataGenerator.Mappers;
 using Akov.DataGenerator.RunBehaviors;
 using Moq;
@@ -46,7 +45,6 @@ public class StudentRepoServiceTests : IDisposable
         var data = type is GenerationType.UseAttributes
             ? _dg.GenerateObjectCollection<Student>(_dg.GetFromType<DgStudent>(), 1000)
             : _dg.GenerateObjectCollection<Student>(new StudentsTestProfile(), 1000);
-
         _studentRepositoryMock.Setup(x => x.GetAll())
             .ReturnsAsync(data);
 

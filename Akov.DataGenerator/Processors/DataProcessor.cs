@@ -26,7 +26,9 @@ public class DataProcessor : IDataProcessor
         _scheme = scheme;
         _generatorFactory = generatorFactory ?? throw new ArgumentNullException(nameof(generatorFactory));
         _propertyObjectFactory = new PropertyObjectFactory();
-        _randomFactory = new RandomFactory();
+        _randomFactory = generatorFactory is DefaultTypeValueGeneratorFactory
+            ? new DefaultTypeValueRandomFactory()
+            : new RandomFactory();
     }
 
     public NameValueObject CreateData()
