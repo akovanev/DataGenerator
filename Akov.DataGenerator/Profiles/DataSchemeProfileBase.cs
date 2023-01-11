@@ -13,7 +13,13 @@ public abstract class DgProfileBase
 {
     private readonly Dictionary<Type, IPropertiesCollection> _typePropertiesCollections = new();
     private readonly Dictionary<Type, AssignGeneratorBase> _assignGeneratorsCollection = new();
-    
+    private readonly bool _createDefaultProfilesForMissingTypes;
+
+    protected DgProfileBase(bool createDefaultProfilesForMissingTypes = false)
+    {
+        _createDefaultProfilesForMissingTypes = createDefaultProfilesForMissingTypes;
+    }
+
     protected DataSchemeTypeBuilder<T> ForType<T>()
     {
         Type type = typeof(T);
@@ -23,7 +29,7 @@ public abstract class DgProfileBase
         _assignGeneratorsCollection.Add(type, typeBuilder.AssignGenerator);
         return typeBuilder;
     }
-
+    
     internal DataScheme GetDataScheme<T>()
     {
         Type type = typeof(T);
@@ -35,7 +41,12 @@ public abstract class DgProfileBase
         foreach (var (key, value) in propsDictionary)
         {
             if (!_typePropertiesCollections.ContainsKey(key))
-                throw new ArgumentException($"Profile for type {key.FullName} not defined.");
+            {
+                if(!_createDefaultProfilesForMissingTypes)
+                    throw new ArgumentException($"Profile for type {key.FullName} not defined.");
+                
+                RegisterType(key);
+            }
                     
             definitions.Add(new Definition(key.Name, _typePropertiesCollections[key].Properties));
         }
@@ -45,4 +56,14 @@ public abstract class DgProfileBase
 
     internal IReadOnlyCollection<AssignGeneratorBase> GetAssignGenerators()
         => new ReadOnlyCollection<AssignGeneratorBase>(_assignGeneratorsCollection.Values.ToList());
+    
+    private void RegisterType(Type type)
+    {
+        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var builderGenericType = typeof(DataSchemeTypeBuilder<>);
+        var builderInstance = Activator.CreateInstance(builderGenericType.MakeGenericType(type), (object)properties);
+        if (builderInstance is null)
+            throw new InvalidOperationException($"Cannot register type {type.FullName}");
+        _typePropertiesCollections.Add(type, (IPropertiesCollection)builderInstance);
+    }
 }
