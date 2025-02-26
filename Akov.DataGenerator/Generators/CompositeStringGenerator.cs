@@ -12,7 +12,7 @@ namespace Akov.DataGenerator.Generators;
 public partial class CompositeStringGenerator : StringGenerator
 {
     private const string CompositeRegex = @"(\\[\{\}])+|([^{}]+)";
-#if NET7_0
+#if NET7_0_OR_GREATER
     private readonly Regex _regex = Composite();
 #else
     private readonly Regex _regex = new(CompositeRegex);
@@ -67,8 +67,8 @@ public partial class CompositeStringGenerator : StringGenerator
         return patternList;
     }
 
-#if NET7_0
-    [GeneratedRegex("(\\\\[\\{\\}])+|([^{}]+)")]
+#if NET7_0_OR_GREATER
+    [GeneratedRegex(@"(\\[\{\}])+|([^{}]+)")]
     private static partial Regex Composite();
 #endif
 }

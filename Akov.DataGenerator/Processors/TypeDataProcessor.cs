@@ -9,15 +9,10 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Processors;
 
-public class TypeDataProcessor<TType> : DataProcessor
+public class TypeDataProcessor<TType>(DgProfileBase profile, IGeneratorFactory generatorFactory)
+    : DataProcessor(profile.GetDataScheme<TType>(), generatorFactory)
 {
-    private readonly IReadOnlyCollection<AssignGeneratorBase> _assignGenerators;
-    
-    public TypeDataProcessor(DgProfileBase profile, IGeneratorFactory generatorFactory)
-        : base(profile.GetDataScheme<TType>(), generatorFactory)
-    {
-        _assignGenerators = profile.GetAssignGenerators();
-    }
+    private readonly IReadOnlyCollection<AssignGeneratorBase> _assignGenerators = profile.GetAssignGenerators();
 
     protected override bool IsBasicProperty(Property property)
         => property.Type != TemplateType.Calc &&

@@ -7,20 +7,15 @@ namespace Akov.DataGenerator.Common;
 /// The wrapper on the StreamReader and StreamWriter.
 /// </summary>
 // ReSharper disable once InconsistentNaming
-public class IOHelper
+public class IOHelper(FileReadConfig? config = null)
 {
-    private readonly bool _useCache;
+    private readonly bool _useCache = config?.UseCache ?? false;
     private readonly Dictionary<string, string> _cachedContent = new();
-
-    public IOHelper(FileReadConfig? config = null)
-    {
-        _useCache = config?.UseCache ?? false;
-    }
 
     public string GetFileContent(string filename)
     {
-        if (_useCache && _cachedContent.ContainsKey(filename))
-            return _cachedContent[filename];
+        if (_useCache && _cachedContent.TryGetValue(filename, out var content))
+            return content;
             
         using var reader = new StreamReader(filename);
             

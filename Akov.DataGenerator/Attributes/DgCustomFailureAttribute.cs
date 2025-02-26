@@ -6,12 +6,7 @@ namespace Akov.DataGenerator.Attributes;
 /// Represents the value for a custom failure.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgCustomFailureAttribute : Attribute
+public class DgCustomFailureAttribute(string value) : Attribute
 {
-    public DgCustomFailureAttribute(string value)
-    {
-        Value = value;
-    }
-    
-    public string Value { get; }
+    public string Value { get; } = value;
 }

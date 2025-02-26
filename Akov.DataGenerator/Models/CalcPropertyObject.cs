@@ -6,15 +6,10 @@ using Newtonsoft.Json;
 
 namespace Akov.DataGenerator.Models;
 
-public class CalcPropertyObject : PropertyObject
+public class CalcPropertyObject(string definitionName, Property property, IEnumerable<NameValueObject> values)
+    : PropertyObject(definitionName, property)
 {
-    public CalcPropertyObject(string definitionName, Property property, IEnumerable<NameValueObject> values) 
-        : base(definitionName, property)
-    {
-        Values = values.ToList();
-    }
-
-    public List<NameValueObject> Values { get; }
+    public List<NameValueObject> Values { get; } = values.ToList();
 
     public T Cast<T>()
     {

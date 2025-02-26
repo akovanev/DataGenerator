@@ -6,12 +6,7 @@ namespace Akov.DataGenerator.Attributes;
 /// Specifies the name of the custom generator.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgGeneratorAttribute : Attribute
+public class DgGeneratorAttribute(string name) : Attribute
 {
-    public DgGeneratorAttribute(string name)
-    {
-        Name = name;
-    }
-    
-    public string Name { get; }
+    public string Name { get; } = name;
 }

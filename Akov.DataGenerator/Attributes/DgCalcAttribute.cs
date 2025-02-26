@@ -6,6 +6,4 @@ namespace Akov.DataGenerator.Attributes;
 /// Considered a property to be calculated.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgCalcAttribute : Attribute
-{
-}
+public class DgCalcAttribute : Attribute;

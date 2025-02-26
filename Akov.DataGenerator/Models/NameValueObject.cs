@@ -1,13 +1,7 @@
 ﻿namespace Akov.DataGenerator.Models;
 
-public class NameValueObject
+public class NameValueObject(string? name, object? value)
 {
-    public NameValueObject(string? name, object? value)
-    {
-        Name = name ?? "";
-        Value = value;
-    }
-
-    public string Name { get; }
-    public object? Value { get; }  
+    public string Name { get; } = name ?? "";
+    public object? Value { get; } = value;
 }

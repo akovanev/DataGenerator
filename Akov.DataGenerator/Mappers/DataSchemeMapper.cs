@@ -9,15 +9,8 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Mappers;
 
-public class DataSchemeMapper
+public class DataSchemeMapper(DataSchemeMapperConfig? config = null)
 {
-    private readonly DataSchemeMapperConfig? _config;
-
-    public DataSchemeMapper(DataSchemeMapperConfig? config = null)
-    {
-        _config = config;
-    }
-
     public DataScheme MapFrom<T>()
     {
         Type type = typeof(T);
@@ -47,7 +40,7 @@ public class DataSchemeMapper
 
             var name = attrs.GetValue<DgNameAttribute>();
             var propertyName = name?.Value ?? prop.Name;
-            if (_config is not null && _config.UseCamelCase)
+            if (config is not null && config.UseCamelCase)
                 propertyName = propertyName.ToCamelCase();
 
             var calc = attrs.GetValue<DgCalcAttribute>();
