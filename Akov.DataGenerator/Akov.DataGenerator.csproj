@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
     <Authors>Oleksandr Kovanev</Authors>
     <Description>Generates random test data. Provides calculated and assigned properties, random failures, repeat last run.</Description>
