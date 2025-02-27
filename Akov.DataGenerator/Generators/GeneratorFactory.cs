@@ -19,6 +19,7 @@ public class GeneratorFactory : IGeneratorFactory
         =>  new()
         {
             {TemplateType.String, new StringGenerator()},
+            {TemplateType.Note, new NoteGenerator()},
             {TemplateType.ByteArray, new ByteArrayGenerator()},
             {TemplateType.Set, new SetGenerator()},
             {TemplateType.File, new SetGenerator()},

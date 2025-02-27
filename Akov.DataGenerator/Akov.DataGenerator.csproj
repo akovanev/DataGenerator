@@ -46,6 +46,12 @@
     <None Remove="Resources\cities.txt" />
     <EmbeddedResource Include="Resources\cities.txt" />
     <None Remove="Resources\emails.txt" />
+    <None Remove="Resources\domains.txt" />
+    <EmbeddedResource Include="Resources\domains.txt" />
+    <None Remove="Resources\verbs.txt" />
+    <EmbeddedResource Include="Resources\verbs.txt" />
+    <None Remove="Resources\nouns.txt" />
+    <EmbeddedResource Include="Resources\nouns.txt" />
   </ItemGroup>
 
 </Project>

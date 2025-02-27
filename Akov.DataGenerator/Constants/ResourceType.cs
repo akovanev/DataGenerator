@@ -9,4 +9,6 @@ public class ResourceType
     public const string Cities = "DG,Akov.DataGenerator.Resources.cities.txt";
     public const string Addresses = "DG,Akov.DataGenerator.Resources.addresses.txt";
     public const string EmailDomains = "DG,Akov.DataGenerator.Resources.domains.txt";
+    public const string Nouns = "DG,Akov.DataGenerator.Resources.nouns.txt";
+    public const string Verbs = "DG,Akov.DataGenerator.Resources.verbs.txt";
 }
