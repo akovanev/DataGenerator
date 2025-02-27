@@ -7,12 +7,7 @@ namespace Akov.DataGenerator.Attributes;
 /// If it is missed, then the class property name will be taken.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgNameAttribute : Attribute
+public class DgNameAttribute(string value) : Attribute
 {
-    public DgNameAttribute(string value)
-    {
-        Value = value;
-    }
-    
-    public string Value { get; }
+    public string Value { get; } = value;
 }

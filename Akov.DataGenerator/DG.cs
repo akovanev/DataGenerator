@@ -13,23 +13,16 @@ using Newtonsoft.Json;
 
 namespace Akov.DataGenerator;
 
-public class DG
+public class DG(
+    IGeneratorFactory? generatorFactory = null,
+    DataSchemeMapperConfig? mapperConfig = null,
+    FileReadConfig? fileReadConfig = null,
+    IRunBehavior? runBehavior = null)
 {
-    private readonly IGeneratorFactory _generatorFactory;
-    private readonly Lazy<IOHelper> _ioHelper;
-    private readonly Lazy<DataSchemeMapper> _mapper;
-    private readonly IRunBehavior _runBehavior;
-
-    public DG(IGeneratorFactory? generatorFactory = null,
-        DataSchemeMapperConfig? mapperConfig = null,
-        FileReadConfig? fileReadConfig = null,
-        IRunBehavior? runBehavior = null)
-    {
-        _generatorFactory = generatorFactory ?? new GeneratorFactory();
-        _ioHelper = new Lazy<IOHelper>(() => new IOHelper(fileReadConfig));
-        _mapper = new Lazy<DataSchemeMapper>(() => new DataSchemeMapper(mapperConfig));
-        _runBehavior = runBehavior ?? new NullRunBehavior();
-    }
+    private readonly IGeneratorFactory _generatorFactory = generatorFactory ?? new GeneratorFactory();
+    private readonly Lazy<IOHelper> _ioHelper = new(() => new IOHelper(fileReadConfig));
+    private readonly Lazy<DataSchemeMapper> _mapper = new(() => new DataSchemeMapper(mapperConfig));
+    private readonly IRunBehavior _runBehavior = runBehavior ?? new NullRunBehavior();
 
     public DataScheme GetFromFile(string filename)
     {

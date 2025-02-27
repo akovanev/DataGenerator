@@ -41,6 +41,8 @@ public class Student : Result
     public Decimal Discount { get; set; }
         
     public byte[]? Signature { get; set; }
+    
+    public string? Note { get; set; }
 
     /// <summary>
     /// The object is valid only if all inner objects are parsed correctly.

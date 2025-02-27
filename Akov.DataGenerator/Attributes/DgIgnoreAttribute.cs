@@ -7,6 +7,4 @@ namespace Akov.DataGenerator.Attributes;
 /// then it will be excluded from the data generation.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgIgnoreAttribute : Attribute
-{
-}
+public class DgIgnoreAttribute : Attribute;

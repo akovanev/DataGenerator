@@ -1,15 +1,9 @@
 ﻿namespace Akov.DataGenerator.Failures;
 
-internal class Range
+internal class Range(double min, double max)
 {
-    public Range(double min, double max)
-    {
-        Min = min;
-        Max = max;
-    }
-
-    public double Min { get; }
-    public double Max { get; }
+    public double Min { get; } = min;
+    public double Max { get; } = max;
 
     public bool In(double value)
     {

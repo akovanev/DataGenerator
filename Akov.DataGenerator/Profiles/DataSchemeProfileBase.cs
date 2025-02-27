@@ -9,16 +9,10 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Profiles;
 
-public abstract class DgProfileBase
+public abstract class DgProfileBase(bool createDefaultProfilesForMissingTypes = false)
 {
     private readonly Dictionary<Type, IPropertiesCollection> _typePropertiesCollections = new();
     private readonly Dictionary<Type, AssignGeneratorBase> _assignGeneratorsCollection = new();
-    private readonly bool _createDefaultProfilesForMissingTypes;
-
-    protected DgProfileBase(bool createDefaultProfilesForMissingTypes = false)
-    {
-        _createDefaultProfilesForMissingTypes = createDefaultProfilesForMissingTypes;
-    }
 
     protected DataSchemeTypeBuilder<T> ForType<T>()
     {
@@ -42,7 +36,7 @@ public abstract class DgProfileBase
         {
             if (!_typePropertiesCollections.ContainsKey(key))
             {
-                if(!_createDefaultProfilesForMissingTypes)
+                if(!createDefaultProfilesForMissingTypes)
                     throw new ArgumentException($"Profile for type {key.FullName} not defined.");
                 
                 RegisterType(key);

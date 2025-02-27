@@ -10,8 +10,8 @@ public class GeneratorFactory : IGeneratorFactory
     {
         var generatorDictionary = GetGeneratorDictionary();
 
-        return generatorDictionary.ContainsKey(type)
-            ? generatorDictionary[type]
+        return generatorDictionary.TryGetValue(type, out var value)
+            ? value
             : throw new NotSupportedException($"Generator for {type} is not implemented yet");
     }
 
@@ -19,6 +19,7 @@ public class GeneratorFactory : IGeneratorFactory
         =>  new()
         {
             {TemplateType.String, new StringGenerator()},
+            {TemplateType.Note, new NoteGenerator()},
             {TemplateType.ByteArray, new ByteArrayGenerator()},
             {TemplateType.Set, new SetGenerator()},
             {TemplateType.File, new SetGenerator()},

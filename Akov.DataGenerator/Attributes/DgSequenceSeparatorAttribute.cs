@@ -6,12 +6,7 @@ namespace Akov.DataGenerator.Attributes;
 /// Represents the separator for sets and files.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgSequenceSeparatorAttribute : Attribute
+public class DgSequenceSeparatorAttribute(string value) : Attribute
 {
-    public DgSequenceSeparatorAttribute(string value)
-    {
-        Value = value;
-    }
-    
-    public string Value { get; }
+    public string Value { get; } = value;
 }

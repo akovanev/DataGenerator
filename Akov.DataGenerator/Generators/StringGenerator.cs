@@ -57,7 +57,7 @@ public class StringGenerator : GeneratorBase
         return CreateString(propertyObject, pattern, length, DefaultMinSpaceCount);
     }
 
-    protected string CreateString(PropertyObject propertyObject, string pattern, int length, int spaces)
+    protected virtual string CreateString(PropertyObject propertyObject, string pattern, int length, int spaces)
     {
         Random random = GetRandomInstance(propertyObject, nameof(CreateString));
         int[] patternIndexes = random.GetSequence(pattern.Length - 1, length);

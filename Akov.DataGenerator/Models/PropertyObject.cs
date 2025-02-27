@@ -3,18 +3,11 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Models;
 
-public class PropertyObject
+public class PropertyObject(string definitionName, Property property, object? predefinedValues = null)
 {
-    public PropertyObject(string definitionName, Property property, object? predefinedValues = null)
-    {
-        DefinitionName = definitionName;
-        Property = property;
-        PredefinedValues = predefinedValues;
-    }
-
-    public string DefinitionName { get; }
-    public Property Property { get; }
-    public object? PredefinedValues { get; }
+    public string DefinitionName { get; } = definitionName;
+    public Property Property { get; } = property;
+    public object? PredefinedValues { get; } = predefinedValues;
 
     public static PropertyObject CreateWithTypeAndPattern(
         PropertyObject propertyObject,

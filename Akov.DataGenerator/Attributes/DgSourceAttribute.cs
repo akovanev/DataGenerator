@@ -6,15 +6,9 @@ namespace Akov.DataGenerator.Attributes;
 /// Represents the source for the property.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class DgSourceAttribute : Attribute
+public class DgSourceAttribute(string path, bool embedded = false) : Attribute
 {
-    public DgSourceAttribute(string path, bool embedded = false)
-    {
-        Path = path;
-        Embedded = embedded;
-    }
-    
-    public string Path { get; }
-        
-    public bool Embedded { get; }
+    public string Path { get; } = path;
+
+    public bool Embedded { get; } = embedded;
 }

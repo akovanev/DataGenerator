@@ -5,16 +5,10 @@ using Akov.DataGenerator.Constants;
 
 namespace Akov.DataGenerator.Failures;
 
-internal class FailureObject
+internal class FailureObject(FailureType failureType, Range randomRange)
 {
-    public FailureObject(FailureType failureType, Range randomRange)
-    {
-        FailureType = failureType;
-        RandomRage = randomRange;
-    }
-
-    public FailureType FailureType { get; }
-    public Range RandomRage { get; }
+    public FailureType FailureType { get; } = failureType;
+    public Range RandomRage { get; } = randomRange;
 
     public static List<FailureObject> CreateList(
         double? customProbability,

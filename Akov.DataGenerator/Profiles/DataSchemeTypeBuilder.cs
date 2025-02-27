@@ -10,15 +10,10 @@ using Akov.DataGenerator.Scheme;
 
 namespace Akov.DataGenerator.Profiles;
 
-public class DataSchemeTypeBuilder<TType> : IPropertiesCollection
+public class DataSchemeTypeBuilder<TType>(PropertyInfo[] propertyInfos) : IPropertiesCollection
 {
-    public DataSchemeTypeBuilder(PropertyInfo[] propertyInfos)
-    {
-        Properties = propertyInfos.Select(GetBy).ToList();
-    }
-    
-    public List<Property> Properties { get; }
-    
+    public List<Property> Properties { get; } = propertyInfos.Select(GetBy).ToList();
+
     internal AssignGenerator<TType> AssignGenerator { get; } = new();
     
     public PropertyBuilder<TType> Property<TProp>(Expression<Func<TType, TProp>> expression)

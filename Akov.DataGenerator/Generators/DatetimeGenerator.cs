@@ -14,13 +14,13 @@ public class DatetimeGenerator : GeneratorBase
 
     protected override object CreateImpl(PropertyObject propertyObject)
     {
-        Func<DateTime, int, DateTime> getDateTime = (min, days) =>
+        DateTime GetDateTime(DateTime min, int days)
         {
             int random = GetRandomInstance(propertyObject).GetInt(0, days);
             return min.AddDays(random);
-        };
+        }
 
-        return CreateImpl(propertyObject, getDateTime);
+        return CreateImpl(propertyObject, GetDateTime);
     }
 
     protected override object CreateRangeFailureImpl(PropertyObject propertyObject)

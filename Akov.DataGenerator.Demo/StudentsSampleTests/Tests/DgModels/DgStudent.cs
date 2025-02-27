@@ -70,4 +70,9 @@ public class DgStudent
     [DgLength(Min = 4, Max = 16)]
     [DgFailure(NullProbability = 0.1)]
     public byte[]? Signature { get; set; }
+
+    [DgGenerator(TemplateType.Note)]
+    [DgRange(Min = 100, Max = 1000)]
+    [DgSpacesCount(Min = 1, Max = 4)]
+    public string? Note { get; set; }
 }
