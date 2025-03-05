@@ -5,24 +5,24 @@
  Data Generator. Give it a &#11088; if you find it useful.
  <hr/>
 
-## Key features:
-### Calculated properties
+# ${\color{grey}{Key \space features}}$ 
+## ${\color{darkgreen}{Calculated \space properties}}$  
 ```csharp
 // Given: FirstName and LastName are randomly generated.
 // The email is dynamically constructed based on their values using the following template:
 .Property(s => s.Email).Construct(s => $"{s.FirstName}.{s.LastName}@mycompany.com") 
 ```
 
-### String templates
+## ${\color{darkgreen}{String \space templates}}$  
 
-Templates support placeholders for number ranges, resources, and file content. For example, a template like:
+Templates support placeholders for number ranges, [resources](https://github.com/akovanev/DataGenerator/tree/master/DataGenerator/Resources), and file content. For example, a template like:
 
 `"Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt]"`
 Could generate an output such as:
 
 `"Note: 137 Jessica Torres"`.
 
-### Decorators
+## ${\color{blue}{Decorators}}$
 
 Enhance the freshly generated random value using decorators. 
 
@@ -32,7 +32,7 @@ Enhance the freshly generated random value using decorators.
     .Decorate(r => CapitalizeFirstLetter(r?.ToString()))
 ```
 
-### Random generation rules
+## ${\color{darkgreen}{Random \space generation \space rules}}$ 
 Defines rules for generating values, each associated with a probability.
 
 The probability of the main generation flow (P<sub>m</sub>) is calculated as: P<sub>m</sub> = 1 - ΣP<sub>i</sub>
@@ -46,7 +46,7 @@ Where P<sub>i</sub> represents the probability of each individual generation rul
     .GenerationRule("NegativeYear", 0.1, _ => Random.Shared.Next(-5, -1))
 ```
 
-### Nullable rule
+## ${\color{darkgreen}{Nullable \space rule}}$  
 
 Defines the probability for the null value. The property type should either be nullable or have nullable reference type enabled.
 
@@ -69,7 +69,8 @@ class Student
     .Nullable(0.25)
 ```
 
-### Custom generators
+## ${\color{darkgreen}{Custom \space generators}}$  
+
 
 ```csharp
 // A custom generator should inherit from `GeneratorBase<T>`
@@ -97,7 +98,8 @@ public class PhoneGenerator : GeneratorBase<string>
     .ValueRule("PhoneMask", "## ## ## ##")
 ```
 
-### Generators
+## ${\color{black}{Generators}}$  
+
 
 * `BooleanGenerator`
 * `DatetimeGenerator`
@@ -112,7 +114,7 @@ public class PhoneGenerator : GeneratorBase<string>
 * `StringGenerator`
 
 
-### Example
+## ${\color{black}{Example}}$ ➫
 ```csharp
 var scheme = new DataScheme();
 
