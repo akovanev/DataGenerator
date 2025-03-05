@@ -140,7 +140,7 @@ public class SimpleDataGenerator
     private static (Type, Property) CreateElementTypeProperty(Property property)
     {
         var elementType = property.Type.IsArray 
-            ? property.Type.GetElementType() 
+            ? property.Type.GetElementType()! 
             : property.Type.GetGenericArguments()[0];
         return (elementType, Property.CreateElementTypeProperty(property, elementType));
     }
