@@ -56,6 +56,7 @@ public class SimpleDataGenerator
             if (!propertyInfo.CanWrite) continue;
             if (propertyInfo.DeclaringType is null) throw new ArgumentNullException(nameof(propertyInfo), $"Declaring type is null for {propertyInfo.Name}");
             var property = CreateProperty(propertyInfo);
+            if(property.SkipGeneration) continue;
             if (property.Constructor is not null)
             {
                 constructedProperties.Add((propertyInfo, property));
@@ -79,7 +80,9 @@ public class SimpleDataGenerator
     private object? GenerateRandomValue(Property property)
     {
         if (property.IsBulk)
-            return GenerateRandomList(property);
+            return property.Type.IsArray
+                ? GenerateRandomArray(property)
+                : GenerateRandomList(property);
 
         if (property.IsObject)
             return GenerateRandomObject(property);
@@ -109,7 +112,25 @@ public class SimpleDataGenerator
         }
         return list;
     }
+    
+    private object GenerateRandomArray(Property property)
+    {
+        var (elementType, elementProperty) = CreateElementTypeProperty(property);
+        if (elementType is null)
+            throw new InvalidOperationException($"Could not determine element type for array {property.Type.Name}");
 
+        int randomLength = new IntGenerator().CreateRandomValue(property);
+        var array = Array.CreateInstance(elementType, randomLength);
+
+        for (int i = 0; i < randomLength; i++)
+        {
+            var item = GenerateRandomValue(elementProperty);
+            array.SetValue(item, i);
+        }
+
+        return array;
+    }
+    
     private Property CreateProperty(PropertyInfo propertyInfo)
     {
         if (propertyInfo.DeclaringType is null) throw new ArgumentNullException(nameof(propertyInfo), $"Declaring type is null for {propertyInfo.Name}");
@@ -118,7 +139,9 @@ public class SimpleDataGenerator
 
     private static (Type, Property) CreateElementTypeProperty(Property property)
     {
-        var elementType = property.Type.GetGenericArguments()[0];
+        var elementType = property.Type.IsArray 
+            ? property.Type.GetElementType() 
+            : property.Type.GetGenericArguments()[0];
         return (elementType, Property.CreateElementTypeProperty(property, elementType));
     }
 }

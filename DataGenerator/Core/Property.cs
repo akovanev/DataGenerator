@@ -54,6 +54,11 @@ public record Property
     public bool IsObject { get; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the property should be skipped while generation.
+    /// </summary>
+    public bool SkipGeneration { get; set; }
+
+    /// <summary>
     /// Gets or sets a custom generator used to generate values for this property.
     /// </summary>
     public GeneratorBase? CustomGenerator { get; set; }
@@ -106,7 +111,11 @@ public record Property
     public static Property CreateElementTypeProperty(Property property, Type elementType)
     {
         var (type, _) = elementType.GetTypeOrNullableType();
-        return new Property(property.Name, type, false, property.ParentType);
+        return new Property(property.Name, type, false, property.ParentType)
+        {
+            CustomGenerator = property.CustomGenerator,
+            SkipGeneration = property.SkipGeneration
+        };
     }
 
     /// <summary>

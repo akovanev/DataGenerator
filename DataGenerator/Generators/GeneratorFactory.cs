@@ -39,6 +39,7 @@ public class GeneratorFactory : IGeneratorFactory
             {nameof(Decimal), new DecimalGenerator()},
             {nameof(Double), new DoubleGenerator()},
             {nameof(DateTime), new DatetimeGenerator()},
+            {nameof(DateTimeOffset), new DateTimeOffsetGenerator()},
             {nameof(Guid), new GuidGenerator()},
             {nameof(Int32), new IntGenerator()},
             {nameof(String), new StringGenerator()},

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using Akov.DataGenerator;
 using Akov.DataGenerator.FluentSyntax;
 using Akov.DataGenerator.Generators;
@@ -9,11 +10,15 @@ var scheme = new DataScheme();
 
 //StudentGroup
 scheme.ForType<StudentGroup>()
+    .Ignore(s => s.CourseTeachers)
     .Property(s => s.Name)
         .Template("[resource:Nouns]")
         .Decorate(r => Utility.CapitalizeFirstLetter(r?.ToString()))
     .Property(s => s.Students)
-        .Count(3, 5);
+        .Count(3, 5)
+    .Property(s => s.ContactPhones)
+        .Count(2, 3)
+        .UseGenerator(new PhoneGenerator());
 
 //Student
 scheme.ForType<Student>()
@@ -51,7 +56,12 @@ var dataGenerator = new SimpleDataGenerator(scheme);
 var randomStudentCollection = dataGenerator.GenerateForType<StudentGroup>();
 
 string json = JsonSerializer.Serialize(
-    randomStudentCollection, new JsonSerializerOptions { WriteIndented = true });
+    randomStudentCollection, 
+    new JsonSerializerOptions
+    {
+        WriteIndented = true, 
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    });
 
 Console.WriteLine(json);
 file static class Utility
