@@ -87,8 +87,26 @@ public class PropertyBuilder<T>(TypeBuilder<T> parent, Property property)
         _property.SetValueRule(rule, settings);
         return this;
     }
-    
-    private PropertyBuilder<T> GenerationRule(string ruleName, double probability, Func<Property, object?> getResult)
+
+    /// <summary>
+    /// Adds a generation rule to the property with the specified name, probability, and result function.
+    /// </summary>
+    /// <param name="ruleName">
+    /// The name of the generation rule to be applied to the property.
+    /// </param>
+    /// <param name="probability">
+    /// The probability associated with this generation rule. The sum of all rule probabilities should not exceed 1.
+    /// </param>
+    /// <param name="getResult">
+    /// A function that generates the result based on the property when the rule is applied.
+    /// </param>
+    /// <returns>
+    /// The current <see cref="PropertyBuilder{T}"/> instance, allowing for method chaining.
+    /// </returns>
+    /// <remarks>
+    /// This method allows you to define how values should be generated for the property based on a given rule and probability.
+    /// </remarks>
+    public PropertyBuilder<T> GenerationRule(string ruleName, double probability, Func<Property, object?> getResult)
     {
         var rule = new GenerationRule(ruleName, probability, getResult);
         _property.GenerationRules.Add(rule);
