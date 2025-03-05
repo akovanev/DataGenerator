@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Akov.DataGenerator</AssemblyName>
+        <RootNamespace>Akov.DataGenerator</RootNamespace>
+        <Nullable>enable</Nullable>
+        <Authors>Oleksandr Kovanev</Authors>
+        <Description>
+            Generates random test data with a variety of built-in generators.
+            Supports calculated properties, flexible string generation, and allows for custom property generation.
+            Provides the ability to decorate the generated output with custom logic.
+        </Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/akovanev/DataGenerator/</PackageProjectUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/akovanev/DataGenerator.git</RepositoryUrl>
+        <Copyright>Oleksandr Kovanev</Copyright>
+        <Company />
+        <PackageTags>Data Generator;Flexible Strings;Calculated Properties;Custom Generation;Decorator Support;Fluent</PackageTags>
+        <PackageIcon>dg.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIconUrl />
+        <NeutralLanguage>en</NeutralLanguage>
+        <Version>2.0.0-alpha.1</Version>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <LangVersion>latestmajor</LangVersion>
+    </PropertyGroup>
+
+ <ItemGroup>
+    <None Include="dg.png" Pack="true" PackagePath="">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Resources\Addresses.txt" />
+      <EmbeddedResource Include="Resources\Cities.txt" />
+      <EmbeddedResource Include="Resources\Companies.txt" />
+      <EmbeddedResource Include="Resources\Countries.txt" />
+      <EmbeddedResource Include="Resources\Domains.txt" />
+      <EmbeddedResource Include="Resources\Firstnames.txt" />
+      <EmbeddedResource Include="Resources\Lastnames.txt" />
+      <EmbeddedResource Include="Resources\Nouns.txt" />
+      <EmbeddedResource Include="Resources\Verbs.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="lastnames.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
