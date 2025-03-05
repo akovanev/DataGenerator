@@ -3,6 +3,8 @@
 [![](https://img.shields.io/nuget/v/Akov.DataGenerator)](https://www.nuget.org/packages/Akov.DataGenerator/) [![](https://img.shields.io/nuget/dt/akov.datagenerator)](https://www.nuget.org/packages/Akov.DataGenerator/)
 
  Data Generator. Give it a &#11088; if you find it useful.
+
+ [ChangeLog](https://github.com/akovanev/DataGenerator/wiki#changelog)
  <hr/>
 
 # ${\color{grey}{Key \space features}}$ 
@@ -110,11 +112,19 @@ public class PhoneGenerator : GeneratorBase<string>
     .ValueRule("PhoneMask", "## ## ## ##")
 ```
 
+## ${\color{darkgreen}{Ignore}}$
+Excludes the property from the generation process.
+```csharp
+scheme.ForType<StudentGroup>()
+    .Ignore(s => s.CourseTeachers)
+```
+
 ## ${\color{black}{Generators}}$  
 
 
 * `BooleanGenerator`
-* `DatetimeGenerator`
+* `DateTimeGenerator`
+* `DateTimeOffsetGenerator`
 * `DecimalGenerator`
 * `DoubleGenerator`
 * `EmailGenerator`
@@ -132,11 +142,14 @@ var scheme = new DataScheme();
 
 //StudentGroup
 scheme.ForType<StudentGroup>()
+    .Ignore(s => s.CourseTeachers)
     .Property(s => s.Name).Template("[resource:Nouns]").Decorate(r => Utility.CapitalizeFirstLetter(r?.ToString()))
-    .Property(s => s.Students).Count(3, 5);
+    .Property(s => s.Students).Count(3, 5)
+    .Property(s => s.ContactPhones).Count(2, 3).UseGenerator(new PhoneGenerator());
 
 //Student
 scheme.ForType<Student>()
+
     .Property(s => s.FirstName).Template("[resource:Firstnames:3-4]")
     .Property(s => s.LastName).Template("[file:lastnames.txt]:4-6").Nullable(0.25)
     .Property(s => s.Email).Construct(s => $"{Utility.BuildNameWithoutSpaces(s.FirstName, s.LastName)}" + 
