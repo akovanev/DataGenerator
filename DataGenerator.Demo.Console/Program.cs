@@ -18,9 +18,9 @@ scheme.ForType<StudentGroup>()
 //Student
 scheme.ForType<Student>()
     .Property(s => s.FirstName)
-        .Template("[resource:Firstnames]")
+        .Template("[resource:Firstnames:3-4]")
     .Property(s => s.LastName)
-        .Template("[file:lastnames.txt]")
+        .Template("[file:lastnames.txt:4-6]")
         .Nullable(0.25)
     .Property(s => s.Email)
         .Construct(s => $"{Utility.BuildNameWithoutSpaces(s.FirstName, s.LastName)}" + 

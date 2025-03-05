@@ -29,22 +29,37 @@ public static class TemplateProcessor
         });
 
         // Replace [resource:Name]
-        template = Regex.Replace(template, @"\[resource:([A-Za-z]+)\]", match =>
+        template = Regex.Replace(template, @"\[resource:([A-Za-z]+)(?::(\d+)-(\d+))?\]", match =>
         {
             string key = match.Groups[1].Value;
             var words = ResourceReader.ReadEmbeddedResource(key).Split(",");
-            return words[random.Next(words.Length)];
+            return GetRandomSubstring(match, random, words);
         });
 
         // Replace [file:path]
-        template = Regex.Replace(template, @"\[file:([^\]]+)\]", match =>
+        template = Regex.Replace(template, @"\[file:([^\]:]+)(?::(\d+)-(\d+))?\]", match =>
         {
             string path = match.Groups[1].Value;
-            if (!File.Exists(path)) throw new FileNotFoundException($"File '{path}' not found.");
+            if (!File.Exists(path)) 
+                throw new FileNotFoundException($"File '{path}' not found.");
             var words = Dependencies.Factories.FileHelper.Value.GetFileContent(path).Split(',');
-            return words[random.Next(words.Length)];
+            return GetRandomSubstring(match, random, words);
         });
 
         return template;
+    }
+    
+    private static string GetRandomSubstring(Match match, Random random, string[] words)
+    {
+        if (match.Groups[2].Success && match.Groups[3].Success) // If range is specified
+        {
+            int min = int.Parse(match.Groups[2].Value);
+            int max = int.Parse(match.Groups[3].Value);
+            words = words.Where(word => word.Length >= min && word.Length <= max).ToArray();
+        }
+
+        return words.Any() 
+            ? words[random.Next(words.Length)]
+            : throw new InvalidOperationException("No suitable word found within the specified range.");
     }
 }
