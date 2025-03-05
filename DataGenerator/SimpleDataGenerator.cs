@@ -56,6 +56,7 @@ public class SimpleDataGenerator
             if (!propertyInfo.CanWrite) continue;
             if (propertyInfo.DeclaringType is null) throw new ArgumentNullException(nameof(propertyInfo), $"Declaring type is null for {propertyInfo.Name}");
             var property = CreateProperty(propertyInfo);
+            if(property.SkipGeneration) continue;
             if (property.Constructor is not null)
             {
                 constructedProperties.Add((propertyInfo, property));

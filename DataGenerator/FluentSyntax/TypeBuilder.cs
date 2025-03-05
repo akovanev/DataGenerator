@@ -24,4 +24,22 @@ public class TypeBuilder<T>() : TypeBuilderBase(typeof(T))
         string propertyName = ((MemberExpression)expression.Body).Member.Name;
         return new PropertyBuilder<T>(this, TypeProperties[propertyName]);
     }
+    
+    /// <summary>
+    /// Removes the specified property from the type configuration, ignoring it during type construction.
+    /// </summary>
+    /// <typeparam name="TProperty">The type of the property to ignore.</typeparam>
+    /// <param name="expression">An expression that represents the property to ignore.</param>
+    /// <returns>The current <see cref="TypeBuilder{T}"/> instance for method chaining.</returns>
+    /// <example>
+    /// <code>
+    /// typeBuilder.Ignore(x => x.PropertyName);
+    /// </code>
+    /// </example>
+    public TypeBuilder<T> Ignore<TProperty>(Expression<Func<T, TProperty>> expression)
+    {
+        string propertyName = ((MemberExpression)expression.Body).Member.Name;
+        TypeProperties[propertyName].SkipGeneration = true;
+        return this;
+    }
 }

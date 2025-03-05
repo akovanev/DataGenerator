@@ -23,6 +23,14 @@ public class PropertyBuilder<T>(TypeBuilder<T> parent, Property property)
     /// <returns>A <see cref="PropertyBuilder{T}"/> for the selected property.</returns>
     public PropertyBuilder<T> Property<TProperty>(Expression<Func<T, TProperty>> expression)
         => _parent.Property(expression);
+    /// <summary>
+    /// Excludes the specified property from processing.
+    /// </summary>
+    /// <typeparam name="TProperty">The type of the property to ignore.</typeparam>
+    /// <param name="expression">An expression identifying the property to ignore.</param>
+    /// <returns>The current <see cref="TypeBuilder{T}"/> instance for method chaining.</returns>
+    public TypeBuilder<T> Ignore<TProperty>(Expression<Func<T, TProperty>> expression)
+        => _parent.Ignore(expression);
 
     /// <summary>
     /// Assigns a custom generator to this property and optionally configures its settings.
