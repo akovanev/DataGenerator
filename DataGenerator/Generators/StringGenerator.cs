@@ -15,14 +15,18 @@ public class StringGenerator : GeneratorBase<string>
         var template = property.GetValueRule(ValueRules.Template);
 
         return template is null 
-            ? GenerateRandomString(random, (int)minLength, (int)maxLength)
+            ? GenerateRandomString(random, GetChars(), (int)minLength, (int)maxLength)
             : TemplateProcessor.CreateValue(random, template.ToString()!);
     }
 
-    private static string GenerateRandomString(Random random, int minLength, int maxLength)
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    protected virtual string GetChars() 
+        => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    protected static string GenerateRandomString(Random random, string chars, int minLength, int maxLength)
     {
         int length = random.Next(minLength, maxLength + 1); // Random length between min and max
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         char[] stringChars = new char[length];
 
         for (int i = 0; i < length; i++)
