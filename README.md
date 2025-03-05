@@ -7,24 +7,33 @@
 
 # ${\color{grey}{Key \space features}}$ 
 ## ${\color{darkgreen}{Calculated \space properties}}$  
+Construct a property value using just generated values from the same object.
+
 ```csharp
-// Given: FirstName and LastName are randomly generated.
-// The email is dynamically constructed based on their values using the following template:
+// Given: FirstName and LastName are randomly generated. The email is dynamically constructed. 
 .Property(s => s.Email).Construct(s => $"{s.FirstName}.{s.LastName}@mycompany.com") 
 ```
 
 ## ${\color{darkgreen}{String \space templates}}$  
 
-Templates support placeholders for number ranges, [resources](https://github.com/akovanev/DataGenerator/tree/master/DataGenerator/Resources), and file content. For example, a template like:
+Support placeholders for numbers, [resources](https://github.com/akovanev/DataGenerator/tree/master/DataGenerator/Resources), and file content, replacing them with values from the corresponding list. 
 
-`"Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt]"`
-Could generate an output such as:
+A template like:
 
-`"Note: 137 Jessica Torres"`.
+```csharp
+"Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt:4-10]"
+```
+could generate an output such as: `Note: 137 Jessica Torres`.
+
+> [!Note]
+> Specifying a range for numbers is required.
+
+> [!Note]
+> The built-in [`Length(min, max)`](https://github.com/akovanev/DataGenerator/blob/e0843da79550110324b829d6ea437946746c7692/DataGenerator/FluentSyntax/PropertyBuilderExtensions.cs#L50) method is ignored when using templates.
 
 ## ${\color{blue}{Decorators}}$
 
-Enhance the freshly generated random value using decorators. 
+Enhance the just generated random value using decorators. 
 
 ```
 .Property(s => s.Name)
@@ -33,11 +42,7 @@ Enhance the freshly generated random value using decorators.
 ```
 
 ## ${\color{darkgreen}{Random \space generation \space rules}}$ 
-Defines rules for generating values, each associated with a probability.
-
-The probability of the main generation flow (P<sub>m</sub>) is calculated as: P<sub>m</sub> = 1 - ΣP<sub>i</sub>
-
-Where P<sub>i</sub> represents the probability of each individual generation rule.
+Define rules for generating values, each associated with a probability.
 
 ```csharp
 // Generates a negative value in the range of [-5, -1) with a probability of 0.1 (10%).
@@ -46,10 +51,17 @@ Where P<sub>i</sub> represents the probability of each individual generation rul
     .GenerationRule("NegativeYear", 0.1, _ => Random.Shared.Next(-5, -1))
 ```
 
+> [!Note]
+> The probability of using the default generation logic (P<sub>d</sub>) — when no specific generation rules apply — is calculated as: P<sub>d</sub> = 1 - ΣP<sub>i</sub>.
+Where P<sub>i</sub> represents the probability of each individual generation rule.
+
 ## ${\color{darkgreen}{Nullable \space rule}}$  
 
-Defines the probability for the null value. The property type should either be nullable or have nullable reference type enabled.
+Defines the probability of assigning a null value. 
 
+> [!Note]
+> The property type must be either nullable (`T?`) or a reference type with nullable annotations enabled (`?`).
+> 
 ```csharp
 // Precondition
 class Student
@@ -125,8 +137,8 @@ scheme.ForType<StudentGroup>()
 
 //Student
 scheme.ForType<Student>()
-    .Property(s => s.FirstName).Template("[resource:Firstnames]")
-    .Property(s => s.LastName).Template("[file:lastnames.txt]").Nullable(0.25)
+    .Property(s => s.FirstName).Template("[resource:Firstnames:3-4]")
+    .Property(s => s.LastName).Template("[file:lastnames.txt]:4-6").Nullable(0.25)
     .Property(s => s.Email).Construct(s => $"{Utility.BuildNameWithoutSpaces(s.FirstName, s.LastName)}" + 
                                            $"{TemplateProcessor.CreateValue(Random.Shared,"@[resource:Domains]")}")
     .Property(s => s.BirthDay).Range(DateTime.Today.AddYears(-60), DateTime.Today.AddYears(-16)).Nullable(0.1)
