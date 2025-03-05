@@ -1,4 +1,5 @@
 using Akov.DataGenerator.Core.Constants;
+using Akov.DataGenerator.Generators;
 
 namespace Akov.DataGenerator.FluentSyntax;
 
@@ -120,6 +121,20 @@ public static class PropertyBuilderExtensions
     public static PropertyBuilder<T> Template<T>(this PropertyBuilder<T> propertyBuilder, string template)
     {
         propertyBuilder.ValueRule(ValueRules.Template, template);
+        return propertyBuilder;
+    }
+
+    /// <summary>
+    /// Specifies that the property value should be selected from a given collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the property.</typeparam>
+    /// <param name="propertyBuilder">The property builder instance.</param>
+    /// <param name="collection">The collection of values to select from.</param>
+    /// <returns>The updated <see cref="PropertyBuilder{T}"/> instance.</returns>
+    public static PropertyBuilder<T> FromCollection<T>(this PropertyBuilder<T> propertyBuilder, IEnumerable<object> collection)
+    {
+        propertyBuilder.ValueRule(ValueRules.Set, collection);
+        propertyBuilder.UseGenerator(new SetGenerator());
         return propertyBuilder;
     }
 }

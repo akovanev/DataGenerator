@@ -44,4 +44,9 @@ public static class ValueRules
     /// Represents a template used for string value generation.
     /// </summary>
     public const string Template = nameof(Template);
+
+    /// <summary>
+    /// Represents a rule used along with collections.
+    /// </summary>
+    public const string Set = nameof(Set);
 }

@@ -19,6 +19,7 @@ public class Student
     public int? Year { get; set; }
     public Course[] Courses { get; set; } = [];
     public GradeLevel Grade { get; set; }
+    public required string Degree { get; set; }
     public string? Note { get; set; }
 }
 
