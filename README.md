@@ -83,6 +83,20 @@ class Student
     .Nullable(0.25)
 ```
 
+## ${\color{darkgreen}{Predefined \space values}}$
+Choose a value from the predefined collection.
+```
+.Property(s => s.Degree)
+    .FromCollection(["Bachelor", "Master", "Doctor"])
+```
+
+## ${\color{darkgreen}{Ignore}}$
+Excludes the property from the generation process.
+```csharp
+scheme.ForType<StudentGroup>()
+    .Ignore(s => s.CourseTeachers)
+```
+
 ## ${\color{darkgreen}{Custom \space generators}}$  
 
 
@@ -112,13 +126,6 @@ public class PhoneGenerator : GeneratorBase<string>
     .ValueRule("PhoneMask", "## ## ## ##")
 ```
 
-## ${\color{darkgreen}{Ignore}}$
-Excludes the property from the generation process.
-```csharp
-scheme.ForType<StudentGroup>()
-    .Ignore(s => s.CourseTeachers)
-```
-
 ## ${\color{black}{Generators}}$  
 
 
@@ -133,6 +140,7 @@ scheme.ForType<StudentGroup>()
 * `IntGenerator`
 * `IpGenerator`
 * `PhoneGenerator`
+* `SetGenerator`
 * `StringGenerator`
 
 
@@ -157,6 +165,7 @@ scheme.ForType<Student>()
     .Property(s => s.BirthDay).Range(DateTime.Today.AddYears(-60), DateTime.Today.AddYears(-16)).Nullable(0.1)
     .Property(s => s.Year).Range(1,5).GenerationRule("NegativeYear", 0.5, _ => Random.Shared.Next(-5, -1))
     .Property(s => s.Courses).Count(2,4)
+    .Property(s => s.Degree).FromCollection(["Bachelor", "Master", "Doctor"])
     .Property(s => s.Note).Template("Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt]");
 
 //Contact
