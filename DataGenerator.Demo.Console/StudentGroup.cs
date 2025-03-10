@@ -2,7 +2,7 @@ namespace DataGenerator.Demo.Console;
 
 public class StudentGroup
 {
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
     public string[] ContactPhones { get; set; } = [];
     public Dictionary<string, string> CourseTeachers { get; set; } = new();
     public List<Student>? Students { get; set; }

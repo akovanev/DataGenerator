@@ -45,9 +45,15 @@ public class SimpleDataGenerator
     /// </summary>
     /// <typeparam name="T">The type of the object to generate.</typeparam>
     /// <returns>An instance of the specified type with random values for its properties.</returns>
-    public T GenerateForType<T>() where T : new()
+    public T GenerateForType<T>() where T : class
     {
-        var obj = new T();
+        var constructor = typeof(T).GetConstructor(Type.EmptyTypes);
+        if (constructor == null)
+        {
+            throw new InvalidOperationException($"Type {typeof(T).Name} does not have a parameterless constructor.");
+        }
+
+        var obj = (T)Activator.CreateInstance(typeof(T));
         var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var constructedProperties = new List<(PropertyInfo, Property)>();
 
