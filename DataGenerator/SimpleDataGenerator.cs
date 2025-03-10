@@ -45,7 +45,7 @@ public class SimpleDataGenerator
     /// </summary>
     /// <typeparam name="T">The type of the object to generate.</typeparam>
     /// <returns>An instance of the specified type with random values for its properties.</returns>
-    public T GenerateForType<T>() where T : class
+    public T GenerateForType<T>()
     {
         var constructor = typeof(T).GetConstructor(Type.EmptyTypes);
         if (constructor == null)
