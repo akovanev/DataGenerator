@@ -53,7 +53,7 @@ public class SimpleDataGenerator
             throw new InvalidOperationException($"Type {typeof(T).Name} does not have a parameterless constructor.");
         }
 
-        var obj = (T)Activator.CreateInstance(typeof(T));
+        var obj = (T)Activator.CreateInstance(typeof(T))!;
         var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         var constructedProperties = new List<(PropertyInfo, Property)>();
 
