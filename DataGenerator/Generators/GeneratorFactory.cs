@@ -42,6 +42,7 @@ public class GeneratorFactory : IGeneratorFactory
             {nameof(DateTimeOffset), new DateTimeOffsetGenerator()},
             {nameof(Guid), new GuidGenerator()},
             {nameof(Int32), new IntGenerator()},
+            {nameof(Int64), new LongGenerator()},
             {nameof(String), new StringGenerator()},
         };
 }

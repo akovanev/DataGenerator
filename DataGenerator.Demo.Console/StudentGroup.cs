@@ -11,6 +11,7 @@ public class StudentGroup
 public class Student
 {
     public required Guid Id { get; set; }
+    public long Code { get; set; }
     public required string FirstName { get; set; }
     public string? LastName { get; set; }
     public DateTime? BirthDay { get; set; }
