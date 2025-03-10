@@ -27,6 +27,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <LangVersion>latestmajor</LangVersion>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>CS1591;CS1711</NoWarn>
     </PropertyGroup>
 
  <ItemGroup>
