@@ -27,6 +27,12 @@ public static class TemplateProcessor
             int max = int.Parse(match.Groups[2].Value);
             return random.Next(min, max + 1).ToString();
         });
+        
+        template = Regex.Replace(template, @"\[oneof:([^\]]+)\]", match =>
+        {
+            var options = match.Groups[1].Value.Split(',').Select(s => s.Trim()).ToArray();
+            return options[random.Next(options.Length)];
+        });
 
         // Replace [resource:Name]
         template = Regex.Replace(template, @"\[resource:([A-Za-z]+)(?::(\d+)-(\d+))?\]", match =>

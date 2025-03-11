@@ -25,7 +25,7 @@ scheme.ForType<Student>()
     .Property(s => s.Year).Range(1,5).GenerationRule("NegativeYear", 0.5, _ => Random.Shared.Next(-5, -1))
     .Property(s => s.Courses).Count(2,4)
     .Property(s => s.Degree).FromCollection(["Bachelor", "Master", "Doctor"])
-    .Property(s => s.Note).Template("Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt]");
+    .Property(s => s.Note).Template("Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt] [oneof:Europe,America,Africa].");
 
 //Contact
 scheme.ForType<Contact>()
