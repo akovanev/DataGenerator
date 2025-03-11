@@ -18,14 +18,14 @@ Construct a property value using just generated values from the same object.
 
 ## ${\color{darkgreen}{String \space templates}}$  
 
-Support placeholders for numbers, [resources](https://github.com/akovanev/DataGenerator/tree/master/DataGenerator/Resources), and file content, replacing them with values from the corresponding list. 
+Support placeholders for numbers, oneofs, [resources](https://github.com/akovanev/DataGenerator/tree/master/DataGenerator/Resources), and file content, replacing them with values from the corresponding list. 
 
 A template like:
 
 ```csharp
-"Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt:4-10]"
+"Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt:4-10] [oneof:Europe,America,Africa]"
 ```
-could generate an output such as: `Note: 137 Jessica Torres`.
+could generate an output such as: `Note: 137 Jessica Torres Africa`.
 
 > [!Note]
 > Specifying a range for numbers is required.
@@ -165,7 +165,7 @@ scheme.ForType<Student>()
     .Property(s => s.Year).Range(1,5).GenerationRule("NegativeYear", 0.5, _ => Random.Shared.Next(-5, -1))
     .Property(s => s.Courses).Count(2,4)
     .Property(s => s.Degree).FromCollection(["Bachelor", "Master", "Doctor"])
-    .Property(s => s.Note).Template("Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt]");
+    .Property(s => s.Note).Template("Note: [number:100-999] [resource:Firstnames] [file:lastnames.txt] [oneof:Europe,America,Africa].");
 
 //Contact
 scheme.ForType<Contact>()
