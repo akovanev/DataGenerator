@@ -176,4 +176,5 @@ scheme.ForType<Contact>()
 var dataGenerator = new SimpleDataGenerator(scheme);
 var randomStudentCollection = dataGenerator.GenerateForType<StudentGroup>();
 ```
-
+## ${\color{black}{Default \space values}}$
+The range [default values](https://github.com/akovanev/DataGenerator/blob/master/DataGenerator/Core/Constants/DefaultValues.cs) can be overriden if necessary.
