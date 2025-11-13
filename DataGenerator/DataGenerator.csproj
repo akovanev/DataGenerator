@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.1;net6.0;net8.0;net9.0;net10.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>Akov.DataGenerator</AssemblyName>
         <RootNamespace>Akov.DataGenerator</RootNamespace>
@@ -23,7 +23,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIconUrl />
         <NeutralLanguage>en</NeutralLanguage>
-        <Version>2.1.4</Version>
+        <Version>2.2.0</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <LangVersion>latestmajor</LangVersion>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
